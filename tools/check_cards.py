@@ -6,6 +6,7 @@ name bar still overflows. Also saves a screenshot of the first sheets for a visu
 Usage:  python3 tools/check_cards.py            (run python3 tools/build.py first)
 Set CHROME=/path/to/chrome if Chrome or Edge is not found. Needs the internet for the card fonts.
 """
+import html
 import json
 import os
 import re
@@ -37,6 +38,14 @@ PROBE = """<script>
     const tb = c.querySelector(".tb"), nm = c.querySelector(".nm b");
     if (tb && tb.scrollHeight > tb.clientHeight + 1) out.push({card: code, part: "text box", over: tb.scrollHeight - tb.clientHeight, fit: tb.style.getPropertyValue("--fit") || "1"});
     if (nm && nm.scrollWidth > nm.clientWidth + 1) out.push({card: code, part: "name", over: nm.scrollWidth - nm.clientWidth});
+    // A picture label must lie inside the picture box: a long translation would otherwise be cut off at its edge.
+    c.querySelectorAll("svg").forEach(svg => {
+      const box = svg.getBoundingClientRect();
+      svg.querySelectorAll("text").forEach(t => {
+        const r = t.getBoundingClientRect(), over = Math.max(box.left - r.left, r.right - box.right, box.top - r.top, r.bottom - box.bottom);
+        if (t.textContent.trim() && over > 1) out.push({card: code, part: `picture label "${t.textContent}"`, over: Math.round(over)});
+      });
+    });
   });
   const fits = [...document.querySelectorAll(".tcg .tb")].map(t => parseFloat(t.style.getPropertyValue("--fit") || "1"));
   const pre = document.createElement("pre"); pre.id = "probe";
@@ -68,10 +77,11 @@ def check(page, exe, shot=None):
     m = re.search(r'<pre id="probe">(.*?)</pre>', dom, re.S)
     if not m:
         sys.exit(f"{page}: the probe did not report back (did the page load?)")
-    return json.loads(m.group(1).replace("&quot;", '"').replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">"))
+    return json.loads(html.unescape(m.group(1)))
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8")  # picture labels in any language, also on a Windows console
     exe = chrome()
     pages = sorted((ROOT / "print").glob("**/cards.html"))
     if not pages:

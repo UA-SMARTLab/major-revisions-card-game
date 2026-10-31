@@ -118,14 +118,14 @@ def r_sample_size():
     out = axes(30, 34, 140, 70, INK)
     pts = [(30 + x * 4, 104 - 70 * (1 - math.exp(-x / 9))) for x in range(0, 36)]
     out += line(pts, ACC, 3) + line([(110, 104), (110, 46)], DIM, 2, "4 4")
-    return out + text(110, 120, "n", 15, ACC)
+    return out + text(110, 116, "n", 15, ACC)
 
 
 def r_saturation():
     out = axes(30, 34, 140, 70, INK)
     pts = [(30 + x * 4, 104 - 66 * (1 - math.exp(-x / 6))) for x in range(0, 36)]
     out += line(pts, ACC, 3)
-    return out + text(100, 120, "NEW CODES", 12, INK)
+    return out + text(100, 116, "NEW CODES", 12, INK)
 
 
 def r_blinding():
@@ -139,7 +139,7 @@ def r_instrument():
         a = math.radians(180 + k * 30)
         out += line([(100 + 46 * math.cos(a), 98 + 46 * math.sin(a)), (100 + 52 * math.cos(a), 98 + 52 * math.sin(a))], DIM, 2)
     out += arrow(100, 98, 128, 62, ACC, 3) + circle(100, 98, 5, INK)
-    return out + text(100, 120, "VALID?", 13, INK)
+    return out + text(100, 116, "VALID?", 13, INK)
 
 
 def r_coding():
@@ -158,7 +158,7 @@ def r_risk_of_bias():
         for i, c in enumerate(row):
             out += circle(64 + i * 24, 46 + j * 24, 8, c)
         out += line([(30, 46 + j * 24), (48, 46 + j * 24)], DIM, 3)
-    return out + text(100, 122, "BIAS PER STUDY", 12, INK)
+    return out + text(100, 116, "BIAS PER STUDY", 12, INK)
 
 
 def r_missing_data():
@@ -167,8 +167,8 @@ def r_missing_data():
     for j in range(5):
         for i in range(8):
             gone = rnd() < .22
-            out += rect(32 + i * 17, 32 + j * 16, 13, 11, "none" if gone else INK, HOT if gone else INK, 1.5 if gone else 0, 2, o=1 if gone else .85, dash="2 2" if gone else None)
-    return out + text(100, 126, "WHO IS MISSING?", 12, INK)
+            out += rect(32 + i * 17, 30 + j * 15, 13, 11, "none" if gone else INK, HOT if gone else INK, 1.5 if gone else 0, 2, o=1 if gone else .85, dash="2 2" if gone else None)
+    return out + text(100, 116, "WHO IS MISSING?", 12, INK)
 
 
 def r_sensitivity():
@@ -191,7 +191,7 @@ def r_analysis_set():
         for i in range(2):
             for j in range(2):
                 out += person(x + 2 + i * 26, 56 + j * 28, .6, ACC if g == 0 else INK)
-    return out + text(100, 120, "AS RANDOMISED", 12, INK)
+    return out + text(100, 116, "AS RANDOMISED", 12, INK)
 
 
 def r_themes():
@@ -210,7 +210,7 @@ def r_thresholds():
     a = [(40 + x, 100 - 50 * math.exp(-((x - 40) / 18) ** 2)) for x in xs]
     b = [(40 + x, 100 - 50 * math.exp(-((x - 85) / 18) ** 2)) for x in xs]
     out = line([(30, 100), (180, 100)], INK, 2.5) + line(a, INK, 3) + line(b, HOT, 3)
-    return out + line([(102, 36), (102, 108)], ACC, 3, "6 4") + text(102, 124, "CUT-OFF", 12, ACC)
+    return out + line([(102, 36), (102, 104)], ACC, 3, "6 4") + text(102, 116, "CUT-OFF", 12, ACC)
 
 
 def r_heterogeneity():

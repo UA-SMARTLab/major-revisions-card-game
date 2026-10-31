@@ -64,14 +64,20 @@ Generated files are never edited by hand. Python standard library only.
 
 ## Languages
 
-English is the source. The i18n structure is the kit's: interface strings in `i18n/en/ui.json`, card text generated
-into `i18n/en/cards.json`; add a language by listing it in `i18n/languages.json` and translating copies of both
-files into `i18n/<code>/` (anything missing falls back to English). French, Dutch, German and Arabic are planned.
+Major Revisions plays in English, French, Dutch, German and Arabic: the app has a language picker, and each language
+has its own app page and print deck, `app/<code>/` and `print/<code>/` (English is `app/` and `print/`). English is the
+source. The i18n structure is the kit's: interface strings in `i18n/en/ui.json`, card text generated into
+`i18n/en/cards.json`; add a language by listing it in `i18n/languages.json` and translating copies of both files into
+`i18n/<code>/` (anything missing falls back to English).
+
+Each translation uses the same terms as Methodical and Red Flag for shared concepts, was checked by an independent
+methodologist review, and fits every card, picture labels included. Each `i18n/<code>/GLOSSARY.md` records the term
+choices, their sources and the questions a native-speaking methodologist should still settle.
 
 ## Status
 
-v0.1, a playable and checked English prototype, kept local. See [NIGHT-LOG.md](NIGHT-LOG.md) for what was checked and
-what is open.
+v0.1, a playable and checked prototype in five languages, public and playable online. See [NIGHT-LOG.md](NIGHT-LOG.md)
+for what was checked and `DESIGN.md` for what is open.
 
 ## Licence
 

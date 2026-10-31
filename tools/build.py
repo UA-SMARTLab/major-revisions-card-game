@@ -33,6 +33,11 @@ F = {f["id"]: f for f in flaws}
 G = {g["id"]: g for g in guidelines}
 
 
+def LTR(s):
+    """Isolate a checklist item as left to right, so a range like 2–3 does not read 3–2 inside Arabic text."""
+    return f"⁦{s}⁩"
+
+
 def flaw_ref(fl):
     """A planted flaw may cite its own source (e.g. the guideline's own explanation paper) instead of its type's."""
     return fl.get("ref") or F[fl["type"]]["ref"]
@@ -284,7 +289,7 @@ def build_flaw_key(g, langs):
             r = cx.R[f["request"]]
             body += (f'<tr><td class="id">{e(slot_name[sid])}<br>{e(cards.card_code(st, slot_name[sid], k))}</td><td>{e(cx.F[fl["type"]]["name"])}: {e(fl["text"])}</td>'
                      f'<td class="{fl["severity"]}">{e(verdict[fl["severity"]])}</td>'
-                     f'<td>{e(r["name"])} ({e(gl["name"])} {e(S("print.item", n=r["items"][st["guideline"]]))})</td>'
+                     f'<td>{e(r["name"])} ({e(gl["name"])} {e(S("print.item", n=LTR(r["items"][st["guideline"]])))})</td>'
                      f'<td>{e(fl["why"])} <a href="{e(flaw_ref(fl)["url"])}">{e(flaw_ref(fl)["cite"].split(". ")[0])}</a></td></tr>')
         body += "</table>"
     (g.print_dir / "answer-key.html").write_text(page(g, S("print.key_title", game=d["meta"]["title"]), body), encoding="utf-8")

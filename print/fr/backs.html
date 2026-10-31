@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="fr" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Major Revisions: card backs</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans+Condensed:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+.tcg { --u: var(--card-u, 1mm); --hi: color-mix(in srgb, var(--c) 72%, #fff); --lo: color-mix(in srgb, var(--c) 55%, #000);
+  box-sizing: border-box; width: calc(var(--u) * 63); height: calc(var(--u) * 88); flex: none;
+  border-radius: calc(var(--u) * 3.2); padding: calc(var(--u) * 2.3); position: relative; overflow: hidden;
+  display: flex; flex-direction: column; gap: calc(var(--u) * 1.2); color: #16181d; text-align: start;
+  background: linear-gradient(160deg, var(--hi), var(--c) 42%, var(--lo));
+  box-shadow: inset 0 0 0 calc(var(--u) * .45) rgba(0,0,0,.45), inset 0 0 0 calc(var(--u) * 1) rgba(255,255,255,.14);
+  font-family: "IBM Plex Sans Condensed", "Arial Narrow", sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.tcg *, .tcg *::before { box-sizing: border-box; }
+.tcg::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+  background: repeating-linear-gradient(135deg, rgba(255,255,255,.07) 0 calc(var(--u) * .5), transparent calc(var(--u) * .5) calc(var(--u) * 1.6)); }
+.tcg > * { position: relative; }
+.tcg .nm { height: calc(var(--u) * 8.4); flex: none; display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u) * 1.4);
+  padding: 0 calc(var(--u) * 1.4) 0 calc(var(--u) * 2.2); border-radius: calc(var(--u) * 1.4);
+  background: linear-gradient(#ffffff, #e4e8ee); box-shadow: inset 0 calc(var(--u) * -.45) 0 rgba(0,0,0,.14), 0 calc(var(--u) * .35) calc(var(--u) * .8) rgba(0,0,0,.35); }
+.tcg .nm b { font: 800 calc(var(--u) * 4.4)/1 "Bricolage Grotesque", "Arial Narrow", sans-serif; letter-spacing: -.02em; overflow: hidden; }
+.tcg .nm b.s1 { font-size: calc(var(--u) * 3.95); } .tcg .nm b.s2 { font-size: calc(var(--u) * 3.45); } .tcg .nm b.s3 { font-size: calc(var(--u) * 3.0); line-height: 1.05; } .tcg .nm b.s4 { font-size: calc(var(--u) * 2.6); line-height: 1.05; }
+.tcg .attr { flex: none; width: calc(var(--u) * 5.8); height: calc(var(--u) * 5.8); border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, var(--hi), var(--lo)); color: #fff; box-shadow: 0 0 0 calc(var(--u) * .4) #fff, 0 0 0 calc(var(--u) * .7) rgba(0,0,0,.35); }
+.tcg .attr .ic, .tcg .sb .ic { width: 62%; height: 62%; }
+.tcg .lv { height: calc(var(--u) * 4.6); flex: none; display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u) * 1); color: #fff;
+  font: 700 calc(var(--u) * 2.5)/1 "Barlow Condensed", "Arial Narrow", sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+.tcg .lv > span { display: flex; align-items: center; gap: calc(var(--u) * .8); }
+.tcg .sb { width: calc(var(--u) * 4.4); height: calc(var(--u) * 4.4); border-radius: 50%; display: grid; place-items: center; color: #fff;
+  background: var(--s); box-shadow: 0 0 0 calc(var(--u) * .35) #fff; }
+.tcg .coin { width: calc(var(--u) * 2.8); height: calc(var(--u) * 2.8); border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff3b0, #e0a800);
+  box-shadow: 0 0 0 calc(var(--u) * .25) rgba(0,0,0,.45); }
+.tcg .tick { width: calc(var(--u) * 2.2); height: calc(var(--u) * 2.2); transform: rotate(45deg); background: #fff; box-shadow: 0 0 0 calc(var(--u) * .25) rgba(0,0,0,.45); }
+.tcg .off { opacity: .28; }
+.tcg .star { color: #fde047; font-size: calc(var(--u) * 3.6); line-height: 1; text-shadow: 0 0 calc(var(--u) * .5) rgba(0,0,0,.6); }
+.tcg .art { flex: none; height: calc(var(--u) * 37.5); border-radius: calc(var(--u) * .7); overflow: hidden; background: #0f172a;
+  box-shadow: 0 0 0 calc(var(--u) * .55) rgba(255,255,255,.9), 0 0 0 calc(var(--u) * .9) rgba(0,0,0,.45); margin: calc(var(--u) * .5) calc(var(--u) * .9); }
+.tcg .art svg { width: 100%; height: 100%; display: block; }
+/* Pictures keep left-to-right coordinates in right-to-left languages, so labels stay anchored where they were drawn. */
+.tcg .art svg, .mat .art svg, .tcg.back svg { direction: ltr; }
+.tcg.tcg-q .art { height: calc(var(--u) * 31); }
+.tcg.tcg-t .art { height: calc(var(--u) * 43); }
+.tcg.tcg-s .art { height: calc(var(--u) * 40.5); }
+.tcg.tcg-x .art { height: calc(var(--u) * 41); }
+.tcg .tb { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: calc(var(--u) * .7); padding: calc(var(--u) * 1.1) calc(var(--u) * 1.7) calc(var(--u) * 1);
+  border-radius: calc(var(--u) * 1); background: linear-gradient(#f8f9f6, #eceee8); box-shadow: inset 0 0 0 calc(var(--u) * .3) rgba(0,0,0,.28); }
+.tcg .ty { font: 700 calc(var(--u) * 2.45)/1.1 "Barlow Condensed", "Arial Narrow", sans-serif; letter-spacing: .05em; text-transform: uppercase; color: #3b3f47; }
+.tcg .fx { margin: 0; font-size: calc(var(--u) * 2.95 * var(--fit, 1)); line-height: 1.24; }
+.tcg.tcg-q .fx { font-size: calc(var(--u) * 2.75 * var(--fit, 1)); line-height: 1.25; }
+.tcg .row { display: flex; flex-wrap: wrap; align-items: center; gap: calc(var(--u) * .6) calc(var(--u) * 1.2);
+  font: 700 calc(var(--u) * 2.3 * (0.4 + 0.6 * var(--fit, 1)))/1.15 "Barlow Condensed", "Arial Narrow", sans-serif; letter-spacing: .04em; text-transform: uppercase; color: #4b5059; }
+.tcg .row .ic { width: calc(var(--u) * 3.5); height: calc(var(--u) * 3.5); }
+/* "Good for" / "Struggles with": each situation spelled out after its icon, a little tighter than the other rows */
+.tcg .row.cons { column-gap: calc(var(--u) * .9); letter-spacing: .02em; }
+.tcg .row .yes, .tcg .row .no { display: inline-flex; gap: calc(var(--u) * .3); align-items: center; }
+.tcg .row .yes { color: #0f7a3c; } .tcg .row .no { color: #b42318; }
+.tcg .row .yes .ic, .tcg .row .no .ic { width: calc(var(--u) * 2.7); height: calc(var(--u) * 2.7); }
+.tcg .row .k { color: #8a8f98; }
+/* label then plain text: the text starts on the label's line instead of dropping below it */
+.tcg .row.flow { display: block; } .tcg .row.flow .k { margin-inline-end: calc(var(--u) * .9); }
+.tcg .chip { display: inline-flex; align-items: center; gap: calc(var(--u) * .5); padding: calc(var(--u) * .3) calc(var(--u) * 1.1) calc(var(--u) * .3) calc(var(--u) * .6);
+  border-radius: calc(var(--u) * 3); background: #1f2937; color: #fff; font: 600 calc(var(--u) * 2.4)/1 "Barlow Condensed", "Arial Narrow", sans-serif; letter-spacing: .03em; text-transform: uppercase; }
+.tcg .chip .ic { width: calc(var(--u) * 3); height: calc(var(--u) * 3); color: #fcd34d; }
+.tcg .dot { display: inline-block; width: calc(var(--u) * 2.6); height: calc(var(--u) * 2.6); border-radius: 50%; box-shadow: 0 0 0 calc(var(--u) * .25) rgba(0,0,0,.35); }
+.tcg .ft { margin-top: auto; display: flex; justify-content: space-between; gap: calc(var(--u) * 1); padding-top: calc(var(--u) * .5);
+  border-top: calc(var(--u) * .25) solid rgba(0,0,0,.18); font: 600 calc(var(--u) * 2.1)/1 "Barlow Condensed", "Arial Narrow", sans-serif; letter-spacing: .06em; color: #6b7079; text-transform: uppercase; }
+.tcg .ref { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: calc(var(--u) * .7); font-size: calc(var(--u) * 2.45); line-height: 1.2; }
+.tcg .ref li { display: flex; gap: calc(var(--u) * 1); align-items: flex-start; }
+.tcg .ref .ic { flex: none; width: calc(var(--u) * 3.4); height: calc(var(--u) * 3.4); }
+/* card back */
+.tcg.back { padding: calc(var(--u) * 3); background: radial-gradient(circle at 50% 42%, #24345a, #0f172a 70%); }
+.tcg.back .bk { flex: 1; border-radius: calc(var(--u) * 2); border: calc(var(--u) * .5) solid rgba(252,211,77,.75); display: grid; place-items: center; overflow: hidden;
+  background: repeating-conic-gradient(from 0deg at 50% 45%, rgba(255,255,255,.035) 0 10deg, transparent 10deg 20deg); }
+.tcg.back svg { width: 86%; }
+.tcg.back { background: radial-gradient(circle at 50% 42%, #9A3412, #431407 72%); }
+.tcg.back .bk { border-color: rgba(253,186,116,.8); }
+/* Major Revisions card types */
+.tcg.tcg-m .art { height: calc(var(--u) * 17); }
+.tcg.tcg-r .art { height: calc(var(--u) * 27); }
+.tcg.tcg-v .art { height: calc(var(--u) * 33); }
+.tcg.tcg-p .art { height: calc(var(--u) * 37); }
+.tcg.tcg-m .tb { gap: calc(var(--u) * .9); }
+.tcg.tcg-m .fx { font-size: calc(var(--u) * 2.85 * var(--fit, 1)); line-height: 1.22; font-style: italic; }
+.tcg .ans { margin: 0; font-size: calc(var(--u) * 2.8 * var(--fit, 1)); line-height: 1.22; }
+.tcg .ans .k { font: 700 calc(var(--u) * 2.25 * (0.4 + 0.6 * var(--fit, 1)))/1 "Barlow Condensed", "Arial Narrow", sans-serif; letter-spacing: .04em;
+  text-transform: uppercase; color: #8a8f98; margin-inline-end: calc(var(--u) * .8); }
+.tcg .ans.bad .k { color: #b42318; }
+.tcg .ans .ans-t:empty::before { content: "▮▮▮▮▮ ▮▮▮▮ ▮▮▮▮▮▮ ▮▮▮"; color: #c9ccd2; letter-spacing: .05em; }
+.tcg .ans.open { background: #fff7d6; border-radius: calc(var(--u) * .6); box-shadow: 0 0 0 calc(var(--u) * .5) #fff7d6; }
+.tcg .sb { box-shadow: 0 0 0 calc(var(--u) * .35) #fff; }
+.tcg .tag { display: inline-flex; align-items: center; gap: calc(var(--u) * .6); }
+.tcg .bad-tag { background: #b42318; color: #fff; border-radius: calc(var(--u) * 2); padding: calc(var(--u) * .4) calc(var(--u) * 1.2); }
+.tcg .ok-tag { background: #0f7a3c; color: #fff; border-radius: calc(var(--u) * 2); padding: calc(var(--u) * .4) calc(var(--u) * 1.2); }
+.tcg .ref.rules li b { font-weight: 600; }
+.tcg.tcg-m .lv > span:first-child { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.tcg .tag { white-space: nowrap; }
+.tcg .items { text-transform: none; letter-spacing: .02em; }
+.tcg.tcg-ref .ref { font-size: calc(var(--u) * 3); gap: calc(var(--u) * 1.6); }
+
+@page { size: A4; margin: 0; }
+body { margin: 0; background: #d7dbe0; font-family: "IBM Plex Sans Condensed", "Arial Narrow", sans-serif; }
+.sheet { width: 210mm; height: 297mm; margin: 0 auto 8mm; background: #fff; position: relative; break-after: page; display: grid; place-items: center; }
+.grid { display: grid; grid-template-columns: repeat(3, 63mm); grid-auto-rows: 88mm; gap: 1mm; }
+.label { position: absolute; top: 6mm; inset-inline-start: 10mm; font-size: 8pt; color: #888; }
+.cover, .key { width: 210mm; min-height: 297mm; margin: 0 auto 8mm; background: #fff; padding: 16mm; box-sizing: border-box; break-after: page; font-size: 10pt; line-height: 1.45; }
+.cover h1, .key h1 { font: 800 26pt/1.1 "Bricolage Grotesque", sans-serif; margin: 0 0 4mm; }
+.cover table { border-collapse: collapse; margin: 4mm 0; } .cover td { padding: 1mm 6mm 1mm 0; border-bottom: .2mm solid #ddd; }
+.key table { border-collapse: collapse; width: 100%; font-size: 8.4pt; }
+.key th, .key td { text-align: start; vertical-align: top; padding: 1.2mm 2mm; border-bottom: .2mm solid #ddd; }
+.key th { font: 700 8pt "Barlow Condensed", sans-serif; letter-spacing: .06em; text-transform: uppercase; color: #555; }
+.key td.id { font-weight: 600; white-space: nowrap; } .key .reject { color: #991b1b; font-weight: 600; } .key .minor { color: #4d7c0f; }
+.key h2 { font: 700 13pt "Barlow Condensed", sans-serif; letter-spacing: .04em; text-transform: uppercase; margin: 5mm 0 1mm; }
+.key a { color: #9a3412; }
+.langs { float: inline-end; font-size: 9pt; } .langs a { margin-inline-start: 2mm; color: #9a3412; }
+@media print { body { background: #fff; } .sheet, .cover, .key { margin: 0; } .label, .langs { display: none; } }
+</style></head><body><section class="sheet"><div class="label">Dos des cartes · page 1</div><div class="grid"><div class="tcg back" style="--c:#431407"><div class="bk"><svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-10 60 64)"><circle cx="60" cy="64" r="40" fill="none" stroke="#FDBA74" stroke-width="3"/><circle cx="60" cy="64" r="34" fill="none" stroke="#FDBA74" stroke-width="1.2"/><text x="60" y="78" font-size="38" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800">MR</text></g><text x="60" y="122" font-size="12.5" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" textLength="108" lengthAdjust="spacingAndGlyphs">MAJOR REVISIONS</text><text x="60" y="137" font-size="6.6" fill="#FDBA74" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="700" letter-spacing="1.2">SMART-LAB SCIENCE GAME KIT</text></svg></div></div><div class="tcg back" style="--c:#431407"><div class="bk"><svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-10 60 64)"><circle cx="60" cy="64" r="40" fill="none" stroke="#FDBA74" stroke-width="3"/><circle cx="60" cy="64" r="34" fill="none" stroke="#FDBA74" stroke-width="1.2"/><text x="60" y="78" font-size="38" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800">MR</text></g><text x="60" y="122" font-size="12.5" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" textLength="108" lengthAdjust="spacingAndGlyphs">MAJOR REVISIONS</text><text x="60" y="137" font-size="6.6" fill="#FDBA74" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="700" letter-spacing="1.2">SMART-LAB SCIENCE GAME KIT</text></svg></div></div><div class="tcg back" style="--c:#431407"><div class="bk"><svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-10 60 64)"><circle cx="60" cy="64" r="40" fill="none" stroke="#FDBA74" stroke-width="3"/><circle cx="60" cy="64" r="34" fill="none" stroke="#FDBA74" stroke-width="1.2"/><text x="60" y="78" font-size="38" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800">MR</text></g><text x="60" y="122" font-size="12.5" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" textLength="108" lengthAdjust="spacingAndGlyphs">MAJOR REVISIONS</text><text x="60" y="137" font-size="6.6" fill="#FDBA74" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="700" letter-spacing="1.2">SMART-LAB SCIENCE GAME KIT</text></svg></div></div><div class="tcg back" style="--c:#431407"><div class="bk"><svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-10 60 64)"><circle cx="60" cy="64" r="40" fill="none" stroke="#FDBA74" stroke-width="3"/><circle cx="60" cy="64" r="34" fill="none" stroke="#FDBA74" stroke-width="1.2"/><text x="60" y="78" font-size="38" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800">MR</text></g><text x="60" y="122" font-size="12.5" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" textLength="108" lengthAdjust="spacingAndGlyphs">MAJOR REVISIONS</text><text x="60" y="137" font-size="6.6" fill="#FDBA74" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="700" letter-spacing="1.2">SMART-LAB SCIENCE GAME KIT</text></svg></div></div><div class="tcg back" style="--c:#431407"><div class="bk"><svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-10 60 64)"><circle cx="60" cy="64" r="40" fill="none" stroke="#FDBA74" stroke-width="3"/><circle cx="60" cy="64" r="34" fill="none" stroke="#FDBA74" stroke-width="1.2"/><text x="60" y="78" font-size="38" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800">MR</text></g><text x="60" y="122" font-size="12.5" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" textLength="108" lengthAdjust="spacingAndGlyphs">MAJOR REVISIONS</text><text x="60" y="137" font-size="6.6" fill="#FDBA74" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="700" letter-spacing="1.2">SMART-LAB SCIENCE GAME KIT</text></svg></div></div><div class="tcg back" style="--c:#431407"><div class="bk"><svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-10 60 64)"><circle cx="60" cy="64" r="40" fill="none" stroke="#FDBA74" stroke-width="3"/><circle cx="60" cy="64" r="34" fill="none" stroke="#FDBA74" stroke-width="1.2"/><text x="60" y="78" font-size="38" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800">MR</text></g><text x="60" y="122" font-size="12.5" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" textLength="108" lengthAdjust="spacingAndGlyphs">MAJOR REVISIONS</text><text x="60" y="137" font-size="6.6" fill="#FDBA74" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="700" letter-spacing="1.2">SMART-LAB SCIENCE GAME KIT</text></svg></div></div><div class="tcg back" style="--c:#431407"><div class="bk"><svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-10 60 64)"><circle cx="60" cy="64" r="40" fill="none" stroke="#FDBA74" stroke-width="3"/><circle cx="60" cy="64" r="34" fill="none" stroke="#FDBA74" stroke-width="1.2"/><text x="60" y="78" font-size="38" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800">MR</text></g><text x="60" y="122" font-size="12.5" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" textLength="108" lengthAdjust="spacingAndGlyphs">MAJOR REVISIONS</text><text x="60" y="137" font-size="6.6" fill="#FDBA74" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="700" letter-spacing="1.2">SMART-LAB SCIENCE GAME KIT</text></svg></div></div><div class="tcg back" style="--c:#431407"><div class="bk"><svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-10 60 64)"><circle cx="60" cy="64" r="40" fill="none" stroke="#FDBA74" stroke-width="3"/><circle cx="60" cy="64" r="34" fill="none" stroke="#FDBA74" stroke-width="1.2"/><text x="60" y="78" font-size="38" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800">MR</text></g><text x="60" y="122" font-size="12.5" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" textLength="108" lengthAdjust="spacingAndGlyphs">MAJOR REVISIONS</text><text x="60" y="137" font-size="6.6" fill="#FDBA74" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="700" letter-spacing="1.2">SMART-LAB SCIENCE GAME KIT</text></svg></div></div><div class="tcg back" style="--c:#431407"><div class="bk"><svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-10 60 64)"><circle cx="60" cy="64" r="40" fill="none" stroke="#FDBA74" stroke-width="3"/><circle cx="60" cy="64" r="34" fill="none" stroke="#FDBA74" stroke-width="1.2"/><text x="60" y="78" font-size="38" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800">MR</text></g><text x="60" y="122" font-size="12.5" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" textLength="108" lengthAdjust="spacingAndGlyphs">MAJOR REVISIONS</text><text x="60" y="137" font-size="6.6" fill="#FDBA74" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="700" letter-spacing="1.2">SMART-LAB SCIENCE GAME KIT</text></svg></div></div></div></section><script>
+function fitCards(root) {
+  (root || document).querySelectorAll(".tcg .tb").forEach(tb => {
+    let k = 1;
+    tb.style.removeProperty("--fit");
+    while (tb.scrollHeight > tb.clientHeight + 1 && k > 0.72) { k -= 0.04; tb.style.setProperty("--fit", k.toFixed(2)); }
+  });
+}
+if (document.readyState === "loading") addEventListener("DOMContentLoaded", () => fitCards()); else fitCards();
+if (document.fonts) document.fonts.ready.then(() => fitCards());
+</script></body></html>

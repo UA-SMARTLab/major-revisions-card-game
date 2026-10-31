@@ -156,6 +156,24 @@ try {
   dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
   await sleep(300);
   ok("Escape closes the viewer without a verdict", !document.querySelector(".viewer:not(.out)") && game.phase === "report");
+  // On a right-to-left (Arabic) page a negative score must still read "-3", not "3-": mark every sound card and
+  // accept, so the total and the false-alarm line of the breakdown are negative.
+  newGame(7, false); startReport(); SLOTS.filter(sid => !game.flawed.includes(sid)).forEach(sid => game.marks.add(sid)); finish("accept");
+  document.documentElement.dir = "rtl";
+  const signed = [...document.querySelectorAll("#desk .pts, #s-score, #desk .score b")].filter(e => /^[-−]\d/.test(e.textContent));
+  const flipped = signed.filter(e => { const t = e.firstChild, a = document.createRange(), b = document.createRange(); a.setStart(t, 0); a.setEnd(t, 1); b.setStart(t, 1); b.setEnd(t, 2); return a.getBoundingClientRect().left > b.getBoundingClientRect().left; });
+  // An item range in the result ("item 2–3") must not read "3–2" in a right-to-left sentence. English keeps the order
+  // because the word "item" comes first, so the check borrows the Arabic sentence (i18n/ar/ui.json).
+  const enCaught = UI["result.caught_by"]; UI["result.caught_by"] = "يكشفه طلب {request}: البند {item} من {guideline}.";
+  const rangeHere = () => [...document.querySelectorAll("#desk .flawbox .meta")].some(m => /\d–\d/.test(m.textContent));
+  let rg = 1; for (; rg < 400; rg++) { newGame(rg, false); startReport(); game.flawed.forEach(sid => game.marks.add(sid)); finish(rightVerdict(game)); if (rangeHere()) break; }
+  const walker = document.createTreeWalker(document.querySelector("#desk"), NodeFilter.SHOW_TEXT);
+  let rnode; while (walker.nextNode()) if (/\d–\d/.test(walker.currentNode.data)) { rnode = walker.currentNode; break; }
+  const ri = rnode ? rnode.data.search(/\d–\d/) : -1, rx = k => { const r = document.createRange(); r.setStart(rnode, k); r.setEnd(rnode, k + 1); return r.getBoundingClientRect().left; };
+  const rangeOk = rnode && rx(ri) < rx(ri + 2);
+  document.documentElement.dir = "ltr"; UI["result.caught_by"] = enCaught;
+  ok("right to left: an item range like 2–3 keeps its order", rangeOk, rnode ? `#${rg}: "${rnode.data}"` : "no range found");
+  ok("right to left: negative scores keep their sign on the left", signed.length >= 2 && !flipped.length, flipped.map(e => `${e.className || e.id || e.tagName} "${e.textContent}"`).join("; ") || signed.length + " checked");
   // 6. Browse: every deck renders its cards.
   show("decks");
   for (const k of ["studies", "requests", "verdicts", "manuscripts"]) { deck = k; renderDecks(); ok(`decks: ${k} render`, document.querySelectorAll("#cards .tcg").length === DECK_ITEMS[k].length, document.querySelectorAll("#cards .tcg").length); }
@@ -214,6 +232,7 @@ def inject(src, script, theme="light"):
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8")  # failure details may quote Arabic, also on a Windows console
     exe = chrome()
     app = ROOT / "app" / "index.html"
     if not app.exists():

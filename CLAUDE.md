@@ -24,7 +24,9 @@ game. My general rules are in `~/.claude/CLAUDE.md`.
 - `tools/build.py` validates and generates; `tools/cards.py` renders cards (kit frame and CSS copied from Methodical,
   then this game's types); `tools/art.py` holds the shared drawing primitives; `tools/art_mr.py` this game's pictures;
   `tools/i18n.py` the kit's i18n with this game's text fields.
-- `tools/check_cards.py`: every printed card in headless Chrome/Edge, fails on overflow. `tools/test_app.py`: plays
+- `tools/check_cards.py`: every printed card in headless Chrome/Edge, fails on overflow, including a picture label
+  cut off at the picture box's edge. The printed picture box is wider than 4:3, so only about y 28–122 of the
+  200×150 viewBox shows: put no label's baseline lower than y 116. `tools/test_app.py`: plays
   the app headless (dealing, verdict rule, scoring, viewer); `--shots DIR` saves desktop/phone, light/dark screenshots.
   Phone widths are shown in an iframe because desktop Chrome won't open a window narrower than about 500 px.
 - The app deals deterministically: `deal(seed, expert)` with mulberry32; `#m=1234` (or `#m=1234x` for expert) in the
@@ -36,5 +38,8 @@ game. My general rules are in `~/.claude/CLAUDE.md`.
   #431407 with the kit mark "SMART-LAB SCIENCE GAME KIT".
 
 ## Repo
-- Local only for now (no GitHub repo, nothing public). `.claude/launch.json` serves `app/` on 127.0.0.1:8793.
+- Public: github.com/UA-SMARTLab/major-revisions-card-game, played at
+  ua-smartlab.github.io/major-revisions-card-game/app/. `.claude/launch.json` serves `app/` on 127.0.0.1:8793.
+- Five languages (en, fr, nl, de, ar); each `i18n/<code>/GLOSSARY.md` holds the term decisions. When English card
+  text changes, update every language and rerun `tools/check_cards.py` (it checks all print sheets).
 - Overnight work is logged in NIGHT-LOG.md.

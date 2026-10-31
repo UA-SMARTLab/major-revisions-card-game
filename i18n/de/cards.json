@@ -1,0 +1,886 @@
+{
+ "meta": {
+  "tagline": "Ein Deduktionskartenspiel für Forschende: Finde den Fehler im Manuskript, bevor deine Begutachtungsrunden aufgebraucht sind.",
+  "slots": {
+   "question": {
+    "name": "Fragestellung",
+    "ask": "Was die Studie beantworten wollte und was geplant war."
+   },
+   "method": {
+    "name": "Methode",
+    "ask": "Wie die Studie angelegt und durchgeführt wurde."
+   },
+   "sample": {
+    "name": "Stichprobe",
+    "ask": "Wer oder was untersucht wurde und wer verloren ging."
+   },
+   "measurement": {
+    "name": "Messung",
+    "ask": "Wie Outcomes und Expositionen gemessen wurden."
+   },
+   "analysis": {
+    "name": "Analyse",
+    "ask": "Wie die Daten ausgewertet wurden und wie daraus eine Schlussfolgerung wurde."
+   }
+  },
+  "verdicts": {
+   "accept": {
+    "name": "Annahme",
+    "short": "Stichhaltig, so wie es ist. Veröffentlichen.",
+    "when": "Kein Fehler: Jede Rückfrage wurde gut beantwortet."
+   },
+   "minor": {
+    "name": "Minor Revision",
+    "short": "Eine Lücke im Bericht oder in der Formulierung. Die Schlussfolgerung hält.",
+    "when": "Behebbar durch klareren Bericht oder vorsichtigere Aussagen; keine neue Analyse."
+   },
+   "major": {
+    "name": "Major Revision",
+    "short": "Ein echtes Problem, das die Autoren noch beheben können.",
+    "when": "Behebbar durch neue Analysen, schon vorhandene Daten oder einen wiederholten Schritt."
+   },
+   "reject": {
+    "name": "Ablehnung",
+    "short": "Ein fataler Fehler. Nur eine neue Studie könnte die Frage beantworten.",
+    "when": "Die Daten selbst sind verzerrt; keine erneute Analyse kann sie retten."
+   }
+  }
+ },
+ "requests": {
+  "registration": {
+   "name": "Registrierung",
+   "ask": "Registereintrag oder Protokoll vorlegen: was geplant war und wann registriert wurde."
+  },
+  "hypothesis": {
+   "name": "Vorab festgelegte Ziele",
+   "ask": "Ziele oder Hypothesen so angeben, wie sie vor Eingang der Daten festgelegt wurden."
+  },
+  "allocation": {
+   "name": "Randomisierung",
+   "ask": "Wie wurde die Zuteilungssequenz erzeugt, und wer konnte sie vor jeder Zuteilung einsehen?"
+  },
+  "intervention": {
+   "name": "Details der Intervention",
+   "ask": "Intervention und Vergleich so genau beschreiben, dass andere sie wiederholen können."
+  },
+  "timeline": {
+   "name": "Ort und Zeitraum",
+   "ask": "Wann und wo wurden Expositionen, Outcomes und Nachbeobachtung erhoben?"
+  },
+  "search": {
+   "name": "Suchstrategie",
+   "ask": "Jede durchsuchte Quelle nennen und die vollständigen Suchstrings angeben."
+  },
+  "reflexivity": {
+   "name": "Reflexivität",
+   "ask": "Wer hat die Daten erhoben, und in welcher Beziehung stand diese Person zu den Teilnehmenden?"
+  },
+  "reference-standard": {
+   "name": "Referenzstandard",
+   "ask": "Welcher Test entschied, wer die Zielerkrankung wirklich hatte, und bekamen ihn alle?"
+  },
+  "recruitment": {
+   "name": "Rekrutierung",
+   "ask": "Wer kam für die Studie infrage, und wie wurden die Teilnehmenden gefunden und ausgewählt?"
+  },
+  "flow": {
+   "name": "Flussdiagramm",
+   "ask": "Wie viele kamen infrage, wurden eingeschlossen, gingen verloren und wurden ausgewertet, und warum gingen Teilnehmende verloren?"
+  },
+  "sample-size": {
+   "name": "Stichprobengröße",
+   "ask": "Wie wurde die Zahl der Teilnehmenden festgelegt?"
+  },
+  "saturation": {
+   "name": "Datensättigung",
+   "ask": "Wann endete die Datenerhebung, und woran wurde beurteilt, dass sie genügte?"
+  },
+  "blinding": {
+   "name": "Verblindung",
+   "ask": "Wer kannte die Gruppen oder die anderen Testergebnisse, als die Outcomes erhoben wurden?"
+  },
+  "instrument": {
+   "name": "Messinstrumente",
+   "ask": "Wie genau wurde jedes Outcome und jede Exposition gemessen, und ist das Instrument valide?"
+  },
+  "coding": {
+   "name": "Codebaum",
+   "ask": "Wie viele Personen haben die Daten kodiert, und wie sieht der Codebaum aus?"
+  },
+  "risk-of-bias": {
+   "name": "Verzerrungsrisiko",
+   "ask": "Wie wurde das Verzerrungsrisiko jeder eingeschlossenen Studie bewertet, und von wem?"
+  },
+  "missing-data": {
+   "name": "Fehlende Daten",
+   "ask": "Wie viele Daten fehlten, und wie wurde damit umgegangen?"
+  },
+  "sensitivity": {
+   "name": "Sensitivitätsanalyse",
+   "ask": "Halten die Ergebnisse auch bei anderen vertretbaren Analyseentscheidungen?"
+  },
+  "confounding": {
+   "name": "Adjustierung für Confounder",
+   "ask": "Für welche Confounder wurde adjustiert, und warum für diese?"
+  },
+  "analysis-set": {
+   "name": "Analysepopulation",
+   "ask": "Wer oder was wurde in jeder Analyse gezählt, und in welcher Gruppe?"
+  },
+  "themes": {
+   "name": "Themenbildung",
+   "ask": "Wurden die Themen vorab festgelegt oder aus den Daten entwickelt?"
+  },
+  "thresholds": {
+   "name": "Schwellenwerte",
+   "ask": "Wurde der Schwellenwert für ein positives Testergebnis vor den Daten festgelegt oder danach gewählt?"
+  },
+  "heterogeneity": {
+   "name": "Heterogenität",
+   "ask": "Wie stark unterschieden sich die Ergebnisse der Studien, und wurde das untersucht?"
+  },
+  "reporting-bias": {
+   "name": "Reporting-Bias",
+   "ask": "Könnten fehlende Studien oder fehlende Ergebnisse den gepoolten Schätzer verzerrt haben?"
+  }
+ },
+ "flaws": {
+  "switched-registration": {
+   "name": "Abweichung von der Registrierung",
+   "short": "Was die Arbeit berichtet, ist nicht das, was registriert wurde, und die Änderung wird nicht erklärt."
+  },
+  "harking": {
+   "name": "HARKing",
+   "short": "Eine Hypothese, nach den Ergebnissen formuliert und so dargestellt, als sei sie zuerst da gewesen."
+  },
+  "p-hacking": {
+   "name": "p-Hacking",
+   "short": "Viele Analysen versucht, und nur die signifikante berichtet."
+  },
+  "overclaiming": {
+   "name": "Überinterpretation",
+   "short": "Die Schlussfolgerung behauptet mehr, als das Design zeigen kann."
+  },
+  "predictable-allocation": {
+   "name": "Vorhersehbare Zuteilung",
+   "short": "Wer Teilnehmende einschließt, kann die nächste Zuteilung vorhersehen oder steuern."
+  },
+  "reverse-timing": {
+   "name": "Exposition nach dem Outcome",
+   "short": "Die „Ursache“ wurde erst gemessen oder gezählt, als das Outcome schon begonnen hatte."
+  },
+  "insider-interviewer": {
+   "name": "Interviewer mit Macht",
+   "short": "Wer die Daten erhebt, hat Macht über die Teilnehmenden."
+  },
+  "verification-bias": {
+   "name": "Partielle Verifikation",
+   "short": "Nur ein Teil der Teilnehmenden erhielt den Referenzstandard, ausgewählt nach ihrem Testergebnis."
+  },
+  "narrow-search": {
+   "name": "Zu enge Suche",
+   "short": "Zu wenige Quellen durchsucht, daher fehlen relevante Studien."
+  },
+  "hand-picked": {
+   "name": "Handverlesene Teilnehmende",
+   "short": "Das Personal wählte nach ungeschriebenen Kriterien aus; die Ergebnisse sind womöglich nicht übertragbar."
+  },
+  "attrition": {
+   "name": "Selektiver Follow-up-Verlust",
+   "short": "Wer verloren ging, unterscheidet sich in wichtigen Punkten von denen, die blieben."
+  },
+  "control-selection": {
+   "name": "Ungeeignete Kontrollen",
+   "short": "Die Kontrollen stammen nicht aus der Population, aus der die Fälle hervorgingen."
+  },
+  "volunteer-sample": {
+   "name": "Selbstselektierte Stichprobe",
+   "short": "Es antwortete, wer wollte, daher steht die Stichprobe nicht für die Population."
+  },
+  "early-saturation": {
+   "name": "Sättigung nicht erreicht",
+   "short": "Die Datenerhebung endete aus praktischen Gründen, trotzdem wird Sättigung behauptet."
+  },
+  "spectrum-bias": {
+   "name": "Spektrumbias",
+   "short": "Eindeutige Fälle mit Gesunden verglichen, die schwierigen Fälle fehlen."
+  },
+  "publication-bias": {
+   "name": "Unpublizierte Studien fehlen",
+   "short": "Nur publizierte Studien zählen, und die neigen zu positiven Ergebnissen."
+  },
+  "unreported-exclusions": {
+   "name": "Verschwiegene Ausschlüsse",
+   "short": "Tiere oder Teilnehmende wortlos aus der Analyse entfernt."
+  },
+  "unblinded-assessors": {
+   "name": "Unverblindete Bewertung",
+   "short": "Wer das Outcome beurteilte, wusste, wer was bekommen hatte."
+  },
+  "recall-bias": {
+   "name": "Recall-Bias",
+   "short": "Fälle und Kontrollen erinnern sich unterschiedlich an frühere Expositionen."
+  },
+  "unvalidated-measure": {
+   "name": "Unvalidiertes Instrument",
+   "short": "Ein selbst gebautes Instrument ohne Beleg, dass es misst, was es messen soll."
+  },
+  "single-coder": {
+   "name": "Einzelkodierung ohne Audit-Trail",
+   "short": "Eine Person hat alles kodiert, und niemand kann nachvollziehen, wie."
+  },
+  "review-bias": {
+   "name": "Unverblindete Befundung",
+   "short": "Den Test befundete jemand, der die richtige Antwort schon kannte."
+  },
+  "no-risk-of-bias": {
+   "name": "Verzerrungsrisiko nicht bewertet",
+   "short": "Die eingeschlossenen Studien wurden nie auf ihr Verzerrungsrisiko bewertet."
+  },
+  "per-protocol": {
+   "name": "Nur Per-Protokoll",
+   "short": "Nur Teilnehmende, die sich an den Plan hielten, wurden ausgewertet."
+  },
+  "confounding": {
+   "name": "Unkontrolliertes Confounding",
+   "short": "Ein Faktor hinter Exposition und Outcome blieb ohne Adjustierung."
+  },
+  "missing-data": {
+   "name": "Fehlende Daten ignoriert",
+   "short": "Unvollständige Datensätze verworfen, obwohl nicht zufällig ist, wer fehlt."
+  },
+  "themes-from-guide": {
+   "name": "Themen = Interviewfragen",
+   "short": "Die „Themen“ sind die Überschriften des Interviewleitfadens."
+  },
+  "data-driven-cutoff": {
+   "name": "Schwelle aus den Daten",
+   "short": "Der Schwellenwert wurde an denselben Daten optimiert, an denen die Genauigkeit beurteilt wird."
+  },
+  "unexplored-heterogeneity": {
+   "name": "Heterogenität nicht untersucht",
+   "short": "Die Studien widersprechen sich stark, doch ein gepoolter Wert wird als die Antwort präsentiert."
+  },
+  "pseudoreplication": {
+   "name": "Pseudoreplikation",
+   "short": "Wiederholte Messungen an einer Einheit als unabhängige Einheiten gezählt."
+  },
+  "missing-detail": {
+   "name": "Fehlende Details",
+   "short": "Ein Schritt ist zu vage berichtet, um ihn zu beurteilen oder zu wiederholen."
+  },
+  "undescribed-intervention": {
+   "name": "Intervention nicht beschrieben",
+   "short": "Die Intervention ist nicht genau genug beschrieben, als dass jemand sie wiederholen könnte."
+  },
+  "no-target": {
+   "name": "Kein Zielwert vorab",
+   "short": "Die Genauigkeit wird berichtet, ohne dass vorab ein Mindestwert festgelegt wurde."
+  },
+  "incomplete-flow": {
+   "name": "Studienfluss fehlt",
+   "short": "Wer infrage kam, eingeschlossen, verloren und ausgewertet wurde, und warum, wird nicht vollständig berichtet."
+  },
+  "sample-size-unexplained": {
+   "name": "Stichprobengröße unbegründet",
+   "short": "Niemand sagt, wie die Zahl der Teilnehmenden festgelegt wurde."
+  },
+  "unshown-check": {
+   "name": "Prüfungen nicht gezeigt",
+   "short": "Eine Zusatzanalyse soll mit der Hauptanalyse übereinstimmen, aber ihre Ergebnisse werden nicht gezeigt."
+  },
+  "no-interval": {
+   "name": "Kein Konfidenzintervall",
+   "short": "Ein Effekt wird mit p-Wert, aber ohne Konfidenzintervall angegeben, daher bleiben Größe und Präzision unklar."
+  }
+ },
+ "guidelines": {
+  "consort": {
+   "for": "Randomisierte Studien"
+  },
+  "strobe": {
+   "for": "Kohorten-, Fall-Kontroll- und Querschnittsstudien"
+  },
+  "prisma": {
+   "for": "Systematische Reviews"
+  },
+  "coreq": {
+   "for": "Interview- und Fokusgruppenstudien"
+  },
+  "stard": {
+   "for": "Diagnostische Genauigkeitsstudien"
+  },
+  "arrive": {
+   "for": "Tierexperimentelle Forschung"
+  }
+ },
+ "studies": {
+  "S1": {
+   "title": "Wieder auf den Beinen",
+   "field": "Physiotherapie",
+   "design": "Randomisierte Studie",
+   "claim": "Ein 12-wöchiges angeleitetes Trainingsprogramm verbessert die körperliche Funktion bei Erwachsenen mit chronischen Kreuzschmerzen.",
+   "slots": {
+    "question": {
+     "submitted": "Verbessert ein 12-wöchiges Trainingsprogramm die Funktion bei chronischen Kreuzschmerzen, verglichen mit der Regelversorgung?",
+     "facts": {
+      "registration": {
+       "sound": "Vor dem ersten Einschluss registriert, mit Funktion nach 12 Wochen als primärem Endpunkt, wie in der Arbeit.",
+       "flaw": "Registriert mit Schmerz nach 12 Wochen als primärem Endpunkt. Die Arbeit macht Funktion zum primären Endpunkt und sagt nie, warum.",
+       "why": "Wer den primären Endpunkt nach Sicht der Daten wechselt, lässt einen Zufallsbefund als Hauptergebnis durchgehen. Behebbar: den registrierten Endpunkt als primären berichten und die Änderung erklären."
+      },
+      "hypothesis": {
+       "sound": "Hypothese genannt: Das Programm verbessert den Funktionswert um mindestens 3 Punkte mehr als die Regelversorgung."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Randomisierte Studie in vier Praxen; Zuteilung 1:1 zu angeleitetem Training oder Regelversorgung.",
+     "facts": {
+      "allocation": {
+       "sound": "Computererzeugte Sequenz in zufälligen Blöcken, von einem zentralen Webdienst erst nach dem Einschluss freigegeben.",
+       "flaw": "Wer montags und mittwochs kam, erhielt Training; wer an anderen Tagen kam, Regelversorgung.",
+       "why": "Das Personal konnte jede Zuteilung vorhersehen und steuern, wer an welchem Tag eingeschlossen wurde; die Gruppen können sich also von Anfang an unterscheiden. Keine erneute Analyse macht das rückgängig."
+      },
+      "intervention": {
+       "sound": "Zwei angeleitete Einheiten pro Woche über 12 Wochen; das vollständige Trainingsprotokoll steht im Anhang.",
+       "flaw": "Nur als „angeleitetes Training, zweimal pro Woche“ beschrieben; Übungen, Intensität und Steigerung fehlen.",
+       "why": "Diese Lücke verzerrt den Vergleich nicht, aber niemand kann das Programm wiederholen oder Betroffenen anbieten. Minor: vollständig beschreiben (TIDieR), etwa im Anhang."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "240 Erwachsene mit Kreuzschmerzen seit mehr als 3 Monaten, von ihrer Hausarztpraxis überwiesen.",
+     "facts": {
+      "recruitment": {
+       "sound": "Alle Überweisungen konsekutiv nach publizierten Kriterien gesichtet; 240 von 412 kamen infrage und willigten ein.",
+       "flaw": "Die Physiotherapeuten schlossen nur ein, wen sie für „motiviert zum Training“ hielten; keine schriftlichen Kriterien.",
+       "why": "Die Randomisierung gleicht die Gruppen trotzdem aus, der Vergleich ist also fair, aber das Ergebnis gilt womöglich nicht für typische Betroffene. Minor: das berichten und die Aussagen eingrenzen."
+      },
+      "flow": {
+       "sound": "Flussdiagramm: 412 gesichtet, 240 randomisiert, 226 mit Wert nach 12 Wochen; Verluste je Arm ähnlich, mit Gründen.",
+       "flaw": "Kein Flussdiagramm: 240 wurden randomisiert, aber Verluste werden weder je Arm noch mit Gründen angegeben.",
+       "why": "Nur wenige gingen verloren (14 von 240, 6 %), und die Analyse fehlender Daten deckt sie ab, aber Lesermüssen sehen, wer welchen Arm verließ und warum. Minor: das CONSORT-Flussdiagramm ergänzen."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Funktion nach 12 Wochen mit einem standardisierten Leistungstest erhoben.",
+     "facts": {
+      "blinding": {
+       "sound": "Die Tests bewerteten Personen aus einer anderen Praxis, die keine Gruppenzugehörigkeit kannten.",
+       "flaw": "Den Test bewertete, wer die Person auch behandelte, im Wissen, wer trainiert hatte.",
+       "why": "Wer die Gruppen kennt, sieht eher den erwarteten Effekt. Ein Leistungstest nach 12 Wochen lässt sich nachträglich nicht verblindet wiederholen, das Hauptergebnis ist also nicht zu retten."
+      },
+      "instrument": {
+       "sound": "Für den Leistungstest sind Reliabilität und Validität bei Kreuzschmerzen publiziert."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Gruppen mit einem linearen Modell verglichen, adjustiert für die Funktion zu Studienbeginn.",
+     "facts": {
+      "missing-data": {
+       "sound": "6 % der Outcomes fehlten, behandelt mit multipler Imputation; die Complete-Case-Ergebnisse stimmen überein."
+      },
+      "analysis-set": {
+       "sound": "Alle Randomisierten in der Gruppe ausgewertet, der sie zugeteilt waren.",
+       "flaw": "Ausgewertet wurde nur, wer mindestens 80 % der Einheiten besuchte: 61 von 120 im Trainingsarm.",
+       "why": "Wer nicht adhärente Teilnehmende ausschließt, bricht die Randomisierung: Wer weitertrainiert, unterscheidet sich von denen, die aufhören. Behebbar: alle wie randomisiert neu auswerten (Intention-to-treat)."
+      }
+     }
+    }
+   }
+  },
+  "S2": {
+   "title": "Nächtliches Scrollen",
+   "field": "Jugendgesundheit",
+   "design": "Kohortenstudie",
+   "claim": "Intensive Social-Media-Nutzung mit 13 sagt Schlafprobleme mit 15 vorher.",
+   "slots": {
+    "question": {
+     "submitted": "Sagt intensive Social-Media-Nutzung mit 13 Schlafprobleme mit 15 vorher?",
+     "facts": {
+      "hypothesis": {
+       "sound": "Hypothese aus dem bewilligten Antrag, zitiert: mehr tägliche Nutzung, mehr Schlafprobleme mit 15, bei Mädchen wie Jungen.",
+       "flaw": "Die Einleitung sagt einen Effekt nur bei Mädchen vorher. Der Antrag sagte ihn für alle vorher; nur Mädchen zeigten ihn.",
+       "why": "Eine nach den Ergebnissen formulierte Hypothese lässt einen zufälligen Subgruppenbefund wie eine bestätigte Vorhersage aussehen. Behebbar: die ursprüngliche Hypothese wiederherstellen und den Befund bei Mädchen als explorativ kennzeichnen."
+      },
+      "registration": {
+       "sound": "Nicht präregistriert; die Autoren sagen das offen in den Limitationen."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Prospektive schulbasierte Kohorte mit Fragebögen im Alter von 13 und 15 Jahren.",
+     "facts": {
+      "timeline": {
+       "sound": "Nutzung mit 13 und Schlaf mit 15 erhoben, zwei Jahre auseinander, zum selben Zeitpunkt im Schuljahr.",
+       "flaw": "Beides wurde mit 15 erfragt: Die Jugendlichen erinnerten sich, wie viel sie zwei Jahre zuvor Social Media genutzt hatten.",
+       "why": "Die Nutzung mit 13 wird erinnert, nachdem die Schlafprobleme begonnen haben; damit fehlt die zeitliche Abfolge, die sie zur Vorhersage machte. Nur mit 13 erhobene Daten könnten das beheben."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "3.000 Jugendliche aus 40 Schulen mit 13 eingeschlossen; 2.310 mit 15 nachbeobachtet.",
+     "facts": {
+      "flow": {
+       "sound": "Verluste nach Schule und Grund gezeigt; Ausgeschiedene und Verbliebene hatten mit 13 ähnliche Nutzung und ähnlichen Schlaf.",
+       "flaw": "Intensiv Nutzende gingen bis 15 doppelt so oft verloren; Ausgeschiedene und Verbliebene werden nie verglichen.",
+       "why": "Wenn die ausgeschiedenen intensiv Nutzenden anders schliefen, ist der Schätzer verzerrt. Behebbar: Ausgeschiedene mit Verbliebenen vergleichen und mit Gewichtung oder Imputation korrigieren."
+      },
+      "sample-size": {
+       "sound": "Größe durch die Mutterkohorte vorgegeben; die Arbeit berichtet, welche Präzision das dem Hauptschätzer gibt.",
+       "flaw": "Die Arbeit sagt nicht, wie die Kohortengröße zustande kam oder welche Präzision sie dem Hauptschätzer gibt.",
+       "why": "Die Mutterkohorte legte die Größe fest, die Daten bleiben also gültig; Leserbrauchen nur diesen Satz und das Konfidenzintervall des Schätzers. Minor: erklären, wie die Größe festgelegt wurde."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Schlafprobleme mit 15 per Fragebogen gemessen.",
+     "facts": {
+      "instrument": {
+       "sound": "Ein validierter Schlaffragebogen für Jugendliche, dazu eine Woche Aktigrafie am Handgelenk in einer Teilstichprobe.",
+       "flaw": "Ein einziges, für diese Studie geschriebenes Ja/Nein-Item, „Schläfst du oft schlecht?“, ohne Validierung.",
+       "why": "Ein selbst gebautes Ja/Nein-Item kann nicht belegen, dass es Schlafprobleme misst. Teils behebbar: die umfassenderen Schlafmaße der Kohorte nutzen oder das Item in einer Teilstichprobe validieren, und die Aussagen abschwächen."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Logistische Regression der Schlafprobleme auf die Nutzungsstunden, adjustiert für Confounder.",
+     "facts": {
+      "sensitivity": {
+       "sound": "Die Ergebnisse halten mit Nutzung in Stunden pro Tag und mit Schwellenwerten bei 2, 3 und 4 Stunden.",
+       "flaw": "Die Nutzung wurde bei 3 Stunden geteilt, nachdem Schwellenwerte von 1 bis 5 ausprobiert wurden; nur der mit p < 0,05 wird berichtet.",
+       "why": "Viele Schwellenwerte auszuprobieren und den passenden zu berichten, treibt falsch positive Befunde in die Höhe. Behebbar: Stunden als stetige Variable auswerten oder jeden Schwellenwert zeigen."
+      },
+      "confounding": {
+       "sound": "Adjustiert für Schlaf, Stimmung und Familieneinkommen mit 13, vorab anhand eines Kausaldiagramms gewählt.",
+       "flaw": "Adjustiert für Schlaf, Stimmung und Einkommen mit 13, aber nur die adjustierte Odds Ratio und ein p-Wert werden angegeben.",
+       "why": "Ein p-Wert sagt nichts darüber, wie groß oder wie präzise der Effekt ist, und ohne den unadjustierten Schätzer sieht niemand, was die Adjustierung änderte. Minor: beide angeben, mit 95-%-Konfidenzintervallen."
+      }
+     }
+    }
+   }
+  },
+  "S3": {
+   "title": "Schlaftabletten und Hüftfraktur",
+   "field": "Pharmakoepidemiologie",
+   "design": "Fall-Kontroll-Studie",
+   "claim": "Benzodiazepine verdoppeln bei über 70-Jährigen das Risiko einer Hüftfraktur.",
+   "slots": {
+    "question": {
+     "submitted": "Erhöht die Einnahme von Benzodiazepinen bei über 70-Jährigen das Risiko einer Hüftfraktur?",
+     "facts": {
+      "hypothesis": {
+       "sound": "Hypothese laut Protokoll: Benzodiazepine erhöhen das Hüftfrakturrisiko. Die Arbeit prüft genau diese eine Frage.",
+       "flaw": "Neun Schlafmittel wurden getestet. Die Schlagzeile ist das eine signifikante, ohne Korrektur für neun Tests.",
+       "why": "Bei neun Tests ist ein „signifikantes“ Ergebnis schon durch Zufall wahrscheinlich. Behebbar: alle neun berichten, für multiples Testen korrigieren und den Befund zum einzelnen Mittel explorativ nennen."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Fall-Kontroll-Studie: 400 Fälle mit Hüftfraktur und 800 gematchte Kontrollen aus zwei Regionen.",
+     "facts": {
+      "timeline": {
+       "sound": "Medikamenteneinnahme nur im Jahr vor dem Frakturdatum jedes Falls gezählt, mit demselben Zeitfenster für seine Kontrollen.",
+       "flaw": "Einnahme von 6 Monaten vor bis 1 Monat nach der Fraktur gezählt, einem Zeitraum, in dem viele im Krankenhaus mit Schlaftabletten beginnen.",
+       "why": "Tabletten, die wegen der Fraktur begonnen wurden, zählen als ihre Ursache. Behebbar: die Analyse nur mit der Einnahme vor dem Frakturdatum wiederholen."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "Fälle aus Krankenhausaufnahmen; Kontrollen nach Alter und Geschlecht gematcht.",
+     "facts": {
+      "recruitment": {
+       "sound": "Kontrollen zufällig aus dem Melderegister derselben Regionen gezogen.",
+       "flaw": "Die Kontrollen waren Freiwillige, rekrutiert in Fitnessclubs für Ältere.",
+       "why": "Mitglieder von Fitnessclubs nehmen weniger Schlaftabletten und stürzen seltener als die Population, aus der die Fälle kamen; der Vergleich ist also von Anfang an verzerrt. Neue Kontrollen sind nötig."
+      },
+      "flow": {
+       "sound": "81 % der Fälle und 76 % der Kontrollen nahmen teil; Gründe für die Nichtteilnahme werden berichtet.",
+       "flaw": "Teilnahme nur insgesamt angegeben („etwa 80 %“), nicht getrennt für Fälle und Kontrollen; keine Gründe für die Ablehnung.",
+       "why": "Bias entsteht, wenn die Teilnahme bei Fällen und Kontrollen unterschiedlich von der Tabletteneinnahme abhängt; Raten und Gründe je Gruppe sind die erste Prüfung. Minor: sie je Gruppe berichten; hier sind sie ähnlich (81 % und 76 %)."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Benzodiazepin-Einnahme bei Fällen und Kontrollen auf gleiche Weise erhoben.",
+     "facts": {
+      "instrument": {
+       "sound": "Einnahme aus Abgabedaten der Apotheken, für Fälle und Kontrollen gleichermaßen.",
+       "flaw": "Einnahme im Interview erinnert: Fälle auf Station, Tage nach ihrer Fraktur, Kontrollen am Telefon.",
+       "why": "Fälle durchsuchen ihr Gedächtnis gründlicher, in einem anderen Setting, daher wird ihre Einnahme zu häufig berichtet. Teils behebbar: die Antworten mit Apothekendaten abgleichen."
+      },
+      "blinding": {
+       "sound": "Die Daten wurden von Personal erfasst, das nicht wusste, wer ein Fall war."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Bedingte logistische Regression, adjustiert für andere Risikofaktoren.",
+     "facts": {
+      "confounding": {
+       "sound": "Adjustiert für Demenz, Gebrechlichkeit, frühere Stürze und andere sturzfördernde Medikamente, vorab gewählt.",
+       "flaw": "Nur für Alter und Geschlecht adjustiert. Demenz und Gebrechlichkeit, die zu Tabletten wie zu Stürzen führen, werden ignoriert.",
+       "why": "Gebrechliche bekommen mehr Schlaftabletten und stürzen öfter, ein Teil des „Medikamenteneffekts“ kann also Gebrechlichkeit sein. Behebbar, wenn die Daten diese Faktoren enthalten: für sie adjustieren und beide Schätzer zeigen."
+      },
+      "sensitivity": {
+       "sound": "Ähnliche Ergebnisse bei Beschränkung auf Neuanwender und auf Frakturen nach einfachen Stürzen.",
+       "flaw": "„Sensitivitätsanalysen bestätigten die Ergebnisse“, heißt es, ohne zu sagen, welche, oder sie zu zeigen.",
+       "why": "Leserkönnen nicht erkennen, was geprüft wurde und wie gut es übereinstimmte. Minor: jede Sensitivitätsanalyse beschreiben und ihre Ergebnisse zeigen, etwa im Anhang."
+      }
+     }
+    }
+   }
+  },
+  "S4": {
+   "title": "Burnout in der Promotion",
+   "field": "Hochschulforschung",
+   "design": "Querschnittsbefragung",
+   "claim": "Fast die Hälfte der Promovierenden ist ausgebrannt, und schlechte Betreuung ist die Ursache.",
+   "slots": {
+    "question": {
+     "submitted": "Wie verbreitet ist Burnout unter Promovierenden, und womit hängt es zusammen?",
+     "facts": {
+      "hypothesis": {
+       "sound": "Ziele: Prävalenz schätzen und Zusammenhänge beschreiben. Die Schlussfolgerung bleibt deskriptiv.",
+       "flaw": "Das Ziel ist deskriptiv, doch der Abstract folgert, dass schlechte Betreuung Burnout verursacht.",
+       "why": "Eine einmalige Befragung kann nicht zeigen, was zuerst kam, Burnout oder schlechte Betreuung. Minor: die Schlussfolgerung als Zusammenhang formulieren."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Online-Befragung von Promovierenden an vier Universitäten im Frühjahr 2025.",
+     "facts": {
+      "timeline": {
+       "sound": "Befragung drei Wochen im März 2025 offen, abseits der wichtigsten Abgabefristen.",
+       "flaw": "Zeitraum nur als „Frühjahr 2025“ angegeben; wann die Befragung begann und endete und was in diesen Zeitraum fiel, bleibt offen.",
+       "why": "Antworten können sich mit dem akademischen Kalender verschieben (Prüfungen, Lehre, Förderrunden), Leserbrauchen also den genauen Zeitraum. Minor: Beginn und Ende angeben und was in den Zeitraum fiel."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "1.260 Promovierende haben die Befragung abgeschlossen.",
+     "facts": {
+      "recruitment": {
+       "sound": "Alle 2.100 eingeschriebenen Promovierenden per E-Mail eingeladen, mit zwei Erinnerungen.",
+       "flaw": "Der Link kursierte in einem Forum zum Wohlbefinden Promovierender und in sozialen Medien; alle konnten antworten.",
+       "why": "Ob jemand antwortet, hängt davon ab, wie wichtig Burnout für die Person ist; die Prävalenz lässt sich also nicht verallgemeinern. Eine neue, definierte Stichprobe ist nötig."
+      },
+      "flow": {
+       "sound": "Berichtet wird, wie viele die Befragung öffneten, begannen und beendeten, mit dem Schwund bei jedem Schritt."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Burnout mit einem Fragebogen gemessen, ausgewertet anhand eines Schwellenwerts.",
+     "facts": {
+      "instrument": {
+       "sound": "Ein validiertes Burnout-Inventar, ausgewertet mit dem publizierten Schwellenwert des Manuals.",
+       "flaw": "Fünf selbst formulierte Items; „Burnout“ heißt, über dem Skalenmittelpunkt zu liegen; keine Validierung.",
+       "why": "Eine Prävalenz ist nur so gut wie das Instrument und sein Schwellenwert. Nur teils behebbar: Validitätsbelege liefern oder Werte statt einer Prävalenz berichten."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Prävalenz mit 95-%-Konfidenzintervallen; Regression für Zusammenhänge.",
+     "facts": {
+      "missing-data": {
+       "sound": "3 % der Items fehlten, anteilig ersetzt, wie es das Manual der Skala vorsieht.",
+       "flaw": "Die 22 %, die ein Item ausließen, wurden verworfen; am häufigsten ließen jene etwas aus, die lange Arbeitszeiten angaben.",
+       "why": "Wenn die Promovierenden unter dem größten Druck Items ausließen, verzerrt ihr Ausschluss die Prävalenz. Behebbar: multiple Imputation, und Vollständige mit Unvollständigen vergleichen."
+      },
+      "sensitivity": {
+       "sound": "Nach Fakultät und Geschlecht gewichtete Schätzer ergeben dieselbe Prävalenz bis auf 2 Prozentpunkte.",
+       "flaw": "Die Gewichtung nach Fakultät und Geschlecht habe „keinen Unterschied gemacht“, heißt es, doch die gewichteten Schätzer fehlen.",
+       "why": "Lesersehen nicht, wie groß der Unterschied war. Minor: die gewichtete Prävalenz neben der ungewichteten zeigen."
+      }
+     }
+    }
+   }
+  },
+  "S5": {
+   "title": "Moralischer Stress auf der Intensivstation",
+   "field": "Pflege",
+   "design": "Interviewstudie",
+   "claim": "Der moralische Stress von Intensivpflegekräften dreht sich um Personalbesetzung, Angehörige und Entscheidungen am Lebensende.",
+   "slots": {
+    "question": {
+     "submitted": "Wie erleben Intensivpflegekräfte moralischen Stress bei Entscheidungen am Lebensende?",
+     "facts": {
+      "hypothesis": {
+       "sound": "Ein exploratives Ziel, vorab genannt, und keine Hypothese, wie es zu einer Interviewstudie passt."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Halbstrukturierte Interviews mit Intensivpflegekräften an einem Universitätsklinikum.",
+     "facts": {
+      "reflexivity": {
+       "sound": "Interviews durch eine Forscherin aus einem anderen Krankenhaus ohne Funktion gegenüber den Pflegekräften; ihr pflegerischer Hintergrund ist beschrieben.",
+       "flaw": "Jedes Interview führte die Stationsleitung, die auch die Beurteilungen der Pflegekräfte schreibt.",
+       "why": "Pflegekräfte sprechen kaum offen mit der Person, die sie beurteilt; die Daten selbst sind also verzerrt. Neue Interviews sind nötig."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "Vierzehn Pflegekräfte, ausgewählt nach Berufserfahrung und Schichtmodell.",
+     "facts": {
+      "saturation": {
+       "sound": "Interviews, bis drei in Folge keine neuen Codes brachten; die Arbeit zeigt, wie das beurteilt wurde.",
+       "flaw": "Die Datenerhebung endete bei 14, weil das Projekt auslief. Sättigung wird behauptet, aber nicht gezeigt.",
+       "why": "Sättigung heißt, dass neue Daten nichts Neues mehr bringen, nicht, dass die Zeit abgelaufen ist. Behebbar: zeigen, wie Vollständigkeit beurteilt wurde, oder Interviews ergänzen."
+      },
+      "recruitment": {
+       "sound": "Gezielte Auswahl nach Berufsjahren und Schichtmodell; 3 von 17 angesprochenen Pflegekräften lehnten ab.",
+       "flaw": "Gezielte Auswahl wird genannt, aber nicht, wie und von wem die Pflegekräfte angesprochen wurden.",
+       "why": "Leserkönnen nicht beurteilen, ob sich die Pflegekräfte frei fühlten, abzulehnen. Minor: sagen, wer sie eingeladen hat und wie."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Interviews als Audio aufgezeichnet, vollständig transkribiert und kodiert.",
+     "facts": {
+      "coding": {
+       "sound": "Zwei Forschende kodierten unabhängig und klärten Abweichungen gemeinsam; der Codebaum steht im Anhang.",
+       "flaw": "Eine Person kodierte jedes Transkript. Es gibt keinen Codebaum und niemanden, der gegenliest.",
+       "why": "Mit einer kodierenden Person und ohne Audit-Trail kann niemand beurteilen, wie die Codes aus den Daten entstanden. Behebbar: eine zweite kodierende Person, der Codebaum und ein Audit-Trail."
+      },
+      "instrument": {
+       "sound": "Der Interviewleitfaden wurde mit zwei Pflegekräften pilotiert und ist vollständig abgedruckt.",
+       "flaw": "Die Themen des Leitfadens sind aufgelistet, aber Fragen und Nachfragen fehlen, und eine Pilotierung wird nicht erwähnt.",
+       "why": "Lesersehen nicht, was die Pflegekräfte gefragt wurden oder wie die Fragen ihre Antworten rahmten. Minor: den Leitfaden vollständig angeben und sagen, ob er pilotiert wurde."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Eine reflexive thematische Analyse ergab vier Themen.",
+     "facts": {
+      "themes": {
+       "sound": "Die Themen wurden interviewübergreifend aus Codes gebildet und am gesamten Datensatz geprüft.",
+       "flaw": "Die vier Themen sind die vier Überschriften des Interviewleitfadens, obwohl die Arbeit sagt, sie kämen aus den Daten.",
+       "why": "Interviewfragen als Themen fassen den Leitfaden zusammen, nicht die Daten; Braun & Clarke (2006) nennen das eine Falle. Behebbar: die Analyse neu durchführen."
+      }
+     }
+    }
+   }
+  },
+  "S6": {
+   "title": "Ultraschall bei Blinddarmverdacht",
+   "field": "Notfallmedizin",
+   "design": "Diagnostische Genauigkeitsstudie",
+   "claim": "Point-of-Care-Ultraschall durch Notaufnahmeärzte erkennt Appendizitis bei Kindern mit 97 % Sensitivität.",
+   "slots": {
+    "question": {
+     "submitted": "Wie genau erkennt Point-of-Care-Ultraschall durch Notaufnahmeärzte eine Appendizitis bei Kindern?",
+     "facts": {
+      "registration": {
+       "sound": "Vor der Rekrutierung registriert, mit derselben Zielerkrankung, Population und demselben Schwellenwert wie in der Arbeit.",
+       "flaw": "Registriert für Patienten jeden Alters. Die Arbeit berichtet nur Kinder und erwähnt die Erwachsenen nie.",
+       "why": "Eine registrierte Gruppe wegzulassen, kann unpassende Ergebnisse verbergen. Behebbar: die gesamte registrierte Population berichten oder begründen, warum nicht."
+      },
+      "hypothesis": {
+       "sound": "Vorab festgelegter Zielwert: eine Sensitivität von mindestens 90 %.",
+       "flaw": "Das Ziel ist, „die Genauigkeit zu untersuchen“; keine minimal akzeptable Sensitivität wurde vorab festgelegt.",
+       "why": "Ohne Zielwert wird erst im Nachhinein beurteilt, ob 97 % gut genug sind, aber der Schätzer und sein Intervall bleiben gültig. Minor: sagen, dass kein Zielwert festgelegt war, und die untere Konfidenzgrenze an dem messen, was Kliniker brauchen."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Jedes Kind wurde geschallt; die Diagnose wurde mit einem Referenzstandard bestätigt.",
+     "facts": {
+      "reference-standard": {
+       "sound": "Histologie bei Operation, sonst telefonische Nachbeobachtung nach 14 Tagen. Dieselbe Regel für jedes Kind.",
+       "flaw": "Nur Kinder mit positivem Ultraschall wurden operiert und histologisch untersucht. Negative gingen ohne Nachbeobachtung nach Hause.",
+       "why": "Übersehene Fälle unter den Negativen werden nie gefunden, daher wirkt die Sensitivität zu hoch. Nur behebbar, wenn sich die Nachbeobachtung der Negativen noch nachholen lässt."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "Kinder von 4 bis 16 Jahren mit Bauchschmerzen, in zwei Notaufnahmen.",
+     "facts": {
+      "recruitment": {
+       "sound": "Konsekutive Kinder mit Verdacht auf Appendizitis, in jeder Schicht.",
+       "flaw": "Kinder mit chirurgisch bestätigter Appendizitis, verglichen mit gesunden Kindern aus einer Schuluntersuchung.",
+       "why": "Der Vergleich eindeutiger Fälle mit gesunden Kindern lässt die schwierigen, ähnlich aussehenden Fälle weg, daher ist die Genauigkeit überschätzt. Eine neue, klinisch realistische Stichprobe ist nötig."
+      },
+      "flow": {
+       "sound": "Flussdiagramm: 412 kamen infrage, 398 geschallt, 6 ohne Referenzstandard, jeweils begründet.",
+       "flaw": "Kein Flussdiagramm: 398 Kinder wurden geschallt, aber nicht, wie viele infrage kamen oder warum manchen der Referenzstandard fehlt.",
+       "why": "Lesersehen nicht, wer nie geschallt oder nie verifiziert wurde und ob sich diese Kinder unterscheiden. Minor: ein STARD-Flussdiagramm mit dem Grund für jedes verlorene Kind ergänzen."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Jeder Ultraschall wurde als positiv oder negativ für Appendizitis befundet.",
+     "facts": {
+      "blinding": {
+       "sound": "Die Befundenden kannten nur Alter und Symptome des Kindes, nicht die Laborwerte oder die endgültige Diagnose.",
+       "flaw": "Gespeicherte Bilder wurden nach der Operation befundet, von Ärzten, die die Histologie kannten.",
+       "why": "Wer die Antwort kennt, liest das Bild in ihrem Licht, und das überschätzt die Genauigkeit. Behebbar: die gespeicherten Bilder verblindet neu befunden."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Sensitivität und Spezifität mit 95-%-Konfidenzintervallen.",
+     "facts": {
+      "thresholds": {
+       "sound": "Positiv hieß ein Appendix breiter als 6 mm, ein im Protokoll festgelegter Schwellenwert.",
+       "flaw": "Der Schwellenwert von 6 mm wurde nach Sicht der Daten gewählt, als der mit der besten Genauigkeit.",
+       "why": "Ein an denselben Daten optimierter Schwellenwert schönt die Genauigkeit. Behebbar: einen vorab festgelegten Schwellenwert verwenden oder diesen an neuen Daten validieren."
+      },
+      "missing-data": {
+       "sound": "Nicht eindeutige Befunde (9 %) als negativ gewertet, in einer Sensitivitätsanalyse als positiv."
+      }
+     }
+    }
+   }
+  },
+  "S7": {
+   "title": "Achtsamkeits-Apps gegen Angst",
+   "field": "Digitale psychische Gesundheit",
+   "design": "Systematischer Review & Metaanalyse",
+   "claim": "Achtsamkeits-Apps verringern Angst bei Erwachsenen, mit einem moderaten gepoolten Effekt.",
+   "slots": {
+    "question": {
+     "submitted": "Verringern Achtsamkeits-Apps Angst bei Erwachsenen, verglichen mit Kontrollbedingungen?",
+     "facts": {
+      "registration": {
+       "sound": "Vor dem Screening bei PROSPERO registriert; Outcomes und Methoden stimmen mit der Arbeit überein.",
+       "flaw": "PROSPERO nennt Depression als primäres Outcome. Der Review stellt Angst voran und sagt nicht, warum.",
+       "why": "Wer das Hauptoutcome nach Sicht der Ergebnisse wählt, lässt das am besten aussehende gewinnen. Behebbar: das registrierte Outcome zuerst berichten und die Änderung erklären."
+      },
+      "hypothesis": {
+       "sound": "Frage im PICO-Format: Erwachsene, App-basierte Achtsamkeit, beliebige Kontrolle, Angstsymptome."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Systematische Suche nach randomisierten Studien, von zwei Reviewern gescreent.",
+     "facts": {
+      "search": {
+       "sound": "Fünf Datenbanken und zwei Studienregister, ohne Sprachbeschränkung; vollständige Suchstrings im Anhang.",
+       "flaw": "Nur PubMed, nur Englisch, keine Studienregister; der Suchstring wird nicht angegeben.",
+       "why": "Eine einzige Datenbank verfehlt viele Studien, und die verfehlten sind keine Zufallsauswahl. Behebbar: die Suche über mehrere Quellen wiederholen."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "23 randomisierte Studien mit 4.380 Erwachsenen wurden eingeschlossen.",
+     "facts": {
+      "recruitment": {
+       "sound": "Jede randomisierte Studie kam infrage, publiziert oder nicht, auch Registerergebnisse und Abschlussarbeiten.",
+       "flaw": "Nur in Fachzeitschriften publizierte Studien kamen infrage; Registerergebnisse und Abschlussarbeiten wurden ausgeschlossen.",
+       "why": "Unpublizierte Studien finden häufiger keinen Effekt; sie wegzulassen, bläht den gepoolten Effekt auf. Behebbar: die Einschlusskriterien erweitern und nach ihnen suchen."
+      },
+      "flow": {
+       "sound": "PRISMA-Flussdiagramm: 1.204 Treffer, 61 Volltexte, 23 eingeschlossen; jeder Ausschluss ist begründet.",
+       "flaw": "Nur die 23 eingeschlossenen Studien sind aufgelistet: kein Flussdiagramm, keine Zahl gesichteter Treffer, keine Ausschlussgründe.",
+       "why": "Leserkönnen die Auswahl nicht prüfen und keine zu Unrecht ausgelassenen Studien entdecken. Minor: ein PRISMA-Flussdiagramm mit einem Grund für jeden ausgeschlossenen Volltext ergänzen."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Ergebnisse und Studienqualität von zwei Reviewern extrahiert.",
+     "facts": {
+      "risk-of-bias": {
+       "sound": "Zwei Reviewer wandten RoB 2 unabhängig auf jede Studie an; die Urteile werden Domäne für Domäne gezeigt.",
+       "flaw": "Kein Instrument für das Verzerrungsrisiko verwendet; die Studien galten als „hochwertig“, weil sie begutachtet waren.",
+       "why": "Ohne das Verzerrungsrisiko jeder Studie zu bewerten, weiß niemand, ob der Effekt auf schwachen Studien beruht. Behebbar: mit RoB 2 bewerten und eine Sensitivitätsanalyse nach Verzerrungsrisiko rechnen."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Metaanalyse standardisierter Mittelwertdifferenzen im Modell mit zufälligen Effekten.",
+     "facts": {
+      "heterogeneity": {
+       "sound": "I² = 34 %; eine Subgruppenanalyse nach Art der Kontrolle war geplant und wird berichtet.",
+       "flaw": "I² = 89 %, doch ein gepoolter Effekt wird als die Antwort präsentiert, und die Unterschiede werden nicht untersucht.",
+       "why": "Wenn Studien so stark voneinander abweichen, beschreibt ein Mittelwert womöglich keine von ihnen. Behebbar: die Ursachen untersuchen (Subgruppen, Metaregression) und die Zusammenfassung abschwächen."
+      },
+      "reporting-bias": {
+       "sound": "Funnel-Plot und Egger-Test über die 23 Studien zeigen keine klare Asymmetrie.",
+       "flaw": "Funnel-Plot und Egger-Test zeigen keine klare Asymmetrie, also folgert der Review, es gebe „keinen Publikationsbias“.",
+       "why": "Diese Tests können Bias übersehen, und ein symmetrischer Funnel-Plot kann nicht beweisen, dass keine Studien fehlen. Minor: umformulieren zu „kein klarer Hinweis auf Small-Study-Effekte“."
+      }
+     }
+    }
+   }
+  },
+  "S8": {
+   "title": "Wirkstoff für Schlaganfall-Mäuse",
+   "field": "Präklinische Neurowissenschaft",
+   "design": "Tierexperiment",
+   "claim": "Wirkstoff NR-4, nach einem Schlaganfall gegeben, verringert den Hirnschaden bei Mäusen um 40 %.",
+   "slots": {
+    "question": {
+     "submitted": "Verringert Wirkstoff NR-4, nach einem Schlaganfall gegeben, den Hirnschaden bei Mäusen?",
+     "facts": {
+      "registration": {
+       "sound": "Protokoll vorab registriert, mit dem Infarktvolumen nach 72 Stunden als primärem Endpunkt, wie berichtet.",
+       "flaw": "Registriert mit einem Verhaltensscore nach 24 Stunden als primärem Endpunkt. Die Arbeit berichtet das Infarktvolumen und lässt den Verhaltensscore weg.",
+       "why": "Wer den registrierten Endpunkt weglässt, verbirgt ein womöglich unpassendes Ergebnis. Behebbar: den Verhaltensscore berichten und den Wechsel erklären."
+      },
+      "hypothesis": {
+       "sound": "Hypothese genannt: NR-4 verringert das Infarktvolumen nach 72 Stunden gegenüber dem Vehikel."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Mäuse mit induziertem Schlaganfall erhielten eine Stunde später NR-4 oder Vehikel.",
+     "facts": {
+      "allocation": {
+       "sound": "Computererzeugte Zufallsliste, verwahrt von einer Kollegin, die nicht operierte.",
+       "flaw": "Die ersten Mäuse, die aus jedem Käfig geholt wurden, bekamen NR-4; der Rest bekam Vehikel.",
+       "why": "Die zuerst gefangenen Mäuse können sich unterscheiden (ruhiger, langsamer, kleiner), die Gruppen also schon vor der Behandlung. Das Experiment muss mit zufälliger Zuteilung wiederholt werden."
+      },
+      "intervention": {
+       "sound": "Dosis, Applikationsweg, Zeitpunkt, Vehikel und Narkose beschrieben; das Vehikel sah identisch aus.",
+       "flaw": "Dosis und Zeitpunkt sind angegeben; Applikationsweg, Vehikel und Narkose werden nicht beschrieben.",
+       "why": "Niemand kann prüfen, ob beide Gruppen gleich behandelt wurden, und niemand kann das Experiment genau wiederholen. Minor: Applikationsweg, Vehikel und Narkose berichten, wie ARRIVE-Item 9 es verlangt."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "Zwölf Mäuse pro Gruppe, wie geplant.",
+     "facts": {
+      "flow": {
+       "sound": "Alle 24 Mäuse ausgewertet; keine Todesfälle und keine Ausschlüsse.",
+       "flaw": "Fünf NR-4-Mäuse starben oder wurden ausgeschlossen; sie wurden ersetzt und nicht erwähnt.",
+       "why": "Gestorbene Tiere zu ersetzen, verbirgt Schaden und kann nur die Mäuse übrig lassen, die ansprachen. Behebbar: jedes Tier berichten und mit den Verlusten auswerten."
+      },
+      "sample-size": {
+       "sound": "Fallzahlplanung aus Pilotdaten: 12 pro Gruppe, um eine Verringerung um 30 % zu erkennen.",
+       "flaw": "Zwölf pro Gruppe, „wie im Feld üblich“; keine Fallzahlplanung berichtet.",
+       "why": "Kleine Studien, die Signifikanz erreichen, überschätzen meist den Effekt, und niemand sieht, was diese erkennen sollte. Minor: sagen, wie 12 gewählt wurde, und die 40 % mit 95-%-Konfidenzintervall angeben."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Infarktvolumen nach 72 Stunden an gefärbten Hirnschnitten gemessen.",
+     "facts": {
+      "blinding": {
+       "sound": "Die Schnitte waren kodiert; die messende Person kannte die Gruppen nicht.",
+       "flaw": "Wer die Mäuse behandelte, vermaß auch die Schnitte und kannte jede Gruppe.",
+       "why": "Infarktränder nachzuzeichnen verlangt ein Urteil, das Erwartungen beeinflussen können. Hier behebbar, anders als bei einem Test am lebenden Tier: Die Schnitte lassen sich verblindet neu vermessen."
+      },
+      "instrument": {
+       "sound": "Infarktvolumen in den Methoden definiert und für die Hirnschwellung korrigiert."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Gruppen mit einem t-Test verglichen; p < 0,001.",
+     "facts": {
+      "analysis-set": {
+       "sound": "Jede Maus einmal gezählt, ihre Schnitte gemittelt: 12 pro Gruppe.",
+       "flaw": "Jeder Hirnschnitt zählte als eigene Beobachtung: 120 Schnitte statt 24 Mäuse.",
+       "why": "Schnitte derselben Maus sind nicht unabhängig, daher ist der p-Wert viel zu klein. Behebbar: mit der Maus als Einheit neu auswerten."
+      }
+     }
+    }
+   }
+  }
+ }
+}

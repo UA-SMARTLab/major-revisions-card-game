@@ -188,6 +188,8 @@ requests tied to reporting-guideline items, and a scored editorial verdict. Fere
    card says 226 analysed, the analysis cards imply all 240 with imputation), and should be checked study by study.
 4. **More studies**: a cluster or stepped-wedge trial, a prediction model (TRIPOD+AI), an economic evaluation
    (CHEERS 2022), a quality-improvement study (SQUIRE 2.0). Item numbers must be checked against each checklist.
-5. **Translations** (fr, nl, de, ar) through the kit's i18n, with a GLOSSARY.md per language and an independent
-   review, as in Methodical.
+5. **Translations**: done for fr, nl, de and ar (2026-10-31), each with a GLOSSARY.md and an independent review.
+   Open: the questions for native methodologists at the end of each glossary; the English "sequence in random
+   blocks" (S1) is ambiguous (random block sizes or permuted blocks) and the severity badge "Flaw · reject" mixes a
+   verb with adjectives, so translators had to guess.
 6. A shared online version (as Methodical's private playable copy) once the IP question allows it.

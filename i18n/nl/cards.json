@@ -1,0 +1,886 @@
+{
+ "meta": {
+  "tagline": "Een deductiekaartspel voor wetenschappers: vind de fout die in het manuscript verstopt zit, voordat je reviewrondes op zijn.",
+  "slots": {
+   "question": {
+    "name": "Vraag",
+    "ask": "Wat de studie wilde beantwoorden, en wat er gepland was."
+   },
+   "method": {
+    "name": "Methode",
+    "ask": "Hoe de studie opgezet en uitgevoerd werd."
+   },
+   "sample": {
+    "name": "Steekproef",
+    "ask": "Wie of wat onderzocht werd, en wie uitviel."
+   },
+   "measurement": {
+    "name": "Meting",
+    "ask": "Hoe uitkomsten en blootstellingen gemeten werden."
+   },
+   "analysis": {
+    "name": "Analyse",
+    "ask": "Hoe de data geanalyseerd werden en tot een conclusie leidden."
+   }
+  },
+  "verdicts": {
+   "accept": {
+    "name": "Accepteren",
+    "short": "Steekhoudend zoals het is. Publiceren.",
+    "when": "Geen fout: elk verzoek kreeg een goed antwoord."
+   },
+   "minor": {
+    "name": "Kleine revisie",
+    "short": "Een gat in de rapportage of de formulering. De conclusie blijft staan.",
+    "when": "Op te lossen met duidelijkere rapportage of voorzichtiger beweringen; geen nieuwe analyse."
+   },
+   "major": {
+    "name": "Grote revisie",
+    "short": "Een echt probleem dat de auteurs nog kunnen oplossen.",
+    "when": "Op te lossen met nieuwe analyses, data die de auteurs al hebben, of door een stap over te doen."
+   },
+   "reject": {
+    "name": "Afwijzen",
+    "short": "Een fatale fout. Alleen een nieuwe studie kan de vraag beantwoorden.",
+    "when": "De data zelf zijn aangetast; geen heranalyse kan ze redden."
+   }
+  }
+ },
+ "requests": {
+  "registration": {
+   "name": "Registratie",
+   "ask": "Toon de registratie of het protocol: wat was gepland, en wanneer werd het geregistreerd?"
+  },
+  "hypothesis": {
+   "name": "Vooraf vastgelegde doelen",
+   "ask": "Geef de doelen of hypothesen zoals ze vastlagen voordat de data binnenkwamen."
+  },
+  "allocation": {
+   "name": "Randomisatie",
+   "ask": "Hoe werd de randomisatievolgorde gemaakt, en wie kon ze zien vóór elke toewijzing?"
+  },
+  "intervention": {
+   "name": "Beschrijving interventie",
+   "ask": "Beschrijf de interventie en de vergelijking zo dat iemand ze kan herhalen."
+  },
+  "timeline": {
+   "name": "Plaats en tijd",
+   "ask": "Wanneer en waar werden blootstellingen, uitkomsten en follow-up gemeten?"
+  },
+  "search": {
+   "name": "Zoekstrategie",
+   "ask": "Noem elke bron die je doorzocht, en geef de volledige zoekstrings."
+  },
+  "reflexivity": {
+   "name": "Reflexiviteit",
+   "ask": "Wie verzamelde de data, en wat was hun relatie met de deelnemers?"
+  },
+  "reference-standard": {
+   "name": "Referentiestandaard",
+   "ask": "Welke test besliste wie de aandoening echt had, en kreeg iedereen die test?"
+  },
+  "recruitment": {
+   "name": "Werving",
+   "ask": "Wie kwam in aanmerking, en hoe werden deelnemers gevonden en geselecteerd?"
+  },
+  "flow": {
+   "name": "Flowdiagram",
+   "ask": "Hoeveel kwamen in aanmerking, werden ingesloten, vielen uit en werden geanalyseerd, en waarom viel iemand uit?"
+  },
+  "sample-size": {
+   "name": "Steekproefgrootte",
+   "ask": "Hoe werd het aantal deelnemers bepaald?"
+  },
+  "saturation": {
+   "name": "Datasaturatie",
+   "ask": "Wanneer stopte je met data verzamelen, en hoe oordeelde je dat het genoeg was?"
+  },
+  "blinding": {
+   "name": "Blindering",
+   "ask": "Wie kende de groepen, of de andere testresultaten, toen de uitkomsten beoordeeld werden?"
+  },
+  "instrument": {
+   "name": "Meetinstrumenten",
+   "ask": "Hoe werd elke uitkomst en blootstelling precies gemeten, en is de maat valide?"
+  },
+  "coding": {
+   "name": "Codeboom",
+   "ask": "Hoeveel mensen codeerden de data, en hoe ziet de codeboom eruit?"
+  },
+  "risk-of-bias": {
+   "name": "Beoordeling risico op bias",
+   "ask": "Hoe werd het risico op bias van elke ingesloten studie beoordeeld, en door wie?"
+  },
+  "missing-data": {
+   "name": "Ontbrekende data",
+   "ask": "Hoeveel data ontbraken er, en hoe werd daarmee omgegaan?"
+  },
+  "sensitivity": {
+   "name": "Sensitiviteitsanalyse",
+   "ask": "Blijven de resultaten overeind bij andere redelijke analysekeuzes?"
+  },
+  "confounding": {
+   "name": "Correctie voor confounders",
+   "ask": "Voor welke confounders werd gecorrigeerd, en waarom voor die?"
+  },
+  "analysis-set": {
+   "name": "Analysepopulatie",
+   "ask": "Wie of wat werd in elke analyse meegeteld, en in welke groep?"
+  },
+  "themes": {
+   "name": "Herkomst van thema's",
+   "ask": "Lagen de thema's vooraf vast, of kwamen ze uit de data?"
+  },
+  "thresholds": {
+   "name": "Afkappunten",
+   "ask": "Lag het afkappunt voor een positieve test vast vóór de data, of werd het achteraf gekozen?"
+  },
+  "heterogeneity": {
+   "name": "Heterogeniteit",
+   "ask": "Hoeveel verschilden de resultaten van de studies, en werd dat onderzocht?"
+  },
+  "reporting-bias": {
+   "name": "Rapportagebias",
+   "ask": "Kunnen ontbrekende studies of ontbrekende resultaten de gepoolde schatting vertekend hebben?"
+  }
+ },
+ "flaws": {
+  "switched-registration": {
+   "name": "Gewijzigd na registratie",
+   "short": "Wat het artikel rapporteert is niet wat geregistreerd werd, en de wijziging wordt niet uitgelegd."
+  },
+  "harking": {
+   "name": "HARKing",
+   "short": "Een hypothese die na de resultaten geschreven is, gepresenteerd alsof ze eerst kwam."
+  },
+  "p-hacking": {
+   "name": "p-hacking",
+   "short": "Veel analyses geprobeerd, en alleen die met een significant resultaat gerapporteerd."
+  },
+  "overclaiming": {
+   "name": "Overdreven conclusie",
+   "short": "De conclusie beweert meer dan het design kan aantonen."
+  },
+  "predictable-allocation": {
+   "name": "Voorspelbare toewijzing",
+   "short": "Wie deelnemers insluit, kan de volgende toewijzing voorzien of sturen."
+  },
+  "reverse-timing": {
+   "name": "Blootstelling na uitkomst",
+   "short": "De 'oorzaak' werd gemeten of geteld nadat de uitkomst al begonnen was."
+  },
+  "insider-interviewer": {
+   "name": "Interviewer met macht",
+   "short": "Wie de data verzamelt, heeft macht over de deelnemers."
+  },
+  "verification-bias": {
+   "name": "Partiële verificatie",
+   "short": "Alleen een deel van de deelnemers kreeg de referentiestandaard, gekozen op hun testuitslag."
+  },
+  "narrow-search": {
+   "name": "Te smalle zoekactie",
+   "short": "Te weinig bronnen doorzocht, waardoor relevante studies gemist worden."
+  },
+  "hand-picked": {
+   "name": "Uitgekozen deelnemers",
+   "short": "Medewerkers kozen wie meedeed op ongeschreven criteria, dus de resultaten gelden misschien niet breder."
+  },
+  "attrition": {
+   "name": "Selectieve uitval",
+   "short": "Wie uitviel, verschilt van wie bleef, op punten die ertoe doen."
+  },
+  "control-selection": {
+   "name": "Ongeschikte controles",
+   "short": "De controles komen niet uit de populatie waaruit de cases voortkwamen."
+  },
+  "volunteer-sample": {
+   "name": "Zelfselectie",
+   "short": "Wie wilde, antwoordde, dus de steekproef kan de populatie niet vertegenwoordigen."
+  },
+  "early-saturation": {
+   "name": "Saturatie niet bereikt",
+   "short": "De dataverzameling stopte om praktische redenen, toch wordt saturatie geclaimd."
+  },
+  "spectrum-bias": {
+   "name": "Spectrumbias",
+   "short": "Duidelijke gevallen vergeleken met gezonde mensen; de moeilijke gevallen vallen weg."
+  },
+  "publication-bias": {
+   "name": "Ongepubliceerde studies weggelaten",
+   "short": "Alleen gepubliceerde studies tellen, en die neigen naar positieve resultaten."
+  },
+  "unreported-exclusions": {
+   "name": "Verzwegen exclusies",
+   "short": "Dieren of deelnemers zonder een woord uit de analyse gehaald."
+  },
+  "unblinded-assessors": {
+   "name": "Niet-geblindeerde beoordelaars",
+   "short": "Wie de uitkomst beoordeelde, wist wie wat kreeg."
+  },
+  "recall-bias": {
+   "name": "Recall bias",
+   "short": "Cases en controles herinneren zich vroegere blootstellingen verschillend."
+  },
+  "unvalidated-measure": {
+   "name": "Ongevalideerde maat",
+   "short": "Een zelfgemaakte maat zonder bewijs dat ze meet wat ze beweert te meten."
+  },
+  "single-coder": {
+   "name": "Eén codeur, geen audit trail",
+   "short": "Eén persoon codeerde alles, en niemand kan volgen hoe."
+  },
+  "review-bias": {
+   "name": "Test niet blind beoordeeld",
+   "short": "De test werd beoordeeld door iemand die het juiste antwoord al kende."
+  },
+  "no-risk-of-bias": {
+   "name": "Risico op bias niet beoordeeld",
+   "short": "De ingesloten studies werden nooit op bias beoordeeld."
+  },
+  "per-protocol": {
+   "name": "Alleen per protocol",
+   "short": "Alleen deelnemers die zich aan het plan hielden, werden geanalyseerd."
+  },
+  "confounding": {
+   "name": "Ongecorrigeerde confounding",
+   "short": "Een factor achter zowel blootstelling als uitkomst werd niet gecorrigeerd."
+  },
+  "missing-data": {
+   "name": "Ontbrekende data genegeerd",
+   "short": "Onvolledige dossiers weggelaten, hoewel niet toevallig is wie ontbreekt."
+  },
+  "themes-from-guide": {
+   "name": "Thema's = interviewvragen",
+   "short": "De 'thema's' zijn de kopjes van de interviewleidraad."
+  },
+  "data-driven-cutoff": {
+   "name": "Datagedreven afkappunt",
+   "short": "Het afkappunt werd afgesteld op dezelfde data waarmee de accuratesse beoordeeld werd."
+  },
+  "unexplored-heterogeneity": {
+   "name": "Niet-onderzochte heterogeniteit",
+   "short": "De studies verschillen sterk, toch wordt één gepoold getal als het antwoord gepresenteerd."
+  },
+  "pseudoreplication": {
+   "name": "Pseudoreplicatie",
+   "short": "Herhaalde metingen van één eenheid geteld als onafhankelijke eenheden."
+  },
+  "missing-detail": {
+   "name": "Te weinig detail",
+   "short": "Een stap is zo vaag gerapporteerd dat lezers hem niet kunnen beoordelen of herhalen."
+  },
+  "undescribed-intervention": {
+   "name": "Interventie niet beschreven",
+   "short": "De interventie is niet goed genoeg beschreven om ze te herhalen."
+  },
+  "no-target": {
+   "name": "Geen vooraf gestelde norm",
+   "short": "De accuratesse wordt gerapporteerd zonder vooraf vastgelegd minimum."
+  },
+  "incomplete-flow": {
+   "name": "Flow niet gerapporteerd",
+   "short": "Wie in aanmerking kwam, ingesloten werd, uitviel en geanalyseerd werd, en waarom, is niet volledig gerapporteerd."
+  },
+  "sample-size-unexplained": {
+   "name": "Steekproefgrootte niet onderbouwd",
+   "short": "Niemand zegt hoe het aantal deelnemers bepaald werd."
+  },
+  "unshown-check": {
+   "name": "Checks niet getoond",
+   "short": "Een extra analyse zou overeenkomen met de hoofdanalyse, maar de resultaten ervan worden niet getoond."
+  },
+  "no-interval": {
+   "name": "Geen betrouwbaarheidsinterval",
+   "short": "Een effect krijgt een p-waarde maar geen betrouwbaarheidsinterval, dus de grootte en precisie zijn onduidelijk."
+  }
+ },
+ "guidelines": {
+  "consort": {
+   "for": "Gerandomiseerde trials"
+  },
+  "strobe": {
+   "for": "Cohort-, patiënt-controle- en dwarsdoorsnedeonderzoek"
+  },
+  "prisma": {
+   "for": "Systematische reviews"
+  },
+  "coreq": {
+   "for": "Interview- en focusgroeponderzoek"
+  },
+  "stard": {
+   "for": "Diagnostisch accuratesseonderzoek"
+  },
+  "arrive": {
+   "for": "Dieronderzoek"
+  }
+ },
+ "studies": {
+  "S1": {
+   "title": "Weer op de been",
+   "field": "Kinesitherapie",
+   "design": "Gerandomiseerde trial",
+   "claim": "Een begeleid oefenprogramma van 12 weken verbetert het fysiek functioneren van volwassenen met chronische lagerugpijn.",
+   "slots": {
+    "question": {
+     "submitted": "Verbetert een oefenprogramma van 12 weken het functioneren bij chronische lagerugpijn, vergeleken met gebruikelijke zorg?",
+     "facts": {
+      "registration": {
+       "sound": "Geregistreerd vóór de eerste patiënt, met functioneren na 12 weken als primaire uitkomst, zoals in het artikel.",
+       "flaw": "Geregistreerd met pijn na 12 weken als primaire uitkomst. Het artikel maakt functioneren primair en zegt nooit waarom.",
+       "why": "Wie de primaire uitkomst wisselt na het zien van de data, laat een toevalsbevinding doorgaan voor het hoofdresultaat. Op te lossen: rapporteer de geregistreerde uitkomst als primair en leg de wijziging uit."
+      },
+      "hypothesis": {
+       "sound": "Hypothese vermeld: het programma verbetert de functiescore met minstens 3 punten meer dan gebruikelijke zorg."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Gerandomiseerde trial in vier praktijken; patiënten 1:1 toegewezen aan begeleide oefentherapie of gebruikelijke zorg.",
+     "facts": {
+      "allocation": {
+       "sound": "Computergegenereerde randomisatievolgorde in blokken van wisselende grootte, pas na insluiting vrijgegeven door een centrale webdienst.",
+       "flaw": "Patiënten die op maandag en woensdag kwamen, kregen oefentherapie; patiënten op andere dagen gebruikelijke zorg.",
+       "why": "Medewerkers konden elke toewijzing voorzien en sturen wie op welke dag ingesloten werd, dus de groepen kunnen vanaf het begin verschillen. Geen heranalyse maakt dat ongedaan."
+      },
+      "intervention": {
+       "sound": "Twee begeleide sessies per week gedurende 12 weken; het volledige oefenprotocol staat in een supplement.",
+       "flaw": "Alleen beschreven als 'begeleide oefentherapie, twee keer per week'; oefeningen, intensiteit en opbouw ontbreken.",
+       "why": "Dit gat vertekent de vergelijking niet, maar niemand kan het programma herhalen of aan patiënten aanbieden. Kleine revisie: beschrijf het volledig (TIDieR), bijvoorbeeld in een supplement."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "240 volwassenen met lagerugpijn sinds meer dan 3 maanden, verwezen door hun huisarts.",
+     "facts": {
+      "recruitment": {
+       "sound": "Alle opeenvolgende verwijzingen gescreend op gepubliceerde criteria; 240 van 412 kwamen in aanmerking en stemden in.",
+       "flaw": "Kinesitherapeuten sloten alleen patiënten in die ze 'gemotiveerd om te oefenen' vonden; geen geschreven criteria.",
+       "why": "De randomisatie houdt de groepen toch in evenwicht, dus de vergelijking is eerlijk, maar het resultaat geldt misschien niet voor de doorsneepatiënt. Kleine revisie: meld het en beperk de beweringen."
+      },
+      "flow": {
+       "sound": "Flowdiagram: 412 gescreend, 240 gerandomiseerd, 226 met een score na 12 weken; uitval vergelijkbaar per arm, met redenen.",
+       "flaw": "Geen flowdiagram: 240 werden gerandomiseerd, maar de uitval staat niet per arm of met redenen vermeld.",
+       "why": "Weinigen vielen uit (14 van 240, 6%) en de analyse van ontbrekende data dekt hen, maar lezers moeten zien wie in elke arm uitviel en waarom. Kleine revisie: voeg het CONSORT-flowdiagram toe."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Functioneren gescoord met een standaard prestatietest na 12 weken.",
+     "facts": {
+      "blinding": {
+       "sound": "Tests gescoord door beoordelaars uit een andere praktijk, die niemands groep kenden.",
+       "flaw": "De eigen kinesitherapeut van elke patiënt scoorde de test, en wist wie het oefenprogramma kreeg.",
+       "why": "Beoordelaars die de groepen kennen, zien vaak het effect dat ze verwachten. Een prestatietest na 12 weken kan achteraf niet blind herhaald worden, dus het hoofdresultaat is niet te redden."
+      },
+      "instrument": {
+       "sound": "De prestatietest heeft gepubliceerde betrouwbaarheid en validiteit bij lagerugpijn."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Groepen vergeleken met een lineair model, gecorrigeerd voor functioneren bij aanvang.",
+     "facts": {
+      "missing-data": {
+       "sound": "6% van de uitkomsten ontbrak, aangepakt met multipele imputatie; de complete-caseresultaten komen overeen."
+      },
+      "analysis-set": {
+       "sound": "Elke gerandomiseerde patiënt geanalyseerd in de groep waaraan die toegewezen was.",
+       "flaw": "Alleen patiënten die minstens 80% van de sessies bijwoonden, werden geanalyseerd: 61 van 120 in de oefenarm.",
+       "why": "Niet-therapietrouwe patiënten uit de analyse weglaten, doorbreekt de randomisatie: wie blijft oefenen, verschilt van wie stopt. Op te lossen: heranalyseer iedereen zoals gerandomiseerd (intention-to-treat)."
+      }
+     }
+    }
+   }
+  },
+  "S2": {
+   "title": "Nachtelijk scrollen",
+   "field": "Jongerengezondheid",
+   "design": "Cohortonderzoek",
+   "claim": "Intensief gebruik van sociale media op 13 jaar voorspelt slaapproblemen op 15 jaar.",
+   "slots": {
+    "question": {
+     "submitted": "Voorspelt intensief gebruik van sociale media op 13 jaar slaapproblemen op 15 jaar?",
+     "facts": {
+      "hypothesis": {
+       "sound": "Hypothese uit het gefinancierde projectvoorstel, met verwijzing: meer dagelijks gebruik, meer slaapproblemen op 15, bij meisjes en jongens evenzeer.",
+       "flaw": "De inleiding voorspelt een effect bij meisjes alleen. Het voorstel voorspelde het voor iedereen; alleen bij meisjes werd het gezien.",
+       "why": "Een hypothese die na de resultaten geschreven is, laat een toevallige subgroepbevinding eruitzien als een bevestigde voorspelling. Op te lossen: herstel de oorspronkelijke hypothese en noem het resultaat bij meisjes exploratief."
+      },
+      "registration": {
+       "sound": "Niet gepreregistreerd; de auteurs zeggen dat duidelijk bij de beperkingen."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Prospectief cohort via scholen, met vragenlijsten op 13 en 15 jaar.",
+     "facts": {
+      "timeline": {
+       "sound": "Gebruik gemeten op 13 en slaap op 15, twee jaar uit elkaar, op hetzelfde moment van het schooljaar.",
+       "flaw": "Beide werden op 15 bevraagd: leerlingen moesten zich herinneren hoeveel ze twee jaar eerder sociale media gebruikten.",
+       "why": "Het gebruik op 13 wordt herinnerd nadat de slaapproblemen begonnen, dus de volgorde die er een voorspelling van maakte, is weg. Alleen data verzameld op 13 kunnen dit oplossen."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "3.000 leerlingen uit 40 scholen ingesloten op 13; 2.310 gevolgd tot 15.",
+     "facts": {
+      "flow": {
+       "sound": "Uitval getoond per school en reden; uitvallers en blijvers hadden op 13 vergelijkbaar gebruik en vergelijkbare slaap.",
+       "flaw": "Intensieve gebruikers vielen twee keer zo vaak uit voor hun 15de; uitvallers en blijvers worden nooit vergeleken.",
+       "why": "Als de intensieve gebruikers die uitvielen anders sliepen, is de schatting vertekend. Op te lossen: vergelijk uitvallers met blijvers en corrigeer met weging of imputatie."
+      },
+      "sample-size": {
+       "sound": "Grootte bepaald door het moedercohort; het artikel rapporteert welke precisie dat de hoofdschatting geeft.",
+       "flaw": "Het artikel zegt niet hoe de cohortgrootte bepaald werd, of welke precisie ze de hoofdschatting geeft.",
+       "why": "Het moedercohort legde de grootte vast, dus de data blijven staan; lezers hebben alleen die zin en het betrouwbaarheidsinterval van de schatting nodig. Kleine revisie: leg uit hoe de grootte bepaald werd."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Slaapproblemen op 15 gemeten met een vragenlijst.",
+     "facts": {
+      "instrument": {
+       "sound": "Een gevalideerde slaapvragenlijst voor adolescenten, plus een week actigrafie aan de pols in een substeekproef.",
+       "flaw": "Eén ja/nee-vraag geschreven voor deze studie, 'Slaap je vaak slecht?', zonder validatie.",
+       "why": "Eén zelfgemaakte ja/nee-vraag kan niet aantonen dat ze slaapproblemen meet. Deels op te lossen: gebruik de uitgebreidere slaapmaten van het cohort, of valideer de vraag in een substeekproef, en zwak de beweringen af."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Logistische regressie van slaapproblemen op uren gebruik, gecorrigeerd voor confounders.",
+     "facts": {
+      "sensitivity": {
+       "sound": "De resultaten houden stand met gebruik in uren per dag en met afkappunten op 2, 3 en 4 uur.",
+       "flaw": "Gebruik werd op 3 uur gesplitst na afkappunten van 1 tot 5 te proberen; alleen het afkappunt met p < 0,05 wordt gerapporteerd.",
+       "why": "Veel afkappunten proberen en het werkende rapporteren, doet het aantal fout-positieven stijgen. Op te lossen: analyseer uren als continue maat, of toon elk afkappunt."
+      },
+      "confounding": {
+       "sound": "Gecorrigeerd voor slaap, stemming en gezinsinkomen op 13, vooraf gekozen uit een causaal diagram.",
+       "flaw": "Gecorrigeerd voor slaap, stemming en inkomen op 13, maar alleen de gecorrigeerde oddsratio en een p-waarde worden gegeven.",
+       "why": "Een p-waarde zegt niets over hoe groot of hoe precies het effect is, en zonder de ongecorrigeerde schatting zien lezers niet wat de correctie veranderde. Kleine revisie: rapporteer beide, met 95%-betrouwbaarheidsintervallen."
+      }
+     }
+    }
+   }
+  },
+  "S3": {
+   "title": "Slaappillen en heupfractuur",
+   "field": "Farmaco-epidemiologie",
+   "design": "Patiënt-controleonderzoek",
+   "claim": "Benzodiazepinegebruik verdubbelt het risico op heupfractuur bij mensen ouder dan 70.",
+   "slots": {
+    "question": {
+     "submitted": "Verhoogt benzodiazepinegebruik het risico op heupfractuur bij mensen ouder dan 70?",
+     "facts": {
+      "hypothesis": {
+       "sound": "Hypothese uit het protocol: benzodiazepinegebruik verhoogt het risico op heupfractuur. Het artikel toetst die ene vraag.",
+       "flaw": "Negen slaapmiddelen werden getoetst. De kop gaat over het ene significante middel, zonder correctie voor negen toetsen.",
+       "why": "Bij negen toetsen is één 'significant' resultaat door toeval alleen al waarschijnlijk. Op te lossen: rapporteer alle negen, corrigeer voor meervoudig toetsen en noem de bevinding over dat ene middel exploratief."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Patiënt-controleonderzoek: 400 cases met heupfractuur en 800 gematchte controles uit twee regio's.",
+     "facts": {
+      "timeline": {
+       "sound": "Geneesmiddelgebruik alleen geteld in het jaar voor de fractuurdatum van elke case, met hetzelfde venster voor de bijbehorende controles.",
+       "flaw": "Gebruik geteld van 6 maanden voor tot 1 maand na de fractuur, wanneer velen in het ziekenhuis met slaappillen starten.",
+       "why": "Pillen die door de fractuur gestart werden, tellen als oorzaak ervan. Op te lossen: herhaal de analyse met alleen gebruik vóór de fractuurdatum."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "Cases uit ziekenhuisopnames; controles gematcht op leeftijd en geslacht.",
+     "facts": {
+      "recruitment": {
+       "sound": "Controles aselect getrokken uit het bevolkingsregister van dezelfde regio's.",
+       "flaw": "De controles waren vrijwilligers, geworven in fitnessclubs voor senioren.",
+       "why": "Leden van een fitnessclub nemen minder slaappillen en vallen minder dan de populatie waaruit de cases kwamen, dus de vergelijking is vanaf het begin vertekend. Nieuwe controles zijn nodig."
+      },
+      "flow": {
+       "sound": "81% van de cases en 76% van de controles deed mee; redenen voor weigering worden gerapporteerd.",
+       "flaw": "Deelname alleen in totaal gegeven ('ongeveer 80%'), niet apart voor cases en controles; geen redenen voor weigering.",
+       "why": "Bias ontstaat als deelname bij cases en controles anders afhangt van pilgebruik; deelname en redenen per groep zijn het eerste wat je nagaat. Kleine revisie: rapporteer ze per groep; hier zijn ze vergelijkbaar (81% en 76%)."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Benzodiazepinegebruik op dezelfde manier vastgesteld bij cases en controles.",
+     "facts": {
+      "instrument": {
+       "sound": "Gebruik gehaald uit afleveringsgegevens van apotheken, voor cases en controles gelijk.",
+       "flaw": "Gebruik herinnerd in interviews: cases op de afdeling, dagen na hun fractuur, controles telefonisch.",
+       "why": "Cases graven dieper in hun geheugen, in een andere setting, dus hun gebruik wordt overgerapporteerd. Deels op te lossen: toets de antwoorden aan apotheekgegevens."
+      },
+      "blinding": {
+       "sound": "Gegevens uit de dossiers gehaald door medewerkers die niet wisten wie een case was."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Conditionele logistische regressie, gecorrigeerd voor andere risicofactoren.",
+     "facts": {
+      "confounding": {
+       "sound": "Gecorrigeerd voor dementie, kwetsbaarheid, eerdere vallen en andere valrisicoverhogende middelen, vooraf gekozen.",
+       "flaw": "Alleen gecorrigeerd voor leeftijd en geslacht. Dementie en kwetsbaarheid, die tot zowel pillen als vallen leiden, worden genegeerd.",
+       "why": "Kwetsbare mensen krijgen meer slaappillen en vallen vaker, dus een deel van het 'geneesmiddeleffect' kan kwetsbaarheid zijn. Op te lossen als de data die factoren bevatten: corrigeer ervoor en toon beide schattingen."
+      },
+      "sensitivity": {
+       "sound": "Vergelijkbare resultaten bij beperking tot nieuwe gebruikers en tot fracturen na een gewone val.",
+       "flaw": "'Sensitiviteitsanalyses bevestigden de resultaten', zegt het artikel, zonder te zeggen welke of ze te tonen.",
+       "why": "Lezers kunnen niet zien wat nagegaan werd, of hoe goed het overeenkwam. Kleine revisie: beschrijf elke sensitiviteitsanalyse en toon de resultaten, bijvoorbeeld in een supplement."
+      }
+     }
+    }
+   }
+  },
+  "S4": {
+   "title": "Burn-out tijdens het doctoraat",
+   "field": "Hoger onderwijs",
+   "design": "Dwarsdoorsnedeonderzoek",
+   "claim": "Bijna de helft van de doctoraatsstudenten heeft een burn-out, en slechte begeleiding is de oorzaak.",
+   "slots": {
+    "question": {
+     "submitted": "Hoe vaak komt burn-out voor bij doctoraatsstudenten, en waarmee hangt het samen?",
+     "facts": {
+      "hypothesis": {
+       "sound": "Doelen: de prevalentie schatten en samenhangen beschrijven. De conclusie blijft beschrijvend.",
+       "flaw": "Het doel is beschrijvend, toch concludeert het abstract dat slechte begeleiding burn-out veroorzaakt.",
+       "why": "Een eenmalige enquête kan niet tonen wat eerst kwam, burn-out of slechte begeleiding. Kleine revisie: herschrijf de conclusie als een samenhang."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Online enquête bij doctoraatsstudenten aan vier universiteiten in het voorjaar van 2025.",
+     "facts": {
+      "timeline": {
+       "sound": "Enquête drie weken open in maart 2025, buiten de belangrijkste indiendeadlines.",
+       "flaw": "Alleen 'voorjaar 2025' vermeld; wanneer de enquête open- en dichtging, en wat er in die periode viel, wordt niet gezegd.",
+       "why": "Antwoorden kunnen meebewegen met de academische kalender (examens, onderwijs, financieringsrondes), dus lezers hebben de exacte periode nodig. Kleine revisie: geef de begin- en einddatum en wat erin viel."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "1.260 doctoraatsstudenten vulden de enquête in.",
+     "facts": {
+      "recruitment": {
+       "sound": "Alle 2.100 ingeschreven doctoraatsstudenten werden per e-mail uitgenodigd, met twee herinneringen.",
+       "flaw": "De link werd gedeeld op een welzijnsforum voor doctoraatsstudenten en op sociale media; iedereen kon antwoorden.",
+       "why": "Of mensen antwoorden, hangt af van hoe belangrijk burn-out voor hen is, dus de prevalentie is niet te generaliseren. Een nieuwe, afgebakende steekproef is nodig."
+      },
+      "flow": {
+       "sound": "Het aantal dat de enquête opende, startte en afrondde wordt gerapporteerd, met de uitval bij elke stap."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Burn-out gemeten met een vragenlijst, gescoord tegen een afkappunt.",
+     "facts": {
+      "instrument": {
+       "sound": "Een gevalideerde burn-outvragenlijst, gescoord met het gepubliceerde afkappunt uit de handleiding.",
+       "flaw": "Vijf items geschreven door de auteurs; 'burn-out' betekent boven het middelpunt scoren; geen validatie.",
+       "why": "Een prevalentie is maar zo goed als de maat en het afkappunt. Slechts deels op te lossen: geef bewijs voor validiteit, of rapporteer scores in plaats van een prevalentie."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Prevalentie met 95%-betrouwbaarheidsintervallen; regressie voor samenhangen.",
+     "facts": {
+      "missing-data": {
+       "sound": "3% van de items ontbrak, naar rato aangevuld zoals de handleiding van de schaal voorschrijft.",
+       "flaw": "De 22% die een item oversloeg, werd weggelaten; overslaan kwam het vaakst voor bij wie lange werkdagen meldde.",
+       "why": "Als de studenten onder de meeste druk items oversloegen, vertekent weglaten de prevalentie. Op te lossen: multipele imputatie, en vergelijk wie afrondde met wie niet afrondde."
+      },
+      "sensitivity": {
+       "sound": "Schattingen gewogen naar faculteit en geslacht geven dezelfde prevalentie, binnen 2 punten.",
+       "flaw": "Weging naar faculteit en geslacht 'maakte geen verschil', zegt het artikel, maar de gewogen schattingen worden niet getoond.",
+       "why": "Lezers kunnen niet zien hoe groot het verschil was. Kleine revisie: toon de gewogen prevalentie naast de ongewogen."
+      }
+     }
+    }
+   }
+  },
+  "S5": {
+   "title": "Morele stress op intensieve zorg",
+   "field": "Verpleegkunde",
+   "design": "Interviewonderzoek",
+   "claim": "De morele stress van verpleegkundigen op intensieve zorg draait om bezetting, families en beslissingen rond het levenseinde.",
+   "slots": {
+    "question": {
+     "submitted": "Hoe ervaren verpleegkundigen op intensieve zorg morele stress rond beslissingen over het levenseinde?",
+     "facts": {
+      "hypothesis": {
+       "sound": "Een verkennend doel, vooraf vermeld, en geen hypothese, zoals past bij een interviewonderzoek."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Semigestructureerde interviews met verpleegkundigen van intensieve zorg in één universitair ziekenhuis.",
+     "facts": {
+      "reflexivity": {
+       "sound": "Interviews door een onderzoeker uit een ander ziekenhuis, zonder rol tegenover de verpleegkundigen; haar achtergrond als verpleegkundige wordt beschreven.",
+       "flaw": "Elk interview werd afgenomen door de hoofdverpleegkundige van de afdeling, die ook de evaluaties van de verpleegkundigen schrijft.",
+       "why": "Verpleegkundigen spreken waarschijnlijk niet vrijuit tegen wie hen evalueert, dus de data zelf zijn aangetast. Nieuwe interviews zijn nodig."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "Veertien verpleegkundigen, gekozen voor spreiding in ervaring en dienstrooster.",
+     "facts": {
+      "saturation": {
+       "sound": "Er werd geïnterviewd tot drie interviews op rij geen nieuwe codes opleverden; het artikel toont hoe dat beoordeeld werd.",
+       "flaw": "De dataverzameling stopte bij 14 omdat het project afliep. Saturatie wordt geclaimd maar niet aangetoond.",
+       "why": "Saturatie betekent dat nieuwe data geen nieuw inzicht meer opleveren, niet dat de tijd op was. Op te lossen: toon hoe volledigheid beoordeeld werd, of voeg interviews toe."
+      },
+      "recruitment": {
+       "sound": "Doelgerichte steekproef naar jaren ervaring en dienstrooster; 3 van de 17 benaderde verpleegkundigen weigerden.",
+       "flaw": "Er staat dat de steekproef doelgericht was, maar niet hoe de verpleegkundigen benaderd werden, of door wie.",
+       "why": "Lezers kunnen niet beoordelen of de verpleegkundigen zich vrij voelden om nee te zeggen. Kleine revisie: zeg wie de verpleegkundigen uitnodigde, en hoe."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Interviews met audio opgenomen, volledig getranscribeerd en gecodeerd.",
+     "facts": {
+      "coding": {
+       "sound": "Twee onderzoekers codeerden onafhankelijk en overlegden om verschillen op te lossen; de codeboom staat in een supplement.",
+       "flaw": "Eén onderzoeker codeerde elk transcript. Er is geen codeboom en geen tweede lezer.",
+       "why": "Met één codeur en zonder audit trail kunnen lezers niet beoordelen hoe de codes uit de data voortkwamen. Op te lossen: een tweede codeur, de codeboom en een audit trail."
+      },
+      "instrument": {
+       "sound": "De interviewleidraad werd met twee verpleegkundigen uitgetest en staat er volledig in.",
+       "flaw": "De onderwerpen van de leidraad worden opgesomd, maar de vragen en doorvragen niet, en een test vooraf wordt niet vermeld.",
+       "why": "Lezers zien niet wat de verpleegkundigen gevraagd werd, of hoe de vragen hun antwoorden kleurden. Kleine revisie: geef de volledige leidraad en zeg of ze vooraf getest werd."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Reflexieve thematische analyse leverde vier thema's op.",
+     "facts": {
+      "themes": {
+       "sound": "De thema's werden opgebouwd uit codes over interviews heen en getoetst aan de volledige dataset.",
+       "flaw": "De vier thema's zijn de vier kopjes van de interviewleidraad, hoewel het artikel zegt dat ze uit de data kwamen.",
+       "why": "Wie de interviewvragen als thema's gebruikt, vat de leidraad samen, niet de data; Braun & Clarke (2006) noemen het een valkuil. Op te lossen: doe de analyse opnieuw."
+      }
+     }
+    }
+   }
+  },
+  "S6": {
+   "title": "Een echo voor appendicitis",
+   "field": "Spoedgeneeskunde",
+   "design": "Diagnostisch accuratesseonderzoek",
+   "claim": "Echografie aan het bed door spoedartsen spoort appendicitis bij kinderen op met een sensitiviteit van 97%.",
+   "slots": {
+    "question": {
+     "submitted": "Hoe accuraat is echografie aan het bed door spoedartsen voor appendicitis bij kinderen?",
+     "facts": {
+      "registration": {
+       "sound": "Geregistreerd vóór de werving, met dezelfde doelaandoening, populatie en hetzelfde afkappunt als in het artikel.",
+       "flaw": "Geregistreerd voor patiënten van alle leeftijden. Het artikel rapporteert alleen kinderen en vermeldt de volwassenen nooit.",
+       "why": "Een geregistreerde groep weglaten kan resultaten verbergen die niet uitkwamen. Op te lossen: rapporteer de hele geregistreerde populatie, of leg uit waarom niet."
+      },
+      "hypothesis": {
+       "sound": "Vooraf vastgelegde norm: een sensitiviteit van minstens 90%.",
+       "flaw": "Het doel is 'de accuratesse beoordelen'; er werd vooraf geen minimaal aanvaardbare sensitiviteit vastgelegd.",
+       "why": "Zonder norm wordt achteraf beslist of 97% goed genoeg is, maar de schatting en het interval blijven staan. Kleine revisie: vermeld dat er geen norm was, en toets de ondergrens van het betrouwbaarheidsinterval aan wat clinici nodig hebben."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Elk kind kreeg een echo; de diagnose werd bevestigd met een referentiestandaard.",
+     "facts": {
+      "reference-standard": {
+       "sound": "Histologie bij een operatie; anders telefonische follow-up na 14 dagen. Dezelfde regel voor elk kind.",
+       "flaw": "Alleen kinderen met een positieve echo kregen een operatie en histologie. Negatieven gingen naar huis zonder follow-up.",
+       "why": "Gemiste gevallen onder de negatieven komen nooit aan het licht, dus de sensitiviteit lijkt te hoog. Alleen op te lossen als er nog follow-up voor de negatieven te verkrijgen is."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "Kinderen van 4 tot 16 jaar met buikpijn, op twee spoedeisende hulpen.",
+     "facts": {
+      "recruitment": {
+       "sound": "Opeenvolgende kinderen met vermoedelijke appendicitis, tijdens elke dienst.",
+       "flaw": "Kinderen met chirurgisch bevestigde appendicitis, vergeleken met gezonde kinderen van een schoolonderzoek.",
+       "why": "Duidelijke gevallen vergelijken met gezonde kinderen laat de moeilijke, gelijkende gevallen weg, dus de accuratesse wordt opgeblazen. Een nieuwe, klinisch realistische steekproef is nodig."
+      },
+      "flow": {
+       "sound": "Flowdiagram: 412 kwamen in aanmerking, 398 kregen een echo, 6 zonder referentiestandaard, elk verklaard.",
+       "flaw": "Geen flowdiagram: 398 kinderen kregen een echo, maar niet hoeveel er in aanmerking kwamen, of waarom sommigen geen referentiestandaard hebben.",
+       "why": "Lezers zien niet wie nooit een echo kreeg of nooit geverifieerd werd, of die kinderen verschillen. Kleine revisie: voeg een STARD-flowdiagram toe met de reden voor elk uitgevallen kind."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Elke echo beoordeeld als positief of negatief voor appendicitis.",
+     "facts": {
+      "blinding": {
+       "sound": "De beoordelaars kenden alleen leeftijd en symptomen van het kind, niet de labresultaten of de einddiagnose.",
+       "flaw": "Opgeslagen echo's werden na de operatie beoordeeld, door artsen die de histologie al kenden.",
+       "why": "Wie het antwoord kent, leest de echo in dat licht, en dat blaast de accuratesse op. Op te lossen: beoordeel de opgeslagen echo's opnieuw, blind."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Sensitiviteit en specificiteit met 95%-betrouwbaarheidsintervallen.",
+     "facts": {
+      "thresholds": {
+       "sound": "Positief betekende een appendix breder dan 6 mm, een afkappunt vastgelegd in het protocol.",
+       "flaw": "Het afkappunt van 6 mm werd na de data gekozen, als het afkappunt met de beste accuratesse.",
+       "why": "Een afkappunt afgesteld op dezelfde data flatteert de accuratesse. Op te lossen: gebruik een vooraf vastgelegd afkappunt, of valideer dit in nieuwe data."
+      },
+      "missing-data": {
+       "sound": "Inconclusieve echo's (9%) als negatief geteld, en als positief in een sensitiviteitsanalyse."
+      }
+     }
+    }
+   }
+  },
+  "S7": {
+   "title": "Mindfulnessapps tegen angst",
+   "field": "Digitale geestelijke gezondheid",
+   "design": "Systematische review en meta-analyse",
+   "claim": "Mindfulnessapps verminderen angst bij volwassenen, met een matig gepoold effect.",
+   "slots": {
+    "question": {
+     "submitted": "Verminderen mindfulnessapps angst bij volwassenen, vergeleken met controlecondities?",
+     "facts": {
+      "registration": {
+       "sound": "Geregistreerd in PROSPERO vóór de screening; uitkomsten en methoden komen overeen met het artikel.",
+       "flaw": "PROSPERO vermeldt depressie als primaire uitkomst. De review zet angst voorop en zegt niet waarom.",
+       "why": "Wie de hoofduitkomst kiest na het zien van de resultaten, laat de mooiste winnen. Op te lossen: rapporteer eerst de geregistreerde uitkomst en leg de wijziging uit."
+      },
+      "hypothesis": {
+       "sound": "Vraag in PICO-vorm: volwassenen, mindfulness via een app, elke controle, angstsymptomen."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Systematische zoekactie naar gerandomiseerde trials, gescreend door twee reviewers.",
+     "facts": {
+      "search": {
+       "sound": "Vijf databases en twee trialregisters, zonder taalbeperking; volledige zoekstrings in een supplement.",
+       "flaw": "Alleen PubMed, alleen Engels, geen trialregisters; de zoekstring wordt niet gegeven.",
+       "why": "Eén database mist veel trials, en de gemiste trials zijn geen toevallige selectie. Op te lossen: doe de zoekactie opnieuw in meerdere bronnen."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "23 gerandomiseerde trials met 4.380 volwassenen werden ingesloten.",
+     "facts": {
+      "recruitment": {
+       "sound": "Elke gerandomiseerde trial kwam in aanmerking, gepubliceerd of niet, ook resultaten uit registers en scripties.",
+       "flaw": "Alleen in tijdschriften gepubliceerde trials kwamen in aanmerking; resultaten uit registers en scripties werden uitgesloten.",
+       "why": "Ongepubliceerde trials vinden vaker geen effect, dus wie ze weglaat, blaast het gepoolde effect op. Op te lossen: verruim de inclusiecriteria en zoek ernaar."
+      },
+      "flow": {
+       "sound": "PRISMA-flowdiagram: 1.204 records, 61 volledige teksten, 23 ingesloten; elke exclusie heeft een reden.",
+       "flaw": "Alleen de 23 ingesloten trials worden opgesomd: geen flowdiagram, geen aantal gescreende records, geen redenen voor exclusie.",
+       "why": "Lezers kunnen de selectie niet nagaan of ten onrechte weggelaten trials opmerken. Kleine revisie: voeg een PRISMA-flowdiagram toe met een reden voor elke uitgesloten volledige tekst."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Resultaten en studiekwaliteit geëxtraheerd door twee reviewers.",
+     "facts": {
+      "risk-of-bias": {
+       "sound": "Twee reviewers pasten RoB 2 onafhankelijk toe op elke trial; de oordelen worden per domein getoond.",
+       "flaw": "Er werd geen instrument voor risico op bias gebruikt; trials heetten 'van hoge kwaliteit' omdat ze peer-reviewed waren.",
+       "why": "Zonder de bias van elke trial te beoordelen, kan niemand zeggen of het effect op zwakke trials rust. Op te lossen: beoordeel met RoB 2 en doe een sensitiviteitsanalyse naar risico op bias."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Random-effectsmeta-analyse van gestandaardiseerde gemiddelde verschillen.",
+     "facts": {
+      "heterogeneity": {
+       "sound": "I² = 34%; een subgroepanalyse naar soort controle werd vooraf gepland en gerapporteerd.",
+       "flaw": "I² = 89%, toch wordt één gepoold effect als het antwoord gepresenteerd, en de verschillen worden niet onderzocht.",
+       "why": "Als trials zo sterk verschillen, beschrijft één gemiddelde misschien geen enkele ervan. Op te lossen: onderzoek de oorzaken (subgroepen, metaregressie) en zwak de samenvatting af."
+      },
+      "reporting-bias": {
+       "sound": "Funnelplot en Egger-toets over de 23 trials tonen geen duidelijke asymmetrie.",
+       "flaw": "Funnelplot en Egger-toets tonen geen duidelijke asymmetrie, dus de review concludeert dat er 'geen publicatiebias' is.",
+       "why": "Deze toetsen kunnen bias missen, en een symmetrische funnel kan niet bewijzen dat er geen studies ontbreken. Kleine revisie: herformuleer als 'geen duidelijk bewijs voor small-study effects'."
+      }
+     }
+    }
+   }
+  },
+  "S8": {
+   "title": "Een middel voor beroertemuizen",
+   "field": "Preklinische neurowetenschappen",
+   "design": "Dierexperiment",
+   "claim": "Stof NR-4, gegeven na een beroerte, vermindert de hersenschade bij muizen met 40%.",
+   "slots": {
+    "question": {
+     "submitted": "Vermindert stof NR-4, gegeven na een beroerte, de hersenschade bij muizen?",
+     "facts": {
+      "registration": {
+       "sound": "Protocol vooraf geregistreerd, met infarctvolume na 72 uur als primaire uitkomst, zoals gerapporteerd.",
+       "flaw": "Geregistreerd met een gedragsscore na 24 uur als primaire uitkomst. Het artikel rapporteert het infarctvolume en laat de gedragsscore weg.",
+       "why": "Wie de geregistreerde uitkomst laat vallen, verbergt een resultaat dat misschien niet uitkwam. Op te lossen: rapporteer de gedragsscore en leg de wissel uit."
+      },
+      "hypothesis": {
+       "sound": "Hypothese vermeld: NR-4 vermindert het infarctvolume na 72 uur, vergeleken met vehikel."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Muizen met een opgewekte beroerte kregen een uur later NR-4 of vehikel.",
+     "facts": {
+      "allocation": {
+       "sound": "Computergegenereerde randomisatielijst, bewaard door een collega die niet opereerde.",
+       "flaw": "De eerste muizen die uit elke kooi gehaald werden, kregen NR-4; de rest kreeg vehikel.",
+       "why": "De muizen die eerst gevangen worden, kunnen verschillen (rustiger, trager, kleiner), dus de groepen kunnen al voor de behandeling verschillen. Het experiment moet opnieuw, met gerandomiseerde toewijzing."
+      },
+      "intervention": {
+       "sound": "Dosis, toedieningsweg, timing, vehikel en anesthesie beschreven; het vehikel zag er identiek uit.",
+       "flaw": "Dosis en timing worden gegeven; toedieningsweg, vehikel en anesthesie worden niet beschreven.",
+       "why": "Lezers kunnen niet nagaan of beide groepen gelijk behandeld werden, en niemand kan het experiment exact herhalen. Kleine revisie: rapporteer toedieningsweg, vehikel en anesthesie, zoals ARRIVE-item 9 vraagt."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "Twaalf muizen per groep, zoals gepland.",
+     "facts": {
+      "flow": {
+       "sound": "Alle 24 muizen geanalyseerd; geen sterfte en geen exclusies.",
+       "flaw": "Vijf NR-4-muizen stierven of werden uitgesloten; ze werden vervangen en worden niet vermeld.",
+       "why": "Gestorven dieren vervangen verbergt schade en kan alleen de muizen overlaten die reageerden. Op te lossen: rapporteer elk dier en analyseer met de uitval erbij."
+      },
+      "sample-size": {
+       "sound": "Powerberekening uit pilotdata: 12 per groep om een vermindering van 30% te detecteren.",
+       "flaw": "Twaalf per groep, 'zoals gebruikelijk in het vakgebied'; er wordt geen steekproefgrootteberekening gerapporteerd.",
+       "why": "Kleine studies die significantie halen, overschatten vaak het effect, en lezers weten niet wat deze studie moest kunnen detecteren. Kleine revisie: zeg hoe 12 gekozen werd, en geef de 40% met het 95%-betrouwbaarheidsinterval."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Infarctvolume gemeten op gekleurde hersencoupes na 72 uur.",
+     "facts": {
+      "blinding": {
+       "sound": "De coupes kregen een code; wie ze mat, kende de groepen niet.",
+       "flaw": "De onderzoeker die de muizen doseerde, mat ook de coupes, en kende elke groep.",
+       "why": "Infarctranden intekenen vraagt een oordeel dat verwachtingen kunnen beïnvloeden. Hier op te lossen, anders dan bij een test bij levende dieren: de bewaarde coupes kunnen blind opnieuw gemeten worden."
+      },
+      "instrument": {
+       "sound": "Infarctvolume gedefinieerd in de methoden en gecorrigeerd voor hersenzwelling."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Groepen vergeleken met een t-toets; p < 0,001.",
+     "facts": {
+      "analysis-set": {
+       "sound": "Elke muis één keer geteld, met het gemiddelde van haar coupes: 12 per groep.",
+       "flaw": "Elke hersencoupe telde als aparte waarneming: 120 coupes in plaats van 24 muizen.",
+       "why": "Coupes van één muis zijn niet onafhankelijk, dus de p-waarde is veel te klein. Op te lossen: heranalyseer met de muis als eenheid."
+      }
+     }
+    }
+   }
+  }
+ }
+}
