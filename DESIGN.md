@@ -143,6 +143,14 @@ items the new flaws rely on was re-read the same day: STROBE 5, 10, 12e, 13a–c
 paper ([PMC2020496](https://pmc.ncbi.nlm.nih.gov/articles/PMC2020496/)); COREQ 10, 11 and 17 in the checklist copy
 linked above.
 
+A planted flaw may carry its own `ref`, which replaces its type's in the app and the flaw key. Flow not reported uses
+this outside trials, since Egger et al. (2001) studied randomised trials: the case-control study (S3) cites the STROBE
+explanation, Vandenbroucke et al. (2007), [doi:10.1371/journal.pmed.0040297](https://doi.org/10.1371/journal.pmed.0040297);
+the diagnostic study (S6) the STARD 2015 explanation, Cohen et al. (2016),
+[doi:10.1136/bmjopen-2016-012799](https://doi.org/10.1136/bmjopen-2016-012799); the systematic review (S7) the PRISMA 2020
+explanation, Page et al. (2021), [doi:10.1136/bmj.n160](https://doi.org/10.1136/bmj.n160). All three checked on Crossref on
+2026-10-31 (first author, year, title).
+
 ## 7. Prior art: games about peer review and research methods
 
 Surveyed on 2026-10-31 so that Major Revisions adds something new; no content was taken from any of them.

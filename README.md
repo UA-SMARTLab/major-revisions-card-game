@@ -4,6 +4,8 @@ A deduction card game for scientists: **find the flaw hidden in the manuscript b
 The second game of the **[SMART-Lab Science Game Kit](https://ua-smartlab.github.io/science-game-kit/)** (after [Methodical](https://github.com/UA-SMARTLab/methodical-card-game)), card games that
 help researchers refresh their research-methods knowledge.
 
+![The card back, the study 'Burnout in the doctorate', the request 'Missing data' and the manuscript's flawed Analysis card](print/preview.png)
+
 A fictional study is dealt as five face-down cards: Question, Method, Sample, Measurement, Analysis. One or two carry
 a planted flaw: a volunteer-only sample, an outcome switched after registration, assessors who knew the groups,
 missing data quietly dropped. Reviewers spend a limited number of requests (flow diagram, registration, blinding,

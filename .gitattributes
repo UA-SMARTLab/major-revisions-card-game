@@ -1,3 +1,6 @@
+# Text files are LF everywhere, also in Windows checkouts.
+* text=auto eol=lf
+*.png binary
 # The launchers must keep their native line endings on every OS.
 *.sh      text eol=lf
 *.command text eol=lf

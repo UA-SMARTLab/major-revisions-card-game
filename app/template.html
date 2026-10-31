@@ -342,6 +342,8 @@ const flawable = st => SLOTS.filter(sid => st.slots[sid].facts.some(f => f.flaw)
 const variantsOf = (st, sid) => st.slots[sid].facts.filter(f => f.flaw);
 // The answer planted in a flawed slot (variant 0 when a hand-made game names none).
 const plantedFact = (g, sid) => variantsOf(g.st, sid)[(g.planted || {})[sid] || 0];
+// A planted flaw may cite its own source (e.g. the guideline's explanation paper) instead of its type's.
+const flawRef = fl => fl.ref || F[fl.type].ref;
 const factOf = (st, rid) => { for (const sid of SLOTS) for (const f of st.slots[sid].facts) if (f.request === rid) return { sid, f }; return null; };
 
 // ---------- deterministic dealing: the same manuscript number always deals the same manuscript
@@ -635,7 +637,7 @@ function renderResult() {
       <p>${esc(fl.why)}</p>
       <p class="meta">${tr("result.caught_by", { request: `<b>${esc(r.name)}</b>`, guideline: `<a href="${esc(gl.checklist)}" target="_blank" rel="noopener">${esc(gl.name)}</a>`, item: esc(r.items[g.st.guideline]) })}
         ${g.asked.includes(f.request) ? tr("result.you_asked") : tr("result.you_didnt")}</p>
-      <p class="meta">📄 ${tr("result.reference")} ${refLine(F[fl.type].ref)}</p></div>`;
+      <p class="meta">📄 ${tr("result.reference")} ${refLine(flawRef(fl))}</p></div>`;
   }
   html += `<span class="label" style="display:block;margin-top:10px">${tr("result.breakdown")}</span><div class="score">
     <span>${tr("result.b_found", { n: s.found, pts: SC.flaw_found })}</span><b>${s.found * SC.flaw_found}</b>
@@ -675,7 +677,7 @@ function cardHTML(kind, x) {
   if (kind === "verdicts") return `<figure>${C.verdicts[x.id]}</figure>`;
   if (x.v === null) return `<figure>${C.full[x.st.id][x.sid].sound}</figure>`;
   const card = C.full[x.st.id][x.sid].flawed[x.v], fl = variantsOf(x.st, x.sid)[x.v].flaw;
-  return `<figure><div class="slot">${card}${qref(F[fl.type].ref, F[fl.type].name)}</div><details><summary>${tr("decks.why")}</summary><p>${esc(fl.why)}</p><p>📄 ${refLine(F[fl.type].ref)}</p></details></figure>`;
+  return `<figure><div class="slot">${card}${qref(flawRef(fl), F[fl.type].name)}</div><details><summary>${tr("decks.why")}</summary><p>${esc(fl.why)}</p><p>📄 ${refLine(flawRef(fl))}</p></details></figure>`;
 }
 const searchText = (kind, x) => kind === "manuscripts" ? JSON.stringify([x.st.title, x.st.slots[x.sid]]) : JSON.stringify(x);
 function renderDecks() {

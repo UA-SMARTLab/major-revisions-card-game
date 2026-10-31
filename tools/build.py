@@ -33,6 +33,11 @@ F = {f["id"]: f for f in flaws}
 G = {g["id"]: g for g in guidelines}
 
 
+def flaw_ref(fl):
+    """A planted flaw may cite its own source (e.g. the guideline's own explanation paper) instead of its type's."""
+    return fl.get("ref") or F[fl["type"]]["ref"]
+
+
 # --------------------------------------------------------------------------- validation
 errors, warnings = [], []
 
@@ -108,6 +113,8 @@ for st in studies:
                 used_flaws[fl["type"]] += 1
                 if fl["type"] not in F:
                     errors.append(f"{ws}: unknown flaw type {fl['type']}")
+                if "ref" in fl:
+                    need_ref(fl, f"{ws} {f['request']} flaw")
                 if fl["severity"] not in SEVERITY:
                     errors.append(f"{ws}: severity must be one of {SEVERITY}")
                 if st["guideline"] not in R[f["request"]]["items"]:
@@ -278,7 +285,7 @@ def build_flaw_key(g, langs):
             body += (f'<tr><td class="id">{e(slot_name[sid])}<br>{e(cards.card_code(st, slot_name[sid], k))}</td><td>{e(cx.F[fl["type"]]["name"])}: {e(fl["text"])}</td>'
                      f'<td class="{fl["severity"]}">{e(verdict[fl["severity"]])}</td>'
                      f'<td>{e(r["name"])} ({e(gl["name"])} {e(S("print.item", n=r["items"][st["guideline"]]))})</td>'
-                     f'<td>{e(fl["why"])} <a href="{e(cx.F[fl["type"]]["ref"]["url"])}">{e(cx.F[fl["type"]]["ref"]["cite"].split(". ")[0])}</a></td></tr>')
+                     f'<td>{e(fl["why"])} <a href="{e(flaw_ref(fl)["url"])}">{e(flaw_ref(fl)["cite"].split(". ")[0])}</a></td></tr>')
         body += "</table>"
     (g.print_dir / "answer-key.html").write_text(page(g, S("print.key_title", game=d["meta"]["title"]), body), encoding="utf-8")
 
@@ -307,7 +314,7 @@ def build_answer_key():
                     fl = f["flaw"]
                     code = cards.card_code(st, slot_name[sid], variant[i])
                     L.append(f"  - **Flawed, card {code} ({F[fl['type']]['name']}, {verdict[fl['severity']]}):** {fl['text']}")
-                    L.append(f"  - *Why:* {fl['why']} See [{F[fl['type']]['ref']['cite']}]({F[fl['type']]['ref']['url']}).")
+                    L.append(f"  - *Why:* {fl['why']} See [{flaw_ref(fl)['cite']}]({flaw_ref(fl)['url']}).")
             L.append("")
     L += ["## Coverage", "", "| Request | Card | Answered in | Catches |", "|---|---|---|---|"]
     for r in requests:

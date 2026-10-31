@@ -118,6 +118,14 @@ try {
   ok("F2: the result shows card F2 with its flawed answer", /-F2$/.test(shown.querySelector(".ft span").textContent) && shown.querySelector(".ans.bad .ans-t").textContent === fact2.flaw.text, shown.querySelector(".ft span").textContent);
   const box = [...document.querySelectorAll("#desk .flawbox")].find(b => b.querySelector("h4").textContent.startsWith(SLOT[sid2].name));
   ok("F2: the result explains the F2 flaw, its verdict and request", box && box.textContent.includes(fact2.flaw.why) && box.textContent.includes(F[fact2.flaw.type].name) && box.textContent.includes(R[fact2.request].name), `#${f2} ${sid2}`);
+  // A flaw with its own source (the diagnostic study's flow flaw cites STARD's explanation paper, not the RCT paper
+  // its type cites): the result links that source.
+  const ownRef = d => d.flawed.find(sid => plantedFact(d, sid).flaw.ref);
+  let rs = 1; while (!ownRef(deal(rs, false))) rs++;
+  newGame(rs, false); startReport(); game.flawed.forEach(sid => game.marks.add(sid)); finish(rightVerdict(game));
+  const rsid = ownRef(game), rfl = plantedFact(game, rsid).flaw;
+  const rbox = [...document.querySelectorAll("#desk .flawbox")].find(b => b.querySelector("h4").textContent.startsWith(SLOT[rsid].name));
+  ok("a flaw's own source replaces its type's in the result", rbox && [...rbox.querySelectorAll("a")].some(a => a.href === rfl.ref.url) && ![...rbox.querySelectorAll("a")].some(a => a.href === F[rfl.type].ref.url), `#${rs} ${rsid}`);
   // A manuscript whose planted flaws are all minor: Minor revisions is the right verdict, and giving it scores.
   let mn = 1; while (rightVerdict(deal(mn, false)) !== "minor") mn++;
   newGame(mn, false); startReport(); game.flawed.forEach(sid => game.marks.add(sid)); finish("minor");

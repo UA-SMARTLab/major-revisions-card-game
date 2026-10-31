@@ -358,7 +358,7 @@
        "why": "Randomisation still balances the groups, so the comparison is fair, but the result may not apply to typical patients. Minor: report it and narrow the claims."
       },
       "flow": {
-       "sound": "Flow diagram: 412 screened, 240 randomised, 226 analysed; losses similar per arm, with reasons.",
+       "sound": "Flow diagram: 412 screened, 240 randomised, 226 with a 12-week score; losses similar per arm, with reasons.",
        "flaw": "No flow diagram: 240 were randomised, but losses are not given per arm or with reasons.",
        "why": "Few were lost (14 of 240, 6%) and the missing-data analysis covers them, but readers need to see who left each arm and why. Minor: add the CONSORT flow diagram."
       }

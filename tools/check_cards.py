@@ -78,7 +78,8 @@ if __name__ == "__main__":
         sys.exit("No print/cards.html yet: run python3 tools/build.py first.")
     bad = 0
     for p in pages:
-        shot = ROOT / "print" / "preview.png" if p.parent == ROOT / "print" else None
+        # Not print/preview.png: that is the README's picture of the cards, drawn by the kit's tools/card_images.py.
+        shot = ROOT / "print" / "check.png" if p.parent == ROOT / "print" else None
         r = check(p, exe, shot)
         rel = p.relative_to(ROOT)
         print(f"{rel}: {r['cards']} cards, {r['shrunk']} shrunk to fit (smallest {r['smallest']:.2f}), fonts: {', '.join(sorted(set(r['fonts']))) or 'NONE'}")

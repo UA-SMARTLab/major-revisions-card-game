@@ -29,7 +29,7 @@ The verdict for a manuscript is the most severe verdict among its planted flaws 
 - Recruitment (CONSORT 2025 item 12a): sound: All consecutive referrals screened against published criteria; 240 of 412 eligible and consenting.
   - **Flawed, card MR-1S-F (Hand-picked participants, Minor revisions):** Physiotherapists enrolled only patients they judged 'motivated to exercise'; no written criteria.
   - *Why:* Randomisation still balances the groups, so the comparison is fair, but the result may not apply to typical patients. Minor: report it and narrow the claims. See [Rothwell (2005). External validity of randomised controlled trials: "to whom do the results of this trial apply?" The Lancet.](https://doi.org/10.1016/S0140-6736(04)17670-8).
-- Flow diagram (CONSORT 2025 item 22a–b): sound: Flow diagram: 412 screened, 240 randomised, 226 analysed; losses similar per arm, with reasons.
+- Flow diagram (CONSORT 2025 item 22a–b): sound: Flow diagram: 412 screened, 240 randomised, 226 with a 12-week score; losses similar per arm, with reasons.
   - **Flawed, card MR-1S-F2 (Flow not reported, Minor revisions):** No flow diagram: 240 were randomised, but losses are not given per arm or with reasons.
   - *Why:* Few were lost (14 of 240, 6%) and the missing-data analysis covers them, but readers need to see who left each arm and why. Minor: add the CONSORT flow diagram. See [Egger et al. (2001). Value of flow diagrams in reports of randomized controlled trials. JAMA.](https://doi.org/10.1001/jama.285.15.1996).
 
@@ -111,7 +111,7 @@ The verdict for a manuscript is the most severe verdict among its planted flaws 
   - *Why:* Fitness-club members take fewer sleeping pills and fall less than the population the cases came from, so the comparison is biased from the start. New controls are needed. See [Wacholder et al. (1992). Selection of controls in case-control studies. II. Types of controls. American Journal of Epidemiology.](https://doi.org/10.1093/oxfordjournals.aje.a116397).
 - Flow diagram (STROBE item 13a–c): sound: 81% of cases and 76% of controls took part; reasons for refusal are reported.
   - **Flawed, card MR-3S-F2 (Flow not reported, Minor revisions):** Participation given only overall ('about 80%'), not for cases and controls separately; no reasons for refusal.
-  - *Why:* Bias arises if taking part depends on pill use differently in cases and controls; per-group rates and reasons are the first check. Minor: report them per group; here they are similar (81% and 76%). See [Egger et al. (2001). Value of flow diagrams in reports of randomized controlled trials. JAMA.](https://doi.org/10.1001/jama.285.15.1996).
+  - *Why:* Bias arises if taking part depends on pill use differently in cases and controls; per-group rates and reasons are the first check. Minor: report them per group; here they are similar (81% and 76%). See [Vandenbroucke et al. (2007). Strengthening the Reporting of Observational Studies in Epidemiology (STROBE): explanation and elaboration. PLoS Medicine.](https://doi.org/10.1371/journal.pmed.0040297).
 
 **Measurement.** *As submitted:* Benzodiazepine use assessed in the same way for cases and controls.
 
@@ -231,7 +231,7 @@ The verdict for a manuscript is the most severe verdict among its planted flaws 
   - *Why:* Comparing clear cases with healthy children leaves out the hard, look-alike cases, so accuracy is inflated. A new, clinically realistic sample is needed. See [Lijmer et al. (1999). Empirical evidence of design-related bias in studies of diagnostic tests. JAMA.](https://doi.org/10.1001/jama.282.11.1061).
 - Flow diagram (STARD 2015 item 19): sound: Flow diagram: 412 eligible, 398 scanned, 6 without a reference standard, each explained.
   - **Flawed, card MR-6S-F2 (Flow not reported, Minor revisions):** No flow diagram: 398 children were scanned, but not how many were eligible, or why some lack a reference standard.
-  - *Why:* Readers can't tell who was never scanned or never verified, or whether they differ. Minor: add a STARD flow diagram with the reason for each child lost. See [Egger et al. (2001). Value of flow diagrams in reports of randomized controlled trials. JAMA.](https://doi.org/10.1001/jama.285.15.1996).
+  - *Why:* Readers can't tell who was never scanned or never verified, or whether they differ. Minor: add a STARD flow diagram with the reason for each child lost. See [Cohen et al. (2016). STARD 2015 guidelines for reporting diagnostic accuracy studies: explanation and elaboration. BMJ Open.](https://doi.org/10.1136/bmjopen-2016-012799).
 
 **Measurement.** *As submitted:* Each scan read as positive or negative for appendicitis.
 
@@ -270,7 +270,7 @@ The verdict for a manuscript is the most severe verdict among its planted flaws 
   - *Why:* Unpublished trials more often find no effect, so leaving them out inflates the pooled effect. Fixable: widen eligibility and look for them. See [Hopewell et al. (2007). Grey literature in meta-analyses of randomized trials of health care interventions. Cochrane Database of Systematic Reviews.](https://doi.org/10.1002/14651858.MR000010.pub3).
 - Flow diagram (PRISMA 2020 item 16a): sound: PRISMA flow diagram: 1,204 records, 61 full texts, 23 included; every exclusion has a reason.
   - **Flawed, card MR-7S-F2 (Flow not reported, Minor revisions):** Only the 23 included trials are listed: no flow diagram, no count of records screened, no reasons for exclusion.
-  - *Why:* Readers can't check the selection or spot trials wrongly left out. Minor: add a PRISMA flow diagram with a reason for each full text excluded. See [Egger et al. (2001). Value of flow diagrams in reports of randomized controlled trials. JAMA.](https://doi.org/10.1001/jama.285.15.1996).
+  - *Why:* Readers can't check the selection or spot trials wrongly left out. Minor: add a PRISMA flow diagram with a reason for each full text excluded. See [Page et al. (2021). PRISMA 2020 explanation and elaboration: updated guidance and exemplars for reporting systematic reviews. BMJ.](https://doi.org/10.1136/bmj.n160).
 
 **Measurement.** *As submitted:* Results and study quality extracted by two reviewers.
 
