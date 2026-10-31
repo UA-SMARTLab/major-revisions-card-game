@@ -1,0 +1,826 @@
+{
+ "meta": {
+  "tagline": "A deduction card game for scientists: find the flaw hidden in the manuscript before your review rounds run out.",
+  "slots": {
+   "question": {
+    "name": "Question",
+    "ask": "What the study set out to answer, and what was planned."
+   },
+   "method": {
+    "name": "Method",
+    "ask": "How the study was designed and run."
+   },
+   "sample": {
+    "name": "Sample",
+    "ask": "Who or what was studied, and who was lost."
+   },
+   "measurement": {
+    "name": "Measurement",
+    "ask": "How the outcomes and exposures were measured."
+   },
+   "analysis": {
+    "name": "Analysis",
+    "ask": "How the data were analysed and turned into a conclusion."
+   }
+  },
+  "verdicts": {
+   "accept": {
+    "name": "Accept",
+    "short": "Sound as it stands. Publish.",
+    "when": "No flaw: every request was answered well."
+   },
+   "minor": {
+    "name": "Minor revisions",
+    "short": "A gap in the reporting or the wording. The conclusion stands.",
+    "when": "Fix with clearer reporting or softer claims; no new analysis."
+   },
+   "major": {
+    "name": "Major revisions",
+    "short": "A real problem that the authors can still fix.",
+    "when": "Fix with new analyses, data the authors already hold, or a redone step."
+   },
+   "reject": {
+    "name": "Reject",
+    "short": "A fatal flaw. Only a new study could answer the question.",
+    "when": "The data themselves are compromised; no reanalysis can rescue them."
+   }
+  }
+ },
+ "requests": {
+  "registration": {
+   "name": "Registration",
+   "ask": "Show the registry entry or protocol: what was planned, and when it was registered."
+  },
+  "hypothesis": {
+   "name": "Prespecified aims",
+   "ask": "State the objectives or hypotheses as they were set before the data came in."
+  },
+  "allocation": {
+   "name": "Randomisation",
+   "ask": "How was the allocation sequence made, and who could see it before each assignment?"
+  },
+  "intervention": {
+   "name": "Intervention details",
+   "ask": "Describe the intervention and the comparator well enough for someone to repeat them."
+  },
+  "timeline": {
+   "name": "Setting and dates",
+   "ask": "When and where were exposures, outcomes and follow-up measured?"
+  },
+  "search": {
+   "name": "Search strategy",
+   "ask": "List every source you searched and give the full search strings."
+  },
+  "reflexivity": {
+   "name": "Reflexivity",
+   "ask": "Who collected the data, and what was their relationship with the participants?"
+  },
+  "reference-standard": {
+   "name": "Reference standard",
+   "ask": "Which test decided who truly had the condition, and did everyone get it?"
+  },
+  "recruitment": {
+   "name": "Recruitment",
+   "ask": "Who was eligible, and how were participants found and selected?"
+  },
+  "flow": {
+   "name": "Flow diagram",
+   "ask": "How many were eligible, included, lost and analysed, and why was anyone lost?"
+  },
+  "sample-size": {
+   "name": "Sample size",
+   "ask": "How was the number of participants decided?"
+  },
+  "saturation": {
+   "name": "Data saturation",
+   "ask": "When did you stop collecting data, and how did you judge it was enough?"
+  },
+  "blinding": {
+   "name": "Blinding",
+   "ask": "Who knew the groups, or the other test results, when the outcomes were assessed?"
+  },
+  "instrument": {
+   "name": "Measures",
+   "ask": "How exactly was each outcome and exposure measured, and is the measure valid?"
+  },
+  "coding": {
+   "name": "Coding tree",
+   "ask": "How many people coded the data, and what does the coding tree look like?"
+  },
+  "risk-of-bias": {
+   "name": "Risk-of-bias assessment",
+   "ask": "How was the risk of bias in each included study judged, and by whom?"
+  },
+  "missing-data": {
+   "name": "Missing data",
+   "ask": "How much data was missing, and how was it handled?"
+  },
+  "sensitivity": {
+   "name": "Sensitivity analysis",
+   "ask": "Do the results hold under other reasonable analysis choices?"
+  },
+  "confounding": {
+   "name": "Confounder adjustment",
+   "ask": "Which confounders were adjusted for, and why those?"
+  },
+  "analysis-set": {
+   "name": "Analysis set",
+   "ask": "Who or what was counted in each analysis, and in which group?"
+  },
+  "themes": {
+   "name": "Theme derivation",
+   "ask": "Were the themes set in advance, or derived from the data?"
+  },
+  "thresholds": {
+   "name": "Test cut-offs",
+   "ask": "Was the cut-off for a positive test fixed before the data, or chosen after?"
+  },
+  "heterogeneity": {
+   "name": "Heterogeneity",
+   "ask": "How much did the studies' results differ, and was that explored?"
+  },
+  "reporting-bias": {
+   "name": "Reporting bias",
+   "ask": "Could missing studies or missing results have biased the pooled estimate?"
+  }
+ },
+ "flaws": {
+  "switched-registration": {
+   "name": "Switched after registration",
+   "short": "What the paper reports is not what was registered, and the change is not explained."
+  },
+  "harking": {
+   "name": "HARKing",
+   "short": "A hypothesis written after the results, presented as if it came first."
+  },
+  "p-hacking": {
+   "name": "p-hacking",
+   "short": "Many analyses tried, and only the one that reached significance reported."
+  },
+  "overclaiming": {
+   "name": "Overclaiming",
+   "short": "The conclusion claims more than the design can show."
+  },
+  "predictable-allocation": {
+   "name": "Predictable allocation",
+   "short": "Whoever enrols participants can foresee or steer the next assignment."
+  },
+  "reverse-timing": {
+   "name": "Exposure after outcome",
+   "short": "The 'cause' was measured or counted after the outcome had begun."
+  },
+  "insider-interviewer": {
+   "name": "Interviewer with power",
+   "short": "The person collecting the data has power over the participants."
+  },
+  "verification-bias": {
+   "name": "Partial verification",
+   "short": "Only some participants got the reference standard, chosen by their test result."
+  },
+  "narrow-search": {
+   "name": "Narrow search",
+   "short": "Too few sources searched, so relevant studies are missed."
+  },
+  "hand-picked": {
+   "name": "Hand-picked participants",
+   "short": "Staff chose who took part by unwritten criteria, so results may not carry over."
+  },
+  "attrition": {
+   "name": "Selective loss to follow-up",
+   "short": "The people lost differ from those who stayed, in ways that matter."
+  },
+  "control-selection": {
+   "name": "Unsuitable controls",
+   "short": "Controls do not come from the population that produced the cases."
+  },
+  "volunteer-sample": {
+   "name": "Self-selected sample",
+   "short": "Whoever chose to answer, so the sample can't stand for the population."
+  },
+  "early-saturation": {
+   "name": "Saturation not reached",
+   "short": "Data collection stopped for practical reasons, yet saturation is claimed."
+  },
+  "spectrum-bias": {
+   "name": "Spectrum bias",
+   "short": "Clear-cut cases compared with healthy people, leaving out the hard cases."
+  },
+  "publication-bias": {
+   "name": "Unpublished studies left out",
+   "short": "Only published studies count, and those lean towards positive results."
+  },
+  "unreported-exclusions": {
+   "name": "Unreported exclusions",
+   "short": "Animals or participants dropped from the analysis without a word."
+  },
+  "unblinded-assessors": {
+   "name": "Unblinded assessors",
+   "short": "The people judging the outcome knew who got what."
+  },
+  "recall-bias": {
+   "name": "Recall bias",
+   "short": "Cases and controls remember past exposures differently."
+  },
+  "unvalidated-measure": {
+   "name": "Unvalidated measure",
+   "short": "A home-made measure with no evidence that it captures what it claims."
+  },
+  "single-coder": {
+   "name": "Single coder, no audit trail",
+   "short": "One person coded everything, and nobody can follow how."
+  },
+  "review-bias": {
+   "name": "Unblinded test reading",
+   "short": "The test was read by someone who already knew the right answer."
+  },
+  "no-risk-of-bias": {
+   "name": "No risk-of-bias assessment",
+   "short": "Included studies were never judged for bias."
+  },
+  "per-protocol": {
+   "name": "Per-protocol only",
+   "short": "Only participants who stuck to the plan were analysed."
+  },
+  "confounding": {
+   "name": "Uncontrolled confounding",
+   "short": "A factor behind both exposure and outcome was left unadjusted."
+  },
+  "missing-data": {
+   "name": "Missing data ignored",
+   "short": "Incomplete records dropped, although who is missing is not random."
+  },
+  "themes-from-guide": {
+   "name": "Themes = interview questions",
+   "short": "The 'themes' are the headings of the interview guide."
+  },
+  "data-driven-cutoff": {
+   "name": "Data-driven cut-off",
+   "short": "The cut-off was tuned on the same data used to judge accuracy."
+  },
+  "unexplored-heterogeneity": {
+   "name": "Unexplored heterogeneity",
+   "short": "Studies disagree strongly, yet one pooled number is presented as the answer."
+  },
+  "pseudoreplication": {
+   "name": "Pseudoreplication",
+   "short": "Repeated measurements of one unit counted as independent units."
+  }
+ },
+ "guidelines": {
+  "consort": {
+   "for": "Randomised trials"
+  },
+  "strobe": {
+   "for": "Cohort, case-control and cross-sectional studies"
+  },
+  "prisma": {
+   "for": "Systematic reviews"
+  },
+  "coreq": {
+   "for": "Interview and focus-group studies"
+  },
+  "stard": {
+   "for": "Diagnostic accuracy studies"
+  },
+  "arrive": {
+   "for": "Animal research"
+  }
+ },
+ "studies": {
+  "S1": {
+   "title": "Back on track",
+   "field": "Physiotherapy",
+   "design": "Randomised trial",
+   "claim": "A 12-week supervised exercise programme improves physical function in adults with chronic low back pain.",
+   "slots": {
+    "question": {
+     "submitted": "Does a 12-week exercise programme improve function in chronic low back pain, compared with usual care?",
+     "facts": {
+      "registration": {
+       "sound": "Registered before the first patient, with function at 12 weeks as primary outcome, as in the paper.",
+       "flaw": "Registered with pain at 12 weeks as primary outcome. The paper makes function primary and never says why.",
+       "why": "Switching the primary outcome after seeing the data lets a chance finding pass as the main result. Fixable: report the registered outcome as primary and explain the change."
+      },
+      "hypothesis": {
+       "sound": "Hypothesis stated: the programme improves the function score by at least 3 points more than usual care."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Randomised trial in four clinics; patients allocated 1:1 to supervised exercise or usual care.",
+     "facts": {
+      "allocation": {
+       "sound": "Computer-made sequence in random blocks, released by a central web service only after enrolment.",
+       "flaw": "Patients seen on Mondays and Wednesdays got exercise; patients seen on other days got usual care.",
+       "why": "Staff could foresee each allocation and steer who was enrolled on which day, so the groups may differ from the start. No reanalysis can undo that."
+      },
+      "intervention": {
+       "sound": "Two supervised sessions a week for 12 weeks; the full exercise protocol is in a supplement."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "240 adults with low back pain for more than 3 months, referred by their GPs.",
+     "facts": {
+      "recruitment": {
+       "sound": "All consecutive referrals screened against published criteria; 240 of 412 eligible and consenting.",
+       "flaw": "Physiotherapists enrolled only patients they judged 'motivated to exercise'; no written criteria.",
+       "why": "Randomisation still balances the groups, so the comparison is fair, but the result may not apply to typical patients. Minor: report it and narrow the claims."
+      },
+      "flow": {
+       "sound": "Flow diagram: 412 screened, 240 randomised, 226 analysed; losses similar per arm, with reasons."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Function scored with a standard performance test at 12 weeks.",
+     "facts": {
+      "blinding": {
+       "sound": "Tests scored by assessors from another clinic who did not know anyone's group.",
+       "flaw": "Each patient's own physiotherapist scored the test, knowing who had the exercise programme.",
+       "why": "Assessors who know the groups tend to see the effect they expect. A 12-week performance test can't be repeated blind afterwards, so the main result can't be rescued."
+      },
+      "instrument": {
+       "sound": "The performance test has published reliability and validity in low back pain."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Groups compared with a linear model adjusted for baseline function.",
+     "facts": {
+      "missing-data": {
+       "sound": "6% of outcomes missing, handled by multiple imputation; complete-case results agree."
+      },
+      "analysis-set": {
+       "sound": "Every randomised patient analysed in the group they were assigned to.",
+       "flaw": "Only patients who attended at least 80% of sessions were analysed: 61 of 120 in the exercise arm.",
+       "why": "Dropping non-adherers breaks randomisation: people who keep exercising differ from those who stop. Fixable: reanalyse everyone as randomised (intention to treat)."
+      }
+     }
+    }
+   }
+  },
+  "S2": {
+   "title": "Late-night scrolling",
+   "field": "Adolescent health",
+   "design": "Cohort study",
+   "claim": "Heavy social-media use at age 13 predicts sleep problems at age 15.",
+   "slots": {
+    "question": {
+     "submitted": "Does heavy social-media use at age 13 predict sleep problems at age 15?",
+     "facts": {
+      "hypothesis": {
+       "sound": "Hypothesis from the funded proposal, cited: more daily use, more sleep problems at 15, in girls and boys alike.",
+       "flaw": "The introduction predicts an effect in girls only. The proposal predicted it for everyone; only girls showed it.",
+       "why": "A hypothesis written after the results makes a chance subgroup finding look like a confirmed prediction. Fixable: restore the original hypothesis and label the girls-only result exploratory."
+      },
+      "registration": {
+       "sound": "Not preregistered; the authors say so plainly in the limitations."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Prospective school-based cohort with questionnaires at ages 13 and 15.",
+     "facts": {
+      "timeline": {
+       "sound": "Use measured at 13 and sleep at 15, two years apart, at the same point in the school year.",
+       "flaw": "Both were asked at 15: pupils recalled how much they had used social media two years earlier.",
+       "why": "Use at 13 is recalled after the sleep problems began, so the timing that made it a prediction is gone. Only data collected at 13 could fix this."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "3,000 pupils from 40 schools enrolled at 13; 2,310 followed up at 15.",
+     "facts": {
+      "flow": {
+       "sound": "Losses shown by school and reason; leavers and stayers had similar use and sleep at 13.",
+       "flaw": "Heavy users were twice as likely to be lost by 15; leavers and stayers are never compared.",
+       "why": "If the heavy users who left slept differently, the estimate is biased. Fixable: compare leavers with stayers and correct with weighting or imputation."
+      },
+      "sample-size": {
+       "sound": "Size set by the parent cohort; the paper reports the precision this gives the main estimate."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Sleep problems at 15 measured by questionnaire.",
+     "facts": {
+      "instrument": {
+       "sound": "A validated adolescent sleep questionnaire, plus a week of wrist actigraphy in a subsample.",
+       "flaw": "One yes/no item written for this study, 'Do you often sleep badly?', with no validation.",
+       "why": "One home-made yes/no item can't show it measures sleep problems. Fixable in part: use the cohort's fuller sleep measures, or validate the item in a subsample, and temper the claims."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Logistic regression of sleep problems on hours of use, adjusted for confounders.",
+     "facts": {
+      "confounding": {
+       "sound": "Adjusted for sleep, mood and family income at 13, chosen in advance from a causal diagram."
+      },
+      "sensitivity": {
+       "sound": "Results hold with use in hours per day and with cut-offs at 2, 3 and 4 hours.",
+       "flaw": "Use was split at 3 hours after trying cut-offs from 1 to 5; only the one with p < 0.05 is reported.",
+       "why": "Trying many cut-offs and reporting the one that works inflates false positives. Fixable: analyse hours as a continuous measure, or show every cut-off."
+      }
+     }
+    }
+   }
+  },
+  "S3": {
+   "title": "Sleeping pills and hip fracture",
+   "field": "Pharmacoepidemiology",
+   "design": "Case-control study",
+   "claim": "Benzodiazepine use doubles the risk of hip fracture in people over 70.",
+   "slots": {
+    "question": {
+     "submitted": "Does benzodiazepine use raise the risk of hip fracture in people over 70?",
+     "facts": {
+      "hypothesis": {
+       "sound": "Protocol hypothesis: benzodiazepine use raises hip-fracture risk. The paper tests that one question.",
+       "flaw": "Nine sleep medicines were tested. The headline is the one significant drug, with no correction for nine tests.",
+       "why": "With nine tests, one 'significant' result is likely by chance alone. Fixable: report all nine, correct for multiple testing, and call the single-drug finding exploratory."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Case-control study: 400 hip-fracture cases and 800 matched controls from two regions.",
+     "facts": {
+      "timeline": {
+       "sound": "Drug use counted only in the year before each case's fracture date, with the same window for its controls.",
+       "flaw": "Drug use counted from 6 months before to 1 month after the fracture, when many start sleeping pills in hospital.",
+       "why": "Pills started because of the fracture are counted as its cause. Fixable: rerun the analysis with use before the fracture date only."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "Cases from hospital admissions; controls matched on age and sex.",
+     "facts": {
+      "recruitment": {
+       "sound": "Controls drawn at random from the same regions' population register.",
+       "flaw": "Controls were volunteers recruited at senior fitness clubs.",
+       "why": "Fitness-club members take fewer sleeping pills and fall less than the population the cases came from, so the comparison is biased from the start. New controls are needed."
+      },
+      "flow": {
+       "sound": "81% of cases and 76% of controls took part; reasons for refusal are reported."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Benzodiazepine use assessed in the same way for cases and controls.",
+     "facts": {
+      "instrument": {
+       "sound": "Use taken from pharmacy dispensing records for cases and controls alike.",
+       "flaw": "Use recalled in interviews: cases on the ward days after their fracture, controls by phone.",
+       "why": "Cases search their memory harder, in a different setting, so their use is over-reported. Fixable in part: check the answers against pharmacy records."
+      },
+      "blinding": {
+       "sound": "Records abstracted by staff who did not know who was a case."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Conditional logistic regression, adjusted for other risk factors.",
+     "facts": {
+      "confounding": {
+       "sound": "Adjusted for dementia, frailty, previous falls and other fall-risk drugs, chosen in advance.",
+       "flaw": "Adjusted for age and sex only. Dementia and frailty, which lead to both pills and falls, are ignored.",
+       "why": "Frail people get more sleeping pills and fall more, so part of the 'drug effect' may be frailty. Fixable if the data hold these factors: adjust for them and show both estimates."
+      },
+      "sensitivity": {
+       "sound": "Results similar when restricted to new users and to fractures from simple falls."
+      }
+     }
+    }
+   }
+  },
+  "S4": {
+   "title": "Burnout in the doctorate",
+   "field": "Higher education",
+   "design": "Cross-sectional survey",
+   "claim": "Almost half of PhD students are burnt out, and poor supervision causes it.",
+   "slots": {
+    "question": {
+     "submitted": "How common is burnout among PhD students, and what is it associated with?",
+     "facts": {
+      "hypothesis": {
+       "sound": "Aims: estimate prevalence and describe associations. The conclusion stays descriptive.",
+       "flaw": "The aim is descriptive, yet the abstract concludes that poor supervision causes burnout.",
+       "why": "A one-off survey can't show which came first, burnout or poor supervision. Minor: rewrite the conclusion as an association."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Online survey of PhD students at four universities in spring 2025.",
+     "facts": {
+      "timeline": {
+       "sound": "Survey open for three weeks in March 2025, away from the main submission deadlines."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "1,260 PhD students completed the survey.",
+     "facts": {
+      "recruitment": {
+       "sound": "All 2,100 enrolled PhD students were invited by email, with two reminders.",
+       "flaw": "The link was shared on a PhD well-being forum and on social media; anyone could answer.",
+       "why": "Whether people answer depends on how much burnout matters to them, so the prevalence can't be generalised. A new, defined sample is needed."
+      },
+      "flow": {
+       "sound": "Numbers who opened, started and finished the survey are reported, with the drop-off at each step."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Burnout measured with a questionnaire scored against a cut-off.",
+     "facts": {
+      "instrument": {
+       "sound": "A validated burnout inventory, scored with the manual's published cut-off.",
+       "flaw": "Five items written by the authors; 'burnout' means scoring above the midpoint; no validation.",
+       "why": "A prevalence is only as good as the measure and its cut-off. Fixable only in part: give validity evidence, or report scores instead of a prevalence."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Prevalence with 95% confidence intervals; regression for associations.",
+     "facts": {
+      "missing-data": {
+       "sound": "3% of items missing, prorated as the scale's manual specifies.",
+       "flaw": "The 22% who skipped any item were dropped; skipping was commonest among those reporting long hours.",
+       "why": "If the students under most pressure skipped items, dropping them biases the prevalence. Fixable: multiple imputation, and compare completers with non-completers."
+      },
+      "sensitivity": {
+       "sound": "Estimates weighted by faculty and sex give the same prevalence within 2 points."
+      }
+     }
+    }
+   }
+  },
+  "S5": {
+   "title": "Moral distress in intensive care",
+   "field": "Nursing",
+   "design": "Interview study",
+   "claim": "ICU nurses' moral distress centres on staffing, families and end-of-life decisions.",
+   "slots": {
+    "question": {
+     "submitted": "How do intensive-care nurses experience moral distress around end-of-life decisions?",
+     "facts": {
+      "hypothesis": {
+       "sound": "An exploratory aim, stated up front, and no hypothesis, as suits an interview study."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Semi-structured interviews with ICU nurses at one university hospital.",
+     "facts": {
+      "reflexivity": {
+       "sound": "Interviews by a researcher from another hospital with no role over the nurses; her nursing background is described.",
+       "flaw": "Every interview was done by the unit's head nurse, who also writes the nurses' appraisals.",
+       "why": "Nurses are unlikely to speak freely to the person who appraises them, so the data themselves are compromised. New interviews are needed."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "Fourteen nurses, chosen for a range of experience and shift patterns.",
+     "facts": {
+      "recruitment": {
+       "sound": "Purposive sampling by years of experience and shift pattern; 3 of 17 nurses approached declined."
+      },
+      "saturation": {
+       "sound": "Interviews continued until three in a row added no new codes; the paper shows how this was judged.",
+       "flaw": "Data collection stopped at 14 because the project ended. Saturation is claimed but not shown.",
+       "why": "Saturation means new data stop adding insight, not that time ran out. Fixable: show how completeness was judged, or add interviews."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Interviews audio-recorded, transcribed in full and coded.",
+     "facts": {
+      "coding": {
+       "sound": "Two researchers coded independently and met to settle differences; the coding tree is in a supplement.",
+       "flaw": "One researcher coded every transcript. There is no coding tree and no second reader.",
+       "why": "With one coder and no audit trail, readers can't judge how the codes came from the data. Fixable: a second coder, the coding tree and an audit trail."
+      },
+      "instrument": {
+       "sound": "The interview guide was piloted with two nurses and is given in full."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Reflexive thematic analysis produced four themes.",
+     "facts": {
+      "themes": {
+       "sound": "Themes were built from codes across interviews and checked against the full data set.",
+       "flaw": "The four themes are the four headings of the interview guide, although the paper says they came from the data.",
+       "why": "Using the interview questions as themes summarises the guide, not the data; Braun & Clarke (2006) name it a pitfall. Fixable: redo the analysis."
+      }
+     }
+    }
+   }
+  },
+  "S6": {
+   "title": "A scan for appendicitis",
+   "field": "Emergency medicine",
+   "design": "Diagnostic accuracy study",
+   "claim": "Bedside ultrasound by emergency doctors detects appendicitis in children with 97% sensitivity.",
+   "slots": {
+    "question": {
+     "submitted": "How accurate is bedside ultrasound by emergency doctors for appendicitis in children?",
+     "facts": {
+      "registration": {
+       "sound": "Registered before recruitment, with the same target condition, population and cut-off as the paper.",
+       "flaw": "Registered for patients of all ages. The paper reports children only and never mentions the adults.",
+       "why": "Leaving out a registered group can hide results that didn't suit. Fixable: report the whole registered population, or explain why not."
+      },
+      "hypothesis": {
+       "sound": "Prespecified target: a sensitivity of at least 90%."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Every child had a scan; the diagnosis was confirmed with a reference standard.",
+     "facts": {
+      "reference-standard": {
+       "sound": "Histology if operated on; otherwise a phone follow-up at 14 days. The same rule for every child.",
+       "flaw": "Only children with a positive scan had surgery and histology. Negatives went home without follow-up.",
+       "why": "Missed cases among the negatives are never found, so sensitivity looks too high. Fixable only if follow-up can still be obtained for the negatives."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "Children aged 4 to 16 with abdominal pain, at two emergency departments.",
+     "facts": {
+      "recruitment": {
+       "sound": "Consecutive children with suspected appendicitis, on every shift.",
+       "flaw": "Children with surgically confirmed appendicitis, compared with healthy children from a school check-up.",
+       "why": "Comparing clear cases with healthy children leaves out the hard, look-alike cases, so accuracy is inflated. A new, clinically realistic sample is needed."
+      },
+      "flow": {
+       "sound": "Flow diagram: 412 eligible, 398 scanned, 6 without a reference standard, each explained."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Each scan read as positive or negative for appendicitis.",
+     "facts": {
+      "blinding": {
+       "sound": "Readers knew only the child's age and symptoms, not the lab results or the final diagnosis.",
+       "flaw": "Stored scans were read after surgery, by doctors who knew the histology result.",
+       "why": "Readers who know the answer read the scan in its light, which inflates accuracy. Fixable: re-read the stored scans blind."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Sensitivity and specificity with 95% confidence intervals.",
+     "facts": {
+      "thresholds": {
+       "sound": "Positive meant an appendix wider than 6 mm, a cut-off fixed in the protocol.",
+       "flaw": "The 6 mm cut-off was picked after the data, as the one giving the best accuracy.",
+       "why": "A cut-off tuned on the same data flatters accuracy. Fixable: use a prespecified cut-off, or validate this one in new data."
+      },
+      "missing-data": {
+       "sound": "Inconclusive scans (9%) counted as negative, and as positive in a sensitivity analysis."
+      }
+     }
+    }
+   }
+  },
+  "S7": {
+   "title": "Mindfulness apps for anxiety",
+   "field": "Digital mental health",
+   "design": "Systematic review and meta-analysis",
+   "claim": "Mindfulness apps reduce anxiety in adults, with a moderate pooled effect.",
+   "slots": {
+    "question": {
+     "submitted": "Do mindfulness apps reduce anxiety in adults, compared with control conditions?",
+     "facts": {
+      "registration": {
+       "sound": "Registered on PROSPERO before screening; outcomes and methods match the paper.",
+       "flaw": "PROSPERO lists depression as the primary outcome. The review leads with anxiety and doesn't say why.",
+       "why": "Choosing the headline outcome after seeing the results lets the best-looking one win. Fixable: report the registered outcome first and explain the change."
+      },
+      "hypothesis": {
+       "sound": "Question in PICO form: adults, app-based mindfulness, any control, anxiety symptoms."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Systematic search for randomised trials, screened by two reviewers.",
+     "facts": {
+      "search": {
+       "sound": "Five databases and two trial registers, no language limits; full search strings in a supplement.",
+       "flaw": "PubMed only, English only, no trial registers; the search string isn't given.",
+       "why": "One database misses many trials, and the missed ones are not a random set. Fixable: redo the search across several sources."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "23 randomised trials with 4,380 adults were included.",
+     "facts": {
+      "recruitment": {
+       "sound": "Any randomised trial was eligible, published or not, including register results and theses.",
+       "flaw": "Only trials published in journals were eligible; register results and theses were excluded.",
+       "why": "Unpublished trials more often find no effect, so leaving them out inflates the pooled effect. Fixable: widen eligibility and look for them."
+      },
+      "flow": {
+       "sound": "PRISMA flow diagram: 1,204 records, 61 full texts, 23 included; every exclusion has a reason."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Results and study quality extracted by two reviewers.",
+     "facts": {
+      "risk-of-bias": {
+       "sound": "Two reviewers applied RoB 2 to each trial independently; judgements shown domain by domain.",
+       "flaw": "No risk-of-bias tool was used; trials were called 'high quality' because they were peer-reviewed.",
+       "why": "Without judging each trial's bias, nobody can tell whether the effect rests on weak trials. Fixable: assess with RoB 2 and run a sensitivity analysis by risk of bias."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Random-effects meta-analysis of standardised mean differences.",
+     "facts": {
+      "heterogeneity": {
+       "sound": "I² = 34%; a subgroup analysis by type of control was planned and reported.",
+       "flaw": "I² = 89%, yet one pooled effect is presented as the answer, and the differences are not explored.",
+       "why": "When trials disagree this much, one average may describe none of them. Fixable: explore the causes (subgroups, meta-regression) and temper the summary."
+      },
+      "reporting-bias": {
+       "sound": "Funnel plot and Egger's test across the 23 trials show no clear asymmetry."
+      }
+     }
+    }
+   }
+  },
+  "S8": {
+   "title": "A drug for stroke mice",
+   "field": "Preclinical neuroscience",
+   "design": "Animal experiment",
+   "claim": "Compound NR-4, given after a stroke, cuts brain damage in mice by 40%.",
+   "slots": {
+    "question": {
+     "submitted": "Does compound NR-4, given after a stroke, reduce brain damage in mice?",
+     "facts": {
+      "registration": {
+       "sound": "Protocol registered beforehand, with infarct volume at 72 hours as primary outcome, as reported.",
+       "flaw": "Registered with a 24-hour behaviour score as primary. The paper reports infarct volume and omits the behaviour score.",
+       "why": "Dropping the registered outcome hides a result that may not have suited. Fixable: report the behaviour score and explain the switch."
+      },
+      "hypothesis": {
+       "sound": "Hypothesis stated: NR-4 reduces infarct volume at 72 hours compared with vehicle."
+      }
+     }
+    },
+    "method": {
+     "submitted": "Mice with an induced stroke received NR-4 or vehicle one hour later.",
+     "facts": {
+      "allocation": {
+       "sound": "Computer-made random list, held by a colleague who did no surgery.",
+       "flaw": "The first mice taken out of each cage got NR-4; the rest got vehicle.",
+       "why": "The mice caught first can differ (calmer, slower, smaller), so the groups may differ before treatment. The experiment has to be repeated with random allocation."
+      },
+      "intervention": {
+       "sound": "Dose, route, timing, vehicle and anaesthesia described; the vehicle looked identical."
+      }
+     }
+    },
+    "sample": {
+     "submitted": "Twelve mice per group, as planned.",
+     "facts": {
+      "sample-size": {
+       "sound": "Power calculation from pilot data: 12 per group to detect a 30% reduction."
+      },
+      "flow": {
+       "sound": "All 24 mice analysed; no deaths and no exclusions.",
+       "flaw": "Five NR-4 mice died or were excluded; they were replaced and are not mentioned.",
+       "why": "Replacing animals that died hides harm and can leave only the mice that responded. Fixable: report every animal and analyse with the losses included."
+      }
+     }
+    },
+    "measurement": {
+     "submitted": "Infarct volume measured on stained brain slices at 72 hours.",
+     "facts": {
+      "blinding": {
+       "sound": "Slices were coded; the person measuring them did not know the groups.",
+       "flaw": "The researcher who dosed the mice also measured the slices, knowing each group.",
+       "why": "Tracing infarct edges takes judgement that expectations can sway. Fixable here, unlike in a live test: the stored slices can be re-measured blind."
+      },
+      "instrument": {
+       "sound": "Infarct volume defined in the methods and corrected for brain swelling."
+      }
+     }
+    },
+    "analysis": {
+     "submitted": "Groups compared with a t-test; p < 0.001.",
+     "facts": {
+      "analysis-set": {
+       "sound": "Each mouse counted once, with its slices averaged: 12 per group.",
+       "flaw": "Each brain slice counted as a separate observation: 120 slices instead of 24 mice.",
+       "why": "Slices from one mouse are not independent, so the p-value is far too small. Fixable: reanalyse with the mouse as the unit."
+      }
+     }
+    }
+   }
+  }
+ }
+}

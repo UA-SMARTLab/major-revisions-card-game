@@ -1,0 +1,20 @@
+[
+  {"id": "consort", "name": "CONSORT 2025", "for": "Randomised trials",
+   "checklist": "https://www.consort-spirit.org/_files/ugd/b5740e_a6856e5e2cf94a1db5a8005853404160.pdf",
+   "ref": {"cite": "Hopewell et al. (2025). CONSORT 2025 statement: updated guideline for reporting randomised trials. BMJ.", "url": "https://doi.org/10.1136/bmj-2024-081123"}},
+  {"id": "strobe", "name": "STROBE", "for": "Cohort, case-control and cross-sectional studies",
+   "checklist": "https://www.strobe-statement.org/download/strobe-checklist-cohort-case-control-and-cross-sectional-studies-combined",
+   "ref": {"cite": "von Elm et al. (2007). The Strengthening the Reporting of Observational Studies in Epidemiology (STROBE) statement: guidelines for reporting observational studies. The Lancet.", "url": "https://doi.org/10.1016/S0140-6736(07)61602-X"}},
+  {"id": "prisma", "name": "PRISMA 2020", "for": "Systematic reviews",
+   "checklist": "https://www.prisma-statement.org/s/PRISMA_2020_checklist.pdf",
+   "ref": {"cite": "Page et al. (2021). The PRISMA 2020 statement: an updated guideline for reporting systematic reviews. BMJ.", "url": "https://doi.org/10.1136/bmj.n71"}},
+  {"id": "coreq", "name": "COREQ", "for": "Interview and focus-group studies",
+   "checklist": "https://www.dovepress.com/article/supplementary_file/531582/531582-additional-file-1-COREQ-checklist_1.pdf",
+   "ref": {"cite": "Tong et al. (2007). Consolidated criteria for reporting qualitative research (COREQ): a 32-item checklist for interviews and focus groups. International Journal for Quality in Health Care.", "url": "https://doi.org/10.1093/intqhc/mzm042"}},
+  {"id": "stard", "name": "STARD 2015", "for": "Diagnostic accuracy studies",
+   "checklist": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4623764/",
+   "ref": {"cite": "Bossuyt et al. (2015). STARD 2015: an updated list of essential items for reporting diagnostic accuracy studies. BMJ.", "url": "https://doi.org/10.1136/bmj.h5527"}},
+  {"id": "arrive", "name": "ARRIVE 2.0", "for": "Animal research",
+   "checklist": "https://arriveguidelines.org/sites/arrive/files/documents/Author%20Checklist%20-%20Full.pdf",
+   "ref": {"cite": "Percie du Sert et al. (2020). The ARRIVE guidelines 2.0: updated guidelines for reporting animal research. PLOS Biology.", "url": "https://doi.org/10.1371/journal.pbio.3000410"}}
+]

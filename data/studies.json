@@ -1,0 +1,300 @@
+[
+ {"id": "S1", "title": "Back on track", "field": "Physiotherapy", "design": "Randomised trial", "guideline": "consort",
+  "claim": "A 12-week supervised exercise programme improves physical function in adults with chronic low back pain.",
+  "slots": {
+   "question": {"submitted": "Does a 12-week exercise programme improve function in chronic low back pain, compared with usual care?",
+    "facts": [
+     {"request": "registration", "sound": "Registered before the first patient, with function at 12 weeks as primary outcome, as in the paper.",
+      "flaw": {"type": "switched-registration", "severity": "major",
+       "text": "Registered with pain at 12 weeks as primary outcome. The paper makes function primary and never says why.",
+       "why": "Switching the primary outcome after seeing the data lets a chance finding pass as the main result. Fixable: report the registered outcome as primary and explain the change."}},
+     {"request": "hypothesis", "sound": "Hypothesis stated: the programme improves the function score by at least 3 points more than usual care."}]},
+   "method": {"submitted": "Randomised trial in four clinics; patients allocated 1:1 to supervised exercise or usual care.",
+    "facts": [
+     {"request": "allocation", "sound": "Computer-made sequence in random blocks, released by a central web service only after enrolment.",
+      "flaw": {"type": "predictable-allocation", "severity": "reject",
+       "text": "Patients seen on Mondays and Wednesdays got exercise; patients seen on other days got usual care.",
+       "why": "Staff could foresee each allocation and steer who was enrolled on which day, so the groups may differ from the start. No reanalysis can undo that."}},
+     {"request": "intervention", "sound": "Two supervised sessions a week for 12 weeks; the full exercise protocol is in a supplement."}]},
+   "sample": {"submitted": "240 adults with low back pain for more than 3 months, referred by their GPs.",
+    "facts": [
+     {"request": "recruitment", "sound": "All consecutive referrals screened against published criteria; 240 of 412 eligible and consenting.",
+      "flaw": {"type": "hand-picked", "severity": "minor",
+       "text": "Physiotherapists enrolled only patients they judged 'motivated to exercise'; no written criteria.",
+       "why": "Randomisation still balances the groups, so the comparison is fair, but the result may not apply to typical patients. Minor: report it and narrow the claims."}},
+     {"request": "flow", "sound": "Flow diagram: 412 screened, 240 randomised, 226 analysed; losses similar per arm, with reasons."}]},
+   "measurement": {"submitted": "Function scored with a standard performance test at 12 weeks.",
+    "facts": [
+     {"request": "blinding", "sound": "Tests scored by assessors from another clinic who did not know anyone's group.",
+      "flaw": {"type": "unblinded-assessors", "severity": "reject",
+       "text": "Each patient's own physiotherapist scored the test, knowing who had the exercise programme.",
+       "why": "Assessors who know the groups tend to see the effect they expect. A 12-week performance test can't be repeated blind afterwards, so the main result can't be rescued."}},
+     {"request": "instrument", "sound": "The performance test has published reliability and validity in low back pain."}]},
+   "analysis": {"submitted": "Groups compared with a linear model adjusted for baseline function.",
+    "facts": [
+     {"request": "missing-data", "sound": "6% of outcomes missing, handled by multiple imputation; complete-case results agree."},
+     {"request": "analysis-set", "sound": "Every randomised patient analysed in the group they were assigned to.",
+      "flaw": {"type": "per-protocol", "severity": "major",
+       "text": "Only patients who attended at least 80% of sessions were analysed: 61 of 120 in the exercise arm.",
+       "why": "Dropping non-adherers breaks randomisation: people who keep exercising differ from those who stop. Fixable: reanalyse everyone as randomised (intention to treat)."}}]}
+  }},
+
+ {"id": "S2", "title": "Late-night scrolling", "field": "Adolescent health", "design": "Cohort study", "guideline": "strobe",
+  "claim": "Heavy social-media use at age 13 predicts sleep problems at age 15.",
+  "slots": {
+   "question": {"submitted": "Does heavy social-media use at age 13 predict sleep problems at age 15?",
+    "facts": [
+     {"request": "hypothesis", "sound": "Hypothesis from the funded proposal, cited: more daily use, more sleep problems at 15, in girls and boys alike.",
+      "flaw": {"type": "harking", "severity": "major",
+       "text": "The introduction predicts an effect in girls only. The proposal predicted it for everyone; only girls showed it.",
+       "why": "A hypothesis written after the results makes a chance subgroup finding look like a confirmed prediction. Fixable: restore the original hypothesis and label the girls-only result exploratory."}},
+     {"request": "registration", "sound": "Not preregistered; the authors say so plainly in the limitations."}]},
+   "method": {"submitted": "Prospective school-based cohort with questionnaires at ages 13 and 15.",
+    "facts": [
+     {"request": "timeline", "sound": "Use measured at 13 and sleep at 15, two years apart, at the same point in the school year.",
+      "flaw": {"type": "reverse-timing", "severity": "reject",
+       "text": "Both were asked at 15: pupils recalled how much they had used social media two years earlier.",
+       "why": "Use at 13 is recalled after the sleep problems began, so the timing that made it a prediction is gone. Only data collected at 13 could fix this."}}]},
+   "sample": {"submitted": "3,000 pupils from 40 schools enrolled at 13; 2,310 followed up at 15.",
+    "facts": [
+     {"request": "flow", "sound": "Losses shown by school and reason; leavers and stayers had similar use and sleep at 13.",
+      "flaw": {"type": "attrition", "severity": "major",
+       "text": "Heavy users were twice as likely to be lost by 15; leavers and stayers are never compared.",
+       "why": "If the heavy users who left slept differently, the estimate is biased. Fixable: compare leavers with stayers and correct with weighting or imputation."}},
+     {"request": "sample-size", "sound": "Size set by the parent cohort; the paper reports the precision this gives the main estimate."}]},
+   "measurement": {"submitted": "Sleep problems at 15 measured by questionnaire.",
+    "facts": [
+     {"request": "instrument", "sound": "A validated adolescent sleep questionnaire, plus a week of wrist actigraphy in a subsample.",
+      "flaw": {"type": "unvalidated-measure", "severity": "major",
+       "text": "One yes/no item written for this study, 'Do you often sleep badly?', with no validation.",
+       "why": "One home-made yes/no item can't show it measures sleep problems. Fixable in part: use the cohort's fuller sleep measures, or validate the item in a subsample, and temper the claims."}}]},
+   "analysis": {"submitted": "Logistic regression of sleep problems on hours of use, adjusted for confounders.",
+    "facts": [
+     {"request": "confounding", "sound": "Adjusted for sleep, mood and family income at 13, chosen in advance from a causal diagram."},
+     {"request": "sensitivity", "sound": "Results hold with use in hours per day and with cut-offs at 2, 3 and 4 hours.",
+      "flaw": {"type": "p-hacking", "severity": "major",
+       "text": "Use was split at 3 hours after trying cut-offs from 1 to 5; only the one with p < 0.05 is reported.",
+       "why": "Trying many cut-offs and reporting the one that works inflates false positives. Fixable: analyse hours as a continuous measure, or show every cut-off."}}]}
+  }},
+
+ {"id": "S3", "title": "Sleeping pills and hip fracture", "field": "Pharmacoepidemiology", "design": "Case-control study", "guideline": "strobe",
+  "claim": "Benzodiazepine use doubles the risk of hip fracture in people over 70.",
+  "slots": {
+   "question": {"submitted": "Does benzodiazepine use raise the risk of hip fracture in people over 70?",
+    "facts": [
+     {"request": "hypothesis", "sound": "Protocol hypothesis: benzodiazepine use raises hip-fracture risk. The paper tests that one question.",
+      "flaw": {"type": "p-hacking", "severity": "major",
+       "text": "Nine sleep medicines were tested. The headline is the one significant drug, with no correction for nine tests.",
+       "why": "With nine tests, one 'significant' result is likely by chance alone. Fixable: report all nine, correct for multiple testing, and call the single-drug finding exploratory."}}]},
+   "method": {"submitted": "Case-control study: 400 hip-fracture cases and 800 matched controls from two regions.",
+    "facts": [
+     {"request": "timeline", "sound": "Drug use counted only in the year before each case's fracture date, with the same window for its controls.",
+      "flaw": {"type": "reverse-timing", "severity": "major",
+       "text": "Drug use counted from 6 months before to 1 month after the fracture, when many start sleeping pills in hospital.",
+       "why": "Pills started because of the fracture are counted as its cause. Fixable: rerun the analysis with use before the fracture date only."}}]},
+   "sample": {"submitted": "Cases from hospital admissions; controls matched on age and sex.",
+    "facts": [
+     {"request": "recruitment", "sound": "Controls drawn at random from the same regions' population register.",
+      "flaw": {"type": "control-selection", "severity": "reject",
+       "text": "Controls were volunteers recruited at senior fitness clubs.",
+       "why": "Fitness-club members take fewer sleeping pills and fall less than the population the cases came from, so the comparison is biased from the start. New controls are needed."}},
+     {"request": "flow", "sound": "81% of cases and 76% of controls took part; reasons for refusal are reported."}]},
+   "measurement": {"submitted": "Benzodiazepine use assessed in the same way for cases and controls.",
+    "facts": [
+     {"request": "instrument", "sound": "Use taken from pharmacy dispensing records for cases and controls alike.",
+      "flaw": {"type": "recall-bias", "severity": "major",
+       "text": "Use recalled in interviews: cases on the ward days after their fracture, controls by phone.",
+       "why": "Cases search their memory harder, in a different setting, so their use is over-reported. Fixable in part: check the answers against pharmacy records."}},
+     {"request": "blinding", "sound": "Records abstracted by staff who did not know who was a case."}]},
+   "analysis": {"submitted": "Conditional logistic regression, adjusted for other risk factors.",
+    "facts": [
+     {"request": "confounding", "sound": "Adjusted for dementia, frailty, previous falls and other fall-risk drugs, chosen in advance.",
+      "flaw": {"type": "confounding", "severity": "major",
+       "text": "Adjusted for age and sex only. Dementia and frailty, which lead to both pills and falls, are ignored.",
+       "why": "Frail people get more sleeping pills and fall more, so part of the 'drug effect' may be frailty. Fixable if the data hold these factors: adjust for them and show both estimates."}},
+     {"request": "sensitivity", "sound": "Results similar when restricted to new users and to fractures from simple falls."}]}
+  }},
+
+ {"id": "S4", "title": "Burnout in the doctorate", "field": "Higher education", "design": "Cross-sectional survey", "guideline": "strobe",
+  "claim": "Almost half of PhD students are burnt out, and poor supervision causes it.",
+  "slots": {
+   "question": {"submitted": "How common is burnout among PhD students, and what is it associated with?",
+    "facts": [
+     {"request": "hypothesis", "sound": "Aims: estimate prevalence and describe associations. The conclusion stays descriptive.",
+      "flaw": {"type": "overclaiming", "severity": "minor",
+       "text": "The aim is descriptive, yet the abstract concludes that poor supervision causes burnout.",
+       "why": "A one-off survey can't show which came first, burnout or poor supervision. Minor: rewrite the conclusion as an association."}}]},
+   "method": {"submitted": "Online survey of PhD students at four universities in spring 2025.",
+    "facts": [
+     {"request": "timeline", "sound": "Survey open for three weeks in March 2025, away from the main submission deadlines."}]},
+   "sample": {"submitted": "1,260 PhD students completed the survey.",
+    "facts": [
+     {"request": "recruitment", "sound": "All 2,100 enrolled PhD students were invited by email, with two reminders.",
+      "flaw": {"type": "volunteer-sample", "severity": "reject",
+       "text": "The link was shared on a PhD well-being forum and on social media; anyone could answer.",
+       "why": "Whether people answer depends on how much burnout matters to them, so the prevalence can't be generalised. A new, defined sample is needed."}},
+     {"request": "flow", "sound": "Numbers who opened, started and finished the survey are reported, with the drop-off at each step."}]},
+   "measurement": {"submitted": "Burnout measured with a questionnaire scored against a cut-off.",
+    "facts": [
+     {"request": "instrument", "sound": "A validated burnout inventory, scored with the manual's published cut-off.",
+      "flaw": {"type": "unvalidated-measure", "severity": "major",
+       "text": "Five items written by the authors; 'burnout' means scoring above the midpoint; no validation.",
+       "why": "A prevalence is only as good as the measure and its cut-off. Fixable only in part: give validity evidence, or report scores instead of a prevalence."}}]},
+   "analysis": {"submitted": "Prevalence with 95% confidence intervals; regression for associations.",
+    "facts": [
+     {"request": "missing-data", "sound": "3% of items missing, prorated as the scale's manual specifies.",
+      "flaw": {"type": "missing-data", "severity": "major",
+       "text": "The 22% who skipped any item were dropped; skipping was commonest among those reporting long hours.",
+       "why": "If the students under most pressure skipped items, dropping them biases the prevalence. Fixable: multiple imputation, and compare completers with non-completers."}},
+     {"request": "sensitivity", "sound": "Estimates weighted by faculty and sex give the same prevalence within 2 points."}]}
+  }},
+
+ {"id": "S5", "title": "Moral distress in intensive care", "field": "Nursing", "design": "Interview study", "guideline": "coreq",
+  "claim": "ICU nurses' moral distress centres on staffing, families and end-of-life decisions.",
+  "slots": {
+   "question": {"submitted": "How do intensive-care nurses experience moral distress around end-of-life decisions?",
+    "facts": [
+     {"request": "hypothesis", "sound": "An exploratory aim, stated up front, and no hypothesis, as suits an interview study."}]},
+   "method": {"submitted": "Semi-structured interviews with ICU nurses at one university hospital.",
+    "facts": [
+     {"request": "reflexivity", "sound": "Interviews by a researcher from another hospital with no role over the nurses; her nursing background is described.",
+      "flaw": {"type": "insider-interviewer", "severity": "reject",
+       "text": "Every interview was done by the unit's head nurse, who also writes the nurses' appraisals.",
+       "why": "Nurses are unlikely to speak freely to the person who appraises them, so the data themselves are compromised. New interviews are needed."}}]},
+   "sample": {"submitted": "Fourteen nurses, chosen for a range of experience and shift patterns.",
+    "facts": [
+     {"request": "recruitment", "sound": "Purposive sampling by years of experience and shift pattern; 3 of 17 nurses approached declined."},
+     {"request": "saturation", "sound": "Interviews continued until three in a row added no new codes; the paper shows how this was judged.",
+      "flaw": {"type": "early-saturation", "severity": "major",
+       "text": "Data collection stopped at 14 because the project ended. Saturation is claimed but not shown.",
+       "why": "Saturation means new data stop adding insight, not that time ran out. Fixable: show how completeness was judged, or add interviews."}}]},
+   "measurement": {"submitted": "Interviews audio-recorded, transcribed in full and coded.",
+    "facts": [
+     {"request": "coding", "sound": "Two researchers coded independently and met to settle differences; the coding tree is in a supplement.",
+      "flaw": {"type": "single-coder", "severity": "major",
+       "text": "One researcher coded every transcript. There is no coding tree and no second reader.",
+       "why": "With one coder and no audit trail, readers can't judge how the codes came from the data. Fixable: a second coder, the coding tree and an audit trail."}},
+     {"request": "instrument", "sound": "The interview guide was piloted with two nurses and is given in full."}]},
+   "analysis": {"submitted": "Reflexive thematic analysis produced four themes.",
+    "facts": [
+     {"request": "themes", "sound": "Themes were built from codes across interviews and checked against the full data set.",
+      "flaw": {"type": "themes-from-guide", "severity": "major",
+       "text": "The four themes are the four headings of the interview guide, although the paper says they came from the data.",
+       "why": "Using the interview questions as themes summarises the guide, not the data; Braun & Clarke (2006) name it a pitfall. Fixable: redo the analysis."}}]}
+  }},
+
+ {"id": "S6", "title": "A scan for appendicitis", "field": "Emergency medicine", "design": "Diagnostic accuracy study", "guideline": "stard",
+  "claim": "Bedside ultrasound by emergency doctors detects appendicitis in children with 97% sensitivity.",
+  "slots": {
+   "question": {"submitted": "How accurate is bedside ultrasound by emergency doctors for appendicitis in children?",
+    "facts": [
+     {"request": "registration", "sound": "Registered before recruitment, with the same target condition, population and cut-off as the paper.",
+      "flaw": {"type": "switched-registration", "severity": "major",
+       "text": "Registered for patients of all ages. The paper reports children only and never mentions the adults.",
+       "why": "Leaving out a registered group can hide results that didn't suit. Fixable: report the whole registered population, or explain why not."}},
+     {"request": "hypothesis", "sound": "Prespecified target: a sensitivity of at least 90%."}]},
+   "method": {"submitted": "Every child had a scan; the diagnosis was confirmed with a reference standard.",
+    "facts": [
+     {"request": "reference-standard", "sound": "Histology if operated on; otherwise a phone follow-up at 14 days. The same rule for every child.",
+      "flaw": {"type": "verification-bias", "severity": "major",
+       "text": "Only children with a positive scan had surgery and histology. Negatives went home without follow-up.",
+       "why": "Missed cases among the negatives are never found, so sensitivity looks too high. Fixable only if follow-up can still be obtained for the negatives."}}]},
+   "sample": {"submitted": "Children aged 4 to 16 with abdominal pain, at two emergency departments.",
+    "facts": [
+     {"request": "recruitment", "sound": "Consecutive children with suspected appendicitis, on every shift.",
+      "flaw": {"type": "spectrum-bias", "severity": "reject",
+       "text": "Children with surgically confirmed appendicitis, compared with healthy children from a school check-up.",
+       "why": "Comparing clear cases with healthy children leaves out the hard, look-alike cases, so accuracy is inflated. A new, clinically realistic sample is needed."}},
+     {"request": "flow", "sound": "Flow diagram: 412 eligible, 398 scanned, 6 without a reference standard, each explained."}]},
+   "measurement": {"submitted": "Each scan read as positive or negative for appendicitis.",
+    "facts": [
+     {"request": "blinding", "sound": "Readers knew only the child's age and symptoms, not the lab results or the final diagnosis.",
+      "flaw": {"type": "review-bias", "severity": "major",
+       "text": "Stored scans were read after surgery, by doctors who knew the histology result.",
+       "why": "Readers who know the answer read the scan in its light, which inflates accuracy. Fixable: re-read the stored scans blind."}}]},
+   "analysis": {"submitted": "Sensitivity and specificity with 95% confidence intervals.",
+    "facts": [
+     {"request": "thresholds", "sound": "Positive meant an appendix wider than 6 mm, a cut-off fixed in the protocol.",
+      "flaw": {"type": "data-driven-cutoff", "severity": "major",
+       "text": "The 6 mm cut-off was picked after the data, as the one giving the best accuracy.",
+       "why": "A cut-off tuned on the same data flatters accuracy. Fixable: use a prespecified cut-off, or validate this one in new data."}},
+     {"request": "missing-data", "sound": "Inconclusive scans (9%) counted as negative, and as positive in a sensitivity analysis."}]}
+  }},
+
+ {"id": "S7", "title": "Mindfulness apps for anxiety", "field": "Digital mental health", "design": "Systematic review and meta-analysis", "guideline": "prisma",
+  "claim": "Mindfulness apps reduce anxiety in adults, with a moderate pooled effect.",
+  "slots": {
+   "question": {"submitted": "Do mindfulness apps reduce anxiety in adults, compared with control conditions?",
+    "facts": [
+     {"request": "registration", "sound": "Registered on PROSPERO before screening; outcomes and methods match the paper.",
+      "flaw": {"type": "switched-registration", "severity": "major",
+       "text": "PROSPERO lists depression as the primary outcome. The review leads with anxiety and doesn't say why.",
+       "why": "Choosing the headline outcome after seeing the results lets the best-looking one win. Fixable: report the registered outcome first and explain the change."}},
+     {"request": "hypothesis", "sound": "Question in PICO form: adults, app-based mindfulness, any control, anxiety symptoms."}]},
+   "method": {"submitted": "Systematic search for randomised trials, screened by two reviewers.",
+    "facts": [
+     {"request": "search", "sound": "Five databases and two trial registers, no language limits; full search strings in a supplement.",
+      "flaw": {"type": "narrow-search", "severity": "major",
+       "text": "PubMed only, English only, no trial registers; the search string isn't given.",
+       "why": "One database misses many trials, and the missed ones are not a random set. Fixable: redo the search across several sources."}}]},
+   "sample": {"submitted": "23 randomised trials with 4,380 adults were included.",
+    "facts": [
+     {"request": "recruitment", "sound": "Any randomised trial was eligible, published or not, including register results and theses.",
+      "flaw": {"type": "publication-bias", "severity": "major",
+       "text": "Only trials published in journals were eligible; register results and theses were excluded.",
+       "why": "Unpublished trials more often find no effect, so leaving them out inflates the pooled effect. Fixable: widen eligibility and look for them."}},
+     {"request": "flow", "sound": "PRISMA flow diagram: 1,204 records, 61 full texts, 23 included; every exclusion has a reason."}]},
+   "measurement": {"submitted": "Results and study quality extracted by two reviewers.",
+    "facts": [
+     {"request": "risk-of-bias", "sound": "Two reviewers applied RoB 2 to each trial independently; judgements shown domain by domain.",
+      "flaw": {"type": "no-risk-of-bias", "severity": "major",
+       "text": "No risk-of-bias tool was used; trials were called 'high quality' because they were peer-reviewed.",
+       "why": "Without judging each trial's bias, nobody can tell whether the effect rests on weak trials. Fixable: assess with RoB 2 and run a sensitivity analysis by risk of bias."}}]},
+   "analysis": {"submitted": "Random-effects meta-analysis of standardised mean differences.",
+    "facts": [
+     {"request": "heterogeneity", "sound": "I² = 34%; a subgroup analysis by type of control was planned and reported.",
+      "flaw": {"type": "unexplored-heterogeneity", "severity": "major",
+       "text": "I² = 89%, yet one pooled effect is presented as the answer, and the differences are not explored.",
+       "why": "When trials disagree this much, one average may describe none of them. Fixable: explore the causes (subgroups, meta-regression) and temper the summary."}},
+     {"request": "reporting-bias", "sound": "Funnel plot and Egger's test across the 23 trials show no clear asymmetry."}]}
+  }},
+
+ {"id": "S8", "title": "A drug for stroke mice", "field": "Preclinical neuroscience", "design": "Animal experiment", "guideline": "arrive",
+  "claim": "Compound NR-4, given after a stroke, cuts brain damage in mice by 40%.",
+  "slots": {
+   "question": {"submitted": "Does compound NR-4, given after a stroke, reduce brain damage in mice?",
+    "facts": [
+     {"request": "registration", "sound": "Protocol registered beforehand, with infarct volume at 72 hours as primary outcome, as reported.",
+      "flaw": {"type": "switched-registration", "severity": "major",
+       "text": "Registered with a 24-hour behaviour score as primary. The paper reports infarct volume and omits the behaviour score.",
+       "why": "Dropping the registered outcome hides a result that may not have suited. Fixable: report the behaviour score and explain the switch."}},
+     {"request": "hypothesis", "sound": "Hypothesis stated: NR-4 reduces infarct volume at 72 hours compared with vehicle."}]},
+   "method": {"submitted": "Mice with an induced stroke received NR-4 or vehicle one hour later.",
+    "facts": [
+     {"request": "allocation", "sound": "Computer-made random list, held by a colleague who did no surgery.",
+      "flaw": {"type": "predictable-allocation", "severity": "reject",
+       "text": "The first mice taken out of each cage got NR-4; the rest got vehicle.",
+       "why": "The mice caught first can differ (calmer, slower, smaller), so the groups may differ before treatment. The experiment has to be repeated with random allocation."}},
+     {"request": "intervention", "sound": "Dose, route, timing, vehicle and anaesthesia described; the vehicle looked identical."}]},
+   "sample": {"submitted": "Twelve mice per group, as planned.",
+    "facts": [
+     {"request": "sample-size", "sound": "Power calculation from pilot data: 12 per group to detect a 30% reduction."},
+     {"request": "flow", "sound": "All 24 mice analysed; no deaths and no exclusions.",
+      "flaw": {"type": "unreported-exclusions", "severity": "major",
+       "text": "Five NR-4 mice died or were excluded; they were replaced and are not mentioned.",
+       "why": "Replacing animals that died hides harm and can leave only the mice that responded. Fixable: report every animal and analyse with the losses included."}}]},
+   "measurement": {"submitted": "Infarct volume measured on stained brain slices at 72 hours.",
+    "facts": [
+     {"request": "blinding", "sound": "Slices were coded; the person measuring them did not know the groups.",
+      "flaw": {"type": "unblinded-assessors", "severity": "major",
+       "text": "The researcher who dosed the mice also measured the slices, knowing each group.",
+       "why": "Tracing infarct edges takes judgement that expectations can sway. Fixable here, unlike in a live test: the stored slices can be re-measured blind."}},
+     {"request": "instrument", "sound": "Infarct volume defined in the methods and corrected for brain swelling."}]},
+   "analysis": {"submitted": "Groups compared with a t-test; p < 0.001.",
+    "facts": [
+     {"request": "analysis-set", "sound": "Each mouse counted once, with its slices averaged: 12 per group.",
+      "flaw": {"type": "pseudoreplication", "severity": "major",
+       "text": "Each brain slice counted as a separate observation: 120 slices instead of 24 mice.",
+       "why": "Slices from one mouse are not independent, so the p-value is far too small. Fixable: reanalyse with the mouse as the unit."}}]}
+  }}
+]

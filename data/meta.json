@@ -1,0 +1,29 @@
+{
+  "title": "Major Revisions",
+  "tagline": "A deduction card game for scientists: find the flaw hidden in the manuscript before your review rounds run out.",
+  "version": "0.1",
+  "slots": [
+    {"id": "question", "name": "Question", "ask": "What the study set out to answer, and what was planned.", "color": "#4338CA"},
+    {"id": "method", "name": "Method", "ask": "How the study was designed and run.", "color": "#0F766E"},
+    {"id": "sample", "name": "Sample", "ask": "Who or what was studied, and who was lost.", "color": "#B45309"},
+    {"id": "measurement", "name": "Measurement", "ask": "How the outcomes and exposures were measured.", "color": "#BE185D"},
+    {"id": "analysis", "name": "Analysis", "ask": "How the data were analysed and turned into a conclusion.", "color": "#1D4ED8"}
+  ],
+  "verdicts": [
+    {"id": "accept", "name": "Accept", "color": "#15803D",
+     "short": "Sound as it stands. Publish.",
+     "when": "No flaw: every request was answered well."},
+    {"id": "minor", "name": "Minor revisions", "color": "#4D7C0F",
+     "short": "A gap in the reporting or the wording. The conclusion stands.",
+     "when": "Fix with clearer reporting or softer claims; no new analysis."},
+    {"id": "major", "name": "Major revisions", "color": "#C2410C",
+     "short": "A real problem that the authors can still fix.",
+     "when": "Fix with new analyses, data the authors already hold, or a redone step."},
+    {"id": "reject", "name": "Reject", "color": "#991B1B",
+     "short": "A fatal flaw. Only a new study could answer the question.",
+     "when": "The data themselves are compromised; no reanalysis can rescue them."}
+  ],
+  "scoring": {"flaw_found": 3, "wrong_card": -1, "verdict": 2, "unused_request": 1, "author_per_flaw": 3},
+  "app": {"requests": 5, "hand_decoys": 2},
+  "table": {"rounds": 6}
+}
