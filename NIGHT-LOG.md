@@ -78,3 +78,22 @@ Kept local: no GitHub repository, no push, nothing published.
 ## Commits
 
 See `git log`. Each finished piece was committed locally.
+
+# Changelog
+
+## 2026-10-31: more Minor flaws
+
+- **16 new Minor flaws**, two per study, on answers that were sound-only: reporting gaps (intervention, flow, sample
+  size, unshown sensitivity analyses, a missing confidence interval, no accuracy target, sampling approach,
+  interview guide, survey dates) and one wording flaw ("no publication bias"). Severity spread is now 8 Reject,
+  28 Major, 18 Minor (was 2 Minor). Seven new flaw types, each reference checked by DOI in Crossref (DESIGN.md §6).
+- **Rule change:** a slot may have two flawed cards (`-F`, `-F2`); a card still shows one flaw at most. The app picks
+  which flawed card to deal with its seeded generator; at the table the Author chooses. Old `#m=` numbers may now deal
+  a different manuscript.
+- An independent methodologist read argued against "minor" for each new flaw; all stayed minor, and 11 were
+  reworded on its advice.
+- Counts: 94 Manuscript cards (133 printable cards), 195 possible flawed manuscripts. Minor revisions is now the
+  right verdict in 15.4% of deals (was 2.8%), by enumerating the dealing rule.
+- Checks: build with no errors or warnings; no card overflows (133 cards); 49 app tests pass, including new ones
+  for F2 cards, an all-minor manuscript and the Minor share. Screenshots of an F2 card in a Minor-verdict result
+  looked at in light and dark, desktop and 390 px.

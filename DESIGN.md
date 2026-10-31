@@ -27,6 +27,14 @@ before the requests run out.
   learn a review routine rather than a study. Each slot has one or two answers (a card holds two at most).
 - **One flaw per card, one or two flawed cards per manuscript.** One keeps the deduction clean; two adds the
   question "is there another?" and teaches that the worst flaw sets the verdict.
+- **A slot may have two flawed cards** (changed 2026-10-31). Both answers of a slot may carry a flaw; each becomes
+  its own flawed card, whose other answer stays sound, so a card still carries one flaw at most. Codes stay stable:
+  `MR-1S-F` is the card for the slot's first flawed answer in data order, `MR-1S-F2` for the second (where the new
+  flaw sat before the old one, the two answers swapped places: S2 Analysis, S5 Sample, S8 Sample). This made room
+  for minor flaws on answers that were sound-only. The app picks the flawed slots as before, then which flawed card
+  each one shows, uniformly with the same seeded generator, so deals stay deterministic; a manuscript number from
+  before this change (`#m=…`) may deal a different manuscript now. At the table the Author chooses which flawed card
+  to plant.
 - **Requests are tied to a slot.** A request is answered by one card, so choosing a request means choosing where to
   look. Requests that don't apply to the study cost a round ("Not applicable"): knowing that a search strategy
   belongs to a review, not a trial, is part of the skill. The app deals the study's own requests plus two such decoys.
@@ -53,15 +61,27 @@ study" on the card and in the footer; none is presented as real. Their flaws are
 | Back on track | Randomised trial | CONSORT 2025 | 5 |
 | Late-night scrolling | Cohort study | STROBE | 5 |
 | Sleeping pills and hip fracture | Case-control study | STROBE | 5 |
-| Burnout in the doctorate | Cross-sectional survey | STROBE | 4 |
+| Burnout in the doctorate | Cross-sectional survey | STROBE | 5 |
 | Moral distress in intensive care | Interview study | COREQ | 4 |
 | A scan for appendicitis | Diagnostic accuracy study | STARD 2015 | 5 |
 | Mindfulness apps for anxiety | Systematic review and meta-analysis | PRISMA 2020 | 5 |
 | A drug for stroke mice | Animal experiment | ARRIVE 2.0 | 5 |
 
-That gives 110 flawed manuscripts (each study with one or two flawed cards), plus sound ones in expert mode.
-Severity spread over the 38 flawed answers: 8 Reject, 28 Major, 2 Minor. Minor flaws are rare on purpose (a planted flaw should
-matter), but more would make the Minor card easier to learn; see §7.
+That gives 195 flawed manuscripts (each study with one or two flawed cards, each from one or two flawed versions
+of its slot), plus sound ones in expert mode. Severity spread over the 54 flawed answers: 8 Reject, 28 Major,
+18 Minor (a third). Every study has two Minor flaws; 15 slots have two flawed cards.
+
+Because the worst flaw sets the verdict, Minor revisions is right only when every planted flaw is minor. Enumerating
+the app's dealing rule, that is 15.4% of normal deals (it was 2.8% with 2 Minor flaws); Major revisions 61.5%,
+Reject 23.1%. Raising the Minor share further would need a change to the dealing rule (for example dealing all-minor
+manuscripts more often), not more data; see §8.
+
+The 16 Minor flaws added on 2026-10-31 are reporting gaps (an intervention not described, flow or sample size not
+reported, sensitivity analyses claimed but not shown, an odds ratio without an interval, no prespecified accuracy
+target, a guide or sampling approach not described) and one wording problem ("no publication bias" from a funnel
+plot). An independent methodologist read checked each one cold and argued against "minor" where it could; all
+stayed minor, and eleven texts were reworded on its advice (for example, a small study's large effect is no longer
+taken as proof that it stands, and no minor *why* promises the result is safe when another flaw may be dealt with it).
 
 ## 5. Card data and tooling
 
@@ -69,8 +89,10 @@ As in Methodical: card text only in `data/*.json`; `tools/build.py` validates an
 flaw key, `ANSWER_KEY.md`, the app and `i18n/en/cards.json`. Checks specific to this game: a flawed answer's request
 must have a checklist item in that study's guideline (so the end screen can always name it); each study needs at
 least three flawable slots; each slot one or two answers. `tools/check_cards.py` renders every printed card at print
-size in headless Chrome and fails if a text box or name bar overflows (all 117 cards fit at full size, none needed
-shrinking). `tools/test_app.py` plays the app headless (38 checks).
+size in headless Chrome and fails if a text box or name bar overflows (all 133 cards fit at full size, none needed
+shrinking). `tools/test_app.py` plays the app headless (49 checks, including: every F2 card gets dealt, the result
+shows an F2 card's own flaw, an all-minor manuscript's right verdict is Minor revisions, and the Minor share of 4,000
+deals matches the enumerated 15.4%).
 
 The card frame, fonts, fitting script, viewer and green confirm button are the kit's, copied from Methodical. This
 game adds: Study, Manuscript (with a masked state for the app), Request and Verdict card types; an orange accent
@@ -102,6 +124,25 @@ issue: Berger (2015, online 2013) and Saunders et al. (2018, online 2017). The c
 "using the interview questions as themes" as a pitfall was checked in a copy of the paper's text, not the publisher's
 page; check the page number before quoting it in print.
 
+**References for the Minor flaws (added 2026-10-31).** Seven new flaw types, each looked up by DOI in Crossref the
+same day; first author, year (print = online = issue year) and title match the cite:
+
+| Flaw type | Reference | Check |
+|---|---|---|
+| Missing detail | Glasziou et al. (2014), [doi:10.1016/S0140-6736(13)62228-X](https://doi.org/10.1016/S0140-6736(13)62228-X) | Crossref |
+| Intervention not described | Hoffmann et al. (2014), TIDieR, [doi:10.1136/bmj.g1687](https://doi.org/10.1136/bmj.g1687) | Crossref |
+| No prespecified target | Korevaar et al. (2019), [doi:10.1186/s41512-019-0069-2](https://doi.org/10.1186/s41512-019-0069-2) | Crossref |
+| Flow not reported | Egger et al. (2001), [doi:10.1001/jama.285.15.1996](https://doi.org/10.1001/jama.285.15.1996) | Crossref lists only Egger; PubMed 11308437 gives Egger, Jüni, Bartlett (CONSORT Group) |
+| Sample size not explained | Charles et al. (2009), [doi:10.1136/bmj.b1732](https://doi.org/10.1136/bmj.b1732) | Crossref |
+| Checks not shown | Thabane et al. (2013), [doi:10.1186/1471-2288-13-92](https://doi.org/10.1186/1471-2288-13-92) | Crossref |
+| No confidence interval | Gardner & Altman (1986), [doi:10.1136/bmj.292.6522.746](https://doi.org/10.1136/bmj.292.6522.746) | Crossref |
+
+The S7 wording flaw reuses Overclaiming (Boutron & Ravaud, 2018). No new checklist item numbers were needed: every
+Minor flaw is caught by a request whose item for that study's guideline was already verified. The wording of the
+items the new flaws rely on was re-read the same day: STROBE 5, 10, 12e, 13a–c and 16a in the STROBE explanation
+paper ([PMC2020496](https://pmc.ncbi.nlm.nih.gov/articles/PMC2020496/)); COREQ 10, 11 and 17 in the checklist copy
+linked above.
+
 ## 7. Prior art: games about peer review and research methods
 
 Surveyed on 2026-10-31 so that Major Revisions adds something new; no content was taken from any of them.
@@ -131,9 +172,14 @@ requests tied to reporting-guideline items, and a scored editorial verdict. Fere
 
 1. **Playtest at the table**: is 6 rounds and an 8-card request menu right for 3–6 players? Does the Author have
    enough say (choice of flaws) to be fun?
-2. **More Minor flaws** (only 2 of 38) and a few more sound-only answers per study, so that asking is never certain.
-3. **More studies**: a cluster or stepped-wedge trial, a prediction model (TRIPOD+AI), an economic evaluation
+2. **The Minor verdict's share.** Minor flaws are now a third of all flaws (18 of 54), yet Minor revisions is right
+   in only 15.4% of deals, because any major or reject flaw dealt with it wins. Decide whether to weight the deal
+   towards all-minor manuscripts. Also: some cards now have no sound-only answer left, so asking is more often
+   decisive; a few more sound-only answers per study would restore some uncertainty.
+3. **Consistency between cards dealt together.** Some numbers on sound cards disagree with each other (S1: the flow
+   card says 226 analysed, the analysis cards imply all 240 with imputation), and should be checked study by study.
+4. **More studies**: a cluster or stepped-wedge trial, a prediction model (TRIPOD+AI), an economic evaluation
    (CHEERS 2022), a quality-improvement study (SQUIRE 2.0). Item numbers must be checked against each checklist.
-4. **Translations** (fr, nl, de, ar) through the kit's i18n, with a GLOSSARY.md per language and an independent
+5. **Translations** (fr, nl, de, ar) through the kit's i18n, with a GLOSSARY.md per language and an independent
    review, as in Methodical.
-5. A shared online version (as Methodical's private playable copy) once the IP question allows it.
+6. A shared online version (as Methodical's private playable copy) once the IP question allows it.

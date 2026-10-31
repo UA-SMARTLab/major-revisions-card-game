@@ -9,7 +9,7 @@ card and give the verdict an editor would. 3–6 players, 20–30 minutes a manu
 | Deck | Cards | What it is |
 |---|---|---|
 | Study | 8 | A fictional study: field, design, the authors' claim and the reporting guideline that applies (CONSORT 2025, STROBE, PRISMA 2020, COREQ, STARD 2015 or ARRIVE 2.0). |
-| Manuscript | 78 | Each study's five parts (Question, Method, Sample, Measurement, Analysis), each in a **sound** version and, for most parts, a **flawed** version. |
+| Manuscript | 94 | Each study's five parts (Question, Method, Sample, Measurement, Analysis), each in a **sound** version and, for most parts, one or two **flawed** versions (codes ending -F and -F2). |
 | Request | 24 | What a reviewer can ask for: flow diagram, registration, blinding, missing data, coding tree… Each names the card it is asked of and the guideline items that require it. |
 | Verdict | 4 | Accept, Minor revisions, Major revisions, Reject. Each player needs one set (print one per player). |
 | Reference | 3 | The five cards, a turn summary, and scoring. |
@@ -41,9 +41,10 @@ manuscript with no flaw (expert variant only) is accepted.
 ## Setting up
 
 1. Choose an Author. Everyone else is a Reviewer. Give each Reviewer a set of four Verdict cards.
-2. The Author picks a Study card, places it face up, and takes that study's ten or so Manuscript cards.
-3. For each of the five parts, the Author secretly chooses the sound or the flawed version, so that **one or two**
-   are flawed, and lays the five cards face down in order: Question, Method, Sample, Measurement, Analysis.
+2. The Author picks a Study card, places it face up, and takes that study's twelve or so Manuscript cards.
+3. For each of the five parts, the Author secretly chooses the sound version or one of its flawed versions, so that
+   **one or two** parts are flawed, and lays the five cards face down in order: Question, Method, Sample,
+   Measurement, Analysis. Where a part has two flawed versions, each hides a different flaw; the Author picks which.
 4. The Author reads the claim on the Study card and, card by card, each *As submitted* line aloud.
 5. Shuffle the Request cards and lay **8** face up in a row: the request menu. (With the 24 Requests, some will not
    apply to this study; spotting which do is part of the game.)

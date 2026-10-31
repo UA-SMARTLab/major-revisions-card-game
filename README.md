@@ -16,10 +16,10 @@ revisions, Major revisions or Reject. Every request points to the reporting-guid
 | | |
 |---|---|
 | 8 Study cards | an RCT, a cohort, a case-control study, a cross-sectional survey, an interview study, a diagnostic accuracy study, a systematic review and an animal experiment |
-| 78 Manuscript cards | each study's five parts, sound and flawed, with 30 types of documented flaw |
+| 94 Manuscript cards | each study's five parts, sound and in one or two flawed versions, with 37 types of documented flaw (8 Reject, 28 Major, 18 Minor) |
 | 24 Request cards | each tied to the checklist items that require it |
 | 4 Verdict cards, 3 reference cards | |
-| 110 different flawed manuscripts | every study with one or two of its cards flawed |
+| 195 different flawed manuscripts | every study with one or two of its cards flawed |
 
 Every study is fictional and says so; every flaw type, reference and checklist item is real and was checked (see
 [DESIGN.md](DESIGN.md) §6).

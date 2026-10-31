@@ -12,8 +12,9 @@ game. My general rules are in `~/.claude/CLAUDE.md`.
 - Verdict rule: the worst planted flaw decides (reject > major > minor); no flaw, accept.
 
 ## Data (`data/`)
-- `studies.json`: per study, per slot, the *As submitted* line and 1–2 facts `{request, sound, flaw?}`; at most one
-  flawed fact per slot; at least 3 flawable slots per study. Flaw `{type, severity, text, why}`.
+- `studies.json`: per study, per slot, the *As submitted* line and 1–2 facts `{request, sound, flaw?}`; both facts of a
+  slot may be flawed, each then its own flawed card (`-F`, `-F2` in data order; a card shows one flaw at most); at
+  least 3 flawable slots per study. Flaw `{type, severity, text, why}`.
 - `requests.json`: each request belongs to one slot; `items` maps guideline id → checklist item(s). Item numbers were
   verified against the checklists on 2026-10-31 (CONSORT 2025, not 2010). Never change one from memory.
 - `flaws.json`: flaw types with a Crossref-checked `ref`. Which flaws a request "catches" is derived from the studies.
