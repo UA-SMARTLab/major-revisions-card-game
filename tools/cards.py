@@ -192,16 +192,32 @@ def study_card(cx, st):
 </div>'''
 
 
-def manuscript_card(cx, st, sid, flawed=False, masked=False):
-    """One slot of a study. flawed: the variant with the planted flaw. masked: as a reviewer first sees it
-    (answers hidden, to be filled in by the app when a request is made; identical for both variants)."""
+def flawed_facts(slot):
+    """Indices of the answers in a slot that carry a flaw, in data order. Each is its own flawed card (variant)."""
+    return [i for i, f in enumerate(slot["facts"]) if "flaw" in f]
+
+
+def card_code(st, slot_name, variant=None, masked=False):
+    """MR-1S-S for the sound card; MR-1S-F for the first flawed variant, MR-1S-F2 for the second; MR-1S when masked."""
+    base = f'MR-{st["id"][1:]}{slot_name[0]}'
+    if masked:
+        return base
+    return base + ("-S" if variant is None else "-F" + (str(variant + 1) if variant else ""))
+
+
+def manuscript_card(cx, st, sid, variant=None, masked=False):
+    """One slot of a study. variant: None for the sound card, or k for the card whose k-th flawed answer (in data
+    order) is planted; its other answer stays sound, so a card never carries more than one flaw. masked: as a
+    reviewer first sees it (answers hidden, to be filled in by the app when a request is made; the same for every
+    variant)."""
     slot = st["slots"][sid]
     s = cx.SLOT[sid]
     rows = ""
     planted = None
-    for f in slot["facts"]:
+    bad_at = None if variant is None else flawed_facts(slot)[variant]
+    for i, f in enumerate(slot["facts"]):
         r = cx.R[f["request"]]
-        bad = flawed and "flaw" in f
+        bad = i == bad_at
         if bad:
             planted = f["flaw"]
         txt = "" if masked else e(f["flaw"]["text"] if bad else f["sound"])
@@ -215,11 +231,11 @@ def manuscript_card(cx, st, sid, flawed=False, masked=False):
         state = f'<span class="tag ok-tag">✓ {L("card.sound")}</span>'
     flaw_row = (f'<div class="row flow"><span class="k">{L("card.planted")}</span> {e(cx.F[planted["type"]]["name"])}</div>'
                 if planted and not masked else "")
-    code = f'MR-{st["id"][1:]}{s["name"][0]}{"" if masked else ("-F" if flawed else "-S")}'
+    code = card_code(st, s["name"], variant, masked)
     return f'''<div class="tcg tcg-m" style="--c:{MANUSCRIPT_COLOR}" data-study="{st["id"]}" data-slot="{sid}">
   <div class="nm">{_name(s["name"])}<span class="attr" style="--hi:{s["color"]};--lo:{art.shade(s["color"], -.35)}">{SLOT_ICONS[sid]}</span></div>
   <div class="lv"><span>{e(st["title"])}</span><span>{state}</span></div>
-  {_art(SLOT_ART[sid], f'm-{st["id"]}-{sid}-{"x" if masked else "f" if flawed else "s"}', MANUSCRIPT_COLOR)}
+  {_art(SLOT_ART[sid], f'm-{st["id"]}-{sid}-{"x" if masked else "s" if variant is None else "f" + str(variant)}', MANUSCRIPT_COLOR)}
   <div class="tb">
     <div class="ty">[ {L("card.as_submitted")} ]</div>
     <p class="fx">{e(slot["submitted"])}</p>

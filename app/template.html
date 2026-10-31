@@ -338,6 +338,10 @@ const SC = meta.scoring;
 const $ = id => document.getElementById(id);
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const flawable = st => SLOTS.filter(sid => st.slots[sid].facts.some(f => f.flaw));
+// A slot's flawed cards: variant k plants its k-th flawed answer (in data order); the card's other answer stays sound.
+const variantsOf = (st, sid) => st.slots[sid].facts.filter(f => f.flaw);
+// The answer planted in a flawed slot (variant 0 when a hand-made game names none).
+const plantedFact = (g, sid) => variantsOf(g.st, sid)[(g.planted || {})[sid] || 0];
 const factOf = (st, rid) => { for (const sid of SLOTS) for (const f of st.slots[sid].facts) if (f.request === rid) return { sid, f }; return null; };
 
 // ---------- deterministic dealing: the same manuscript number always deals the same manuscript
@@ -350,17 +354,21 @@ function deal(seed, expert) {
   // One or two flawed cards; in expert mode a fifth of manuscripts are sound.
   const k = expert && rnd() < .2 ? 0 : rnd() < .5 ? 1 : 2;
   const flawed = shuffleWith(rnd, flawable(st)).slice(0, k);
+  // Then, for each flawed slot, which of its flawed cards is planted, each equally likely.
+  const planted = Object.fromEntries(flawed.map(sid => [sid, Math.floor(rnd() * variantsOf(st, sid).length)]));
   const own = SLOTS.flatMap(sid => st.slots[sid].facts.map(f => f.request));
   const decoys = shuffleWith(rnd, requests.map(r => r.id).filter(id => !own.includes(id))).slice(0, meta.app.hand_decoys);
-  return { seed, expert, st, flawed, hand: shuffleWith(rnd, own.concat(decoys)) };
+  return { seed, expert, st, flawed, planted, hand: shuffleWith(rnd, own.concat(decoys)) };
 }
 // The verdict an editor should give: that of the worst planted flaw, or accept when nothing was planted.
 function rightVerdict(g) {
   let worst = -1;
-  for (const sid of g.flawed) for (const f of g.st.slots[sid].facts) if (f.flaw) worst = Math.max(worst, SEV.indexOf(f.flaw.severity));
+  for (const sid of g.flawed) worst = Math.max(worst, SEV.indexOf(plantedFact(g, sid).flaw.severity));
   return worst < 0 ? "accept" : SEV[worst];
 }
-const answerText = (g, sid, f) => g.flawed.includes(sid) && f.flaw ? f.flaw.text : f.sound;
+const answerText = (g, sid, f) => g.flawed.includes(sid) && f === plantedFact(g, sid) ? f.flaw.text : f.sound;
+// The card a slot shows once revealed: its sound card, or the flawed card that was dealt.
+const fullCard = (g, sid) => g.flawed.includes(sid) ? C.full[g.st.id][sid].flawed[(g.planted || {})[sid] || 0] : C.full[g.st.id][sid].sound;
 
 // ---------- per-viewer stats (a convenience only)
 const KEY = "major-revisions-v1";
@@ -505,7 +513,7 @@ function renderManuscript() {
     let card = C.masked[g.st.id][sid], badge = "", cls = "";
     if (done) {
       const bad = g.flawed.includes(sid), marked = g.marks.has(sid);
-      card = C.full[g.st.id][sid][bad ? "flawed" : "sound"];
+      card = fullCard(g, sid);
       const k = bad ? (marked ? "found" : "missed") : (marked ? "false" : "sound");
       cls = "res-" + k; badge = `<span class="badge b-${k}">${tr("result.badge_" + k)}</span>`;
     } else if (g.marks.has(sid)) badge = `<span class="badge b-flag">${tr("report.flag")}</span>`;
@@ -622,7 +630,7 @@ function renderResult() {
     <h3 style="font-size:18px;margin-top:10px">${tr("result.flaws_title")}</h3>`;
   if (!g.flawed.length) html += `<p>${tr("result.none_planted")}</p>`;
   for (const sid of g.flawed) {
-    const f = g.st.slots[sid].facts.find(x => x.flaw), fl = f.flaw, r = R[f.request];
+    const f = plantedFact(g, sid), fl = f.flaw, r = R[f.request];
     html += `<div class="flawbox"><h4>${esc(SLOT[sid].name)}: ${esc(F[fl.type].name)} · ${esc(VERDICT[fl.severity].name)}</h4>
       <p>${esc(fl.why)}</p>
       <p class="meta">${tr("result.caught_by", { request: `<b>${esc(r.name)}</b>`, guideline: `<a href="${esc(gl.checklist)}" target="_blank" rel="noopener">${esc(gl.name)}</a>`, item: esc(r.items[g.st.guideline]) })}
@@ -657,16 +665,16 @@ function confetti(fromEl) {
 // ---------- decks browser
 let deck = "studies";
 const DECKS = { studies: trt("deck.studies"), requests: trt("deck.requests"), verdicts: trt("deck.verdicts"), manuscripts: trt("deck.manuscripts") };
-const MANUSCRIPTS = studies.flatMap(st => SLOTS.flatMap(sid => [{ st, sid, bad: false }].concat(st.slots[sid].facts.some(f => f.flaw) ? [{ st, sid, bad: true }] : [])));
+// Every printed Manuscript card: per slot the sound card (v: null), then each flawed card (v: 0 is F, 1 is F2).
+const MANUSCRIPTS = studies.flatMap(st => SLOTS.flatMap(sid => [{ st, sid, v: null }].concat(variantsOf(st, sid).map((f, v) => ({ st, sid, v })))));
 const DECK_ITEMS = { studies, requests, verdicts: meta.verdicts, manuscripts: MANUSCRIPTS };
 const itemsLine = r => Object.entries(r.items).map(([gid, n]) => `<a href="${esc(G[gid].checklist)}" target="_blank" rel="noopener">${esc(G[gid].name)}</a> ${esc(n)}`).join(" · ");
 function cardHTML(kind, x) {
   if (kind === "studies") return `<figure><div class="slot">${C.studies[x.id]}${qref(G[x.guideline].ref, G[x.guideline].name)}</div><details><summary>${tr("decks.more")}</summary><p>${tr("decks.guideline")} ${refLine(G[x.guideline].ref)}</p></details></figure>`;
   if (kind === "requests") return `<figure>${C.requests[x.id]}<details><summary>${tr("decks.more")}</summary><p>${tr("decks.items")} ${itemsLine(x)}</p></details></figure>`;
   if (kind === "verdicts") return `<figure>${C.verdicts[x.id]}</figure>`;
-  const card = C.full[x.st.id][x.sid][x.bad ? "flawed" : "sound"];
-  if (!x.bad) return `<figure>${card}</figure>`;
-  const fl = x.st.slots[x.sid].facts.find(f => f.flaw).flaw;
+  if (x.v === null) return `<figure>${C.full[x.st.id][x.sid].sound}</figure>`;
+  const card = C.full[x.st.id][x.sid].flawed[x.v], fl = variantsOf(x.st, x.sid)[x.v].flaw;
   return `<figure><div class="slot">${card}${qref(F[fl.type].ref, F[fl.type].name)}</div><details><summary>${tr("decks.why")}</summary><p>${esc(fl.why)}</p><p>📄 ${refLine(F[fl.type].ref)}</p></details></figure>`;
 }
 const searchText = (kind, x) => kind === "manuscripts" ? JSON.stringify([x.st.title, x.st.slots[x.sid]]) : JSON.stringify(x);
@@ -731,7 +739,11 @@ function renderFan() {
     { duration: 750, delay: k * 120, easing: "cubic-bezier(.2,.8,.2,1)", fill: "backwards" }));
 }
 function countUp() {
-  const combos = studies.reduce((n, st) => { const k = flawable(st).length; return n + k + k * (k - 1) / 2; }, 0);
+  // Every choice of one or two flawed slots, times the flawed cards each chosen slot has (as manuscripts_possible in build.py).
+  const combos = studies.reduce((n, st) => {
+    const v = SLOTS.map(sid => variantsOf(st, sid).length);
+    return n + v.reduce((a, b) => a + b, 0) + v.reduce((a, x, i) => a + x * v.slice(i + 1).reduce((s, y) => s + y, 0), 0);
+  }, 0);
   const items = [["studies", studies.length, trt("count.studies")], ["requests", requests.length, trt("count.requests")], ["flaws", flaws.length, trt("count.flaws")], ["combos", combos, trt("count.manuscripts")]];
   $("home-counts").innerHTML = items.map(([k, , name]) => `<div class="count" data-tip="${k}" data-title="${esc(name)}" tabindex="0"><b>0</b><span class="label">${esc(name)}</span></div>`).join("");
   bindTips($("home-counts"));

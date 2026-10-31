@@ -46,7 +46,7 @@
   "tip.studies": "Fictional studies, each written up as five manuscript cards and reported with a real guideline such as CONSORT or PRISMA.",
   "tip.requests": "What a reviewer can ask the authors for. Each one costs a review round and points to the guideline item that requires it.",
   "tip.verdicts": "Accept, minor revisions, major revisions or reject: the call an editor makes from your report.",
-  "tip.manuscripts": "The five parts of a study, each in a sound and a flawed version. Dealt face down; requests reveal their answers.",
+  "tip.manuscripts": "The five parts of a study, each in a sound version and one or two flawed ones. Dealt face down; requests reveal their answers.",
   "tip.flaws": "Real, documented flaws, each linked to the paper that describes it.",
   "tip.combos": "Different flawed manuscripts the app can deal: every study with one or two of its cards flawed.",
   "play.new": "🃏 Deal a new manuscript",

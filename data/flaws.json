@@ -92,5 +92,27 @@
    "ref": {"cite": "Higgins & Thompson (2002). Quantifying heterogeneity in a meta-analysis. Statistics in Medicine.", "url": "https://doi.org/10.1002/sim.1186"}},
   {"id": "pseudoreplication", "name": "Pseudoreplication",
    "short": "Repeated measurements of one unit counted as independent units.",
-   "ref": {"cite": "Lazic (2010). The problem of pseudoreplication in neuroscientific studies: is it affecting your analysis? BMC Neuroscience.", "url": "https://doi.org/10.1186/1471-2202-11-5"}}
+   "ref": {"cite": "Lazic (2010). The problem of pseudoreplication in neuroscientific studies: is it affecting your analysis? BMC Neuroscience.", "url": "https://doi.org/10.1186/1471-2202-11-5"}},
+
+  {"id": "missing-detail", "name": "Missing detail",
+   "short": "A step is reported too vaguely for readers to judge or repeat it.",
+   "ref": {"cite": "Glasziou et al. (2014). Reducing waste from incomplete or unusable reports of biomedical research. The Lancet.", "url": "https://doi.org/10.1016/S0140-6736(13)62228-X"}},
+  {"id": "undescribed-intervention", "name": "Intervention not described",
+   "short": "The intervention is not described well enough for anyone to repeat it.",
+   "ref": {"cite": "Hoffmann et al. (2014). Better reporting of interventions: template for intervention description and replication (TIDieR) checklist and guide. BMJ.", "url": "https://doi.org/10.1136/bmj.g1687"}},
+  {"id": "no-target", "name": "No prespecified target",
+   "short": "Accuracy is reported without a minimum level set in advance.",
+   "ref": {"cite": "Korevaar et al. (2019). Targeted test evaluation: a framework for designing diagnostic accuracy studies with clear study hypotheses. Diagnostic and Prognostic Research.", "url": "https://doi.org/10.1186/s41512-019-0069-2"}},
+  {"id": "incomplete-flow", "name": "Flow not reported",
+   "short": "Who was eligible, included, lost and analysed, and why, is not fully reported.",
+   "ref": {"cite": "Egger et al. (2001). Value of flow diagrams in reports of randomized controlled trials. JAMA.", "url": "https://doi.org/10.1001/jama.285.15.1996"}},
+  {"id": "sample-size-unexplained", "name": "Sample size not explained",
+   "short": "Nobody says how the number of participants was decided.",
+   "ref": {"cite": "Charles et al. (2009). Reporting of sample size calculation in randomised controlled trials: review. BMJ.", "url": "https://doi.org/10.1136/bmj.b1732"}},
+  {"id": "unshown-check", "name": "Checks not shown",
+   "short": "An extra analysis is said to agree with the main one, but its results are not shown.",
+   "ref": {"cite": "Thabane et al. (2013). A tutorial on sensitivity analyses in clinical trials: the what, why, when and how. BMC Medical Research Methodology.", "url": "https://doi.org/10.1186/1471-2288-13-92"}},
+  {"id": "no-interval", "name": "No confidence interval",
+   "short": "An effect comes with a p-value but no confidence interval, so its size and precision are unclear.",
+   "ref": {"cite": "Gardner & Altman (1986). Confidence intervals rather than P values: estimation rather than hypothesis testing. BMJ.", "url": "https://doi.org/10.1136/bmj.292.6522.746"}}
 ]

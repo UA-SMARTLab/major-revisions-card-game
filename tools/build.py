@@ -89,10 +89,9 @@ for st in studies:
         reqs = [f["request"] for f in slot["facts"]]
         if len(set(reqs)) != len(reqs):
             errors.append(f"{ws}: a request answered twice")
-        flawed = [f for f in slot["facts"] if "flaw" in f]
-        if len(flawed) > 1:
-            errors.append(f"{ws}: at most one flawed answer per card")
-        flawable += bool(flawed)
+        # Both answers of a slot may carry a flaw: each becomes its own flawed card (F, F2), so a card still
+        # carries at most one flaw.
+        flawable += any("flaw" in f for f in slot["facts"])
         for f in slot["facts"]:
             used_requests[f["request"]] += 1
             if f["request"] not in R:
@@ -219,13 +218,13 @@ def page(g, title, body):
 
 
 def manuscript_deck(cx, d):
-    """Per study, the sound card of each slot, then the flawed one where the slot has a flaw."""
+    """Per study, the sound card of each slot, then its flawed cards (F, then F2) where the slot has flaws."""
     out = []
     for st in d["studies"]:
         for sid in SLOTS:
-            out.append(cards.manuscript_card(cx, st, sid, False))
-            if any("flaw" in f for f in st["slots"][sid]["facts"]):
-                out.append(cards.manuscript_card(cx, st, sid, True))
+            out.append(cards.manuscript_card(cx, st, sid))
+            for k in range(len(cards.flawed_facts(st["slots"][sid]))):
+                out.append(cards.manuscript_card(cx, st, sid, k))
     return out
 
 
@@ -257,8 +256,9 @@ def build_print(g, langs):
 
 
 def planted(st):
-    """(slot, fact) for every answer in a study that can carry a flaw."""
-    return [(sid, f) for sid in SLOTS for f in st["slots"][sid]["facts"] if "flaw" in f]
+    """(slot, fact, variant) for every answer in a study that can carry a flaw; variant k is the slot's k-th
+    flawed card (0 is F, 1 is F2)."""
+    return [(sid, st["slots"][sid]["facts"][i], k) for sid in SLOTS for k, i in enumerate(cards.flawed_facts(st["slots"][sid]))]
 
 
 def build_flaw_key(g, langs):
@@ -272,10 +272,10 @@ def build_flaw_key(g, langs):
     for st in d["studies"]:
         gl = cx.G[st["guideline"]]
         body += f'<h2>{st["id"]} · {e(st["title"])} ({e(st["design"])}, {e(gl["name"])})</h2><table><tr>{head}</tr>'
-        for sid, f in planted(st):
+        for sid, f, k in planted(st):
             fl = f["flaw"]
             r = cx.R[f["request"]]
-            body += (f'<tr><td class="id">{e(slot_name[sid])}</td><td>{e(cx.F[fl["type"]]["name"])}: {e(fl["text"])}</td>'
+            body += (f'<tr><td class="id">{e(slot_name[sid])}<br>{e(cards.card_code(st, slot_name[sid], k))}</td><td>{e(cx.F[fl["type"]]["name"])}: {e(fl["text"])}</td>'
                      f'<td class="{fl["severity"]}">{e(verdict[fl["severity"]])}</td>'
                      f'<td>{e(r["name"])} ({e(gl["name"])} {e(S("print.item", n=r["items"][st["guideline"]]))})</td>'
                      f'<td>{e(fl["why"])} <a href="{e(cx.F[fl["type"]]["ref"]["url"])}">{e(cx.F[fl["type"]]["ref"]["cite"].split(". ")[0])}</a></td></tr>')
@@ -297,14 +297,16 @@ def build_answer_key():
             slot = st["slots"][sid]
             L.append(f"**{slot_name[sid]}.** *As submitted:* {slot['submitted']}")
             L.append("")
-            for f in slot["facts"]:
+            variant = {i: k for k, i in enumerate(cards.flawed_facts(slot))}
+            for i, f in enumerate(slot["facts"]):
                 r = R[f["request"]]
                 item = r["items"].get(st["guideline"])
                 where = f" ({gl['name']} item {item})" if item else ""
                 L.append(f"- {r['name']}{where}: sound: {f['sound']}")
                 if "flaw" in f:
                     fl = f["flaw"]
-                    L.append(f"  - **Flawed ({F[fl['type']]['name']}, {verdict[fl['severity']]}):** {fl['text']}")
+                    code = cards.card_code(st, slot_name[sid], variant[i])
+                    L.append(f"  - **Flawed, card {code} ({F[fl['type']]['name']}, {verdict[fl['severity']]}):** {fl['text']}")
                     L.append(f"  - *Why:* {fl['why']} See [{F[fl['type']]['ref']['cite']}]({F[fl['type']]['ref']['url']}).")
             L.append("")
     L += ["## Coverage", "", "| Request | Card | Answered in | Catches |", "|---|---|---|---|"]
@@ -330,14 +332,15 @@ def build_app(g, langs):
     cx = g.activate()
     d = g.d
     tpl = fill_template((ROOT / "app" / "template.html").read_text(encoding="utf-8"), g)
-    flawable = lambda st, sid: any("flaw" in f for f in st["slots"][sid]["facts"])
+    variants = lambda st, sid: range(len(cards.flawed_facts(st["slots"][sid])))
     rendered = {
         "studies": {st["id"]: cards.study_card(cx, st) for st in d["studies"]},
         "requests": {r["id"]: cards.request_card(cx, r) for r in d["requests"]},
         "verdicts": {v["id"]: cards.verdict_card(cx, v, i + 1) for i, v in enumerate(d["meta"]["verdicts"])},
         "masked": {st["id"]: {sid: cards.manuscript_card(cx, st, sid, masked=True) for sid in SLOTS} for st in d["studies"]},
-        "full": {st["id"]: {sid: {"sound": cards.manuscript_card(cx, st, sid, False),
-                                  **({"flawed": cards.manuscript_card(cx, st, sid, True)} if flawable(st, sid) else {})}
+        # flawed[k]: the card whose k-th flawed answer is planted (empty for a slot without a flaw)
+        "full": {st["id"]: {sid: {"sound": cards.manuscript_card(cx, st, sid),
+                                  "flawed": [cards.manuscript_card(cx, st, sid, k) for k in variants(st, sid)]}
                             for sid in SLOTS} for st in d["studies"]},
         "back": cards.card_back(),
     }
@@ -368,11 +371,12 @@ def build_app(g, langs):
 
 
 def manuscripts_possible():
-    """How many different manuscripts the app can deal: per study, every choice of 1 or 2 flawed cards."""
+    """How many different manuscripts the app can deal: per study, every choice of 1 or 2 flawed slots, times the
+    flawed cards each chosen slot has (one or two)."""
     n = 0
     for st in studies:
-        k = sum(any("flaw" in f for f in st["slots"][sid]["facts"]) for sid in SLOTS)
-        n += k + k * (k - 1) // 2
+        v = [len(cards.flawed_facts(st["slots"][sid])) for sid in SLOTS]
+        n += sum(v) + sum(v[i] * v[j] for i in range(len(v)) for j in range(i + 1, len(v)))
     return n
 
 

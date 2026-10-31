@@ -15,14 +15,20 @@
       "flaw": {"type": "predictable-allocation", "severity": "reject",
        "text": "Patients seen on Mondays and Wednesdays got exercise; patients seen on other days got usual care.",
        "why": "Staff could foresee each allocation and steer who was enrolled on which day, so the groups may differ from the start. No reanalysis can undo that."}},
-     {"request": "intervention", "sound": "Two supervised sessions a week for 12 weeks; the full exercise protocol is in a supplement."}]},
+     {"request": "intervention", "sound": "Two supervised sessions a week for 12 weeks; the full exercise protocol is in a supplement.",
+      "flaw": {"type": "undescribed-intervention", "severity": "minor",
+       "text": "Described only as 'supervised exercise, twice a week'; the exercises, intensity and progression are not given.",
+       "why": "This gap doesn't bias the comparison, but nobody can repeat the programme or offer it to patients. Minor: describe it in full (TIDieR), for example in a supplement."}}]},
    "sample": {"submitted": "240 adults with low back pain for more than 3 months, referred by their GPs.",
     "facts": [
      {"request": "recruitment", "sound": "All consecutive referrals screened against published criteria; 240 of 412 eligible and consenting.",
       "flaw": {"type": "hand-picked", "severity": "minor",
        "text": "Physiotherapists enrolled only patients they judged 'motivated to exercise'; no written criteria.",
        "why": "Randomisation still balances the groups, so the comparison is fair, but the result may not apply to typical patients. Minor: report it and narrow the claims."}},
-     {"request": "flow", "sound": "Flow diagram: 412 screened, 240 randomised, 226 analysed; losses similar per arm, with reasons."}]},
+     {"request": "flow", "sound": "Flow diagram: 412 screened, 240 randomised, 226 analysed; losses similar per arm, with reasons.",
+      "flaw": {"type": "incomplete-flow", "severity": "minor",
+       "text": "No flow diagram: 240 were randomised, but losses are not given per arm or with reasons.",
+       "why": "Few were lost (14 of 240, 6%) and the missing-data analysis covers them, but readers need to see who left each arm and why. Minor: add the CONSORT flow diagram."}}]},
    "measurement": {"submitted": "Function scored with a standard performance test at 12 weeks.",
     "facts": [
      {"request": "blinding", "sound": "Tests scored by assessors from another clinic who did not know anyone's group.",
@@ -61,7 +67,10 @@
       "flaw": {"type": "attrition", "severity": "major",
        "text": "Heavy users were twice as likely to be lost by 15; leavers and stayers are never compared.",
        "why": "If the heavy users who left slept differently, the estimate is biased. Fixable: compare leavers with stayers and correct with weighting or imputation."}},
-     {"request": "sample-size", "sound": "Size set by the parent cohort; the paper reports the precision this gives the main estimate."}]},
+     {"request": "sample-size", "sound": "Size set by the parent cohort; the paper reports the precision this gives the main estimate.",
+      "flaw": {"type": "sample-size-unexplained", "severity": "minor",
+       "text": "The paper doesn't say how the cohort size was set, or what precision it gives the main estimate.",
+       "why": "The parent cohort fixed the size, so the data stand; readers need only that sentence and the estimate's confidence interval. Minor: explain how the size was set."}}]},
    "measurement": {"submitted": "Sleep problems at 15 measured by questionnaire.",
     "facts": [
      {"request": "instrument", "sound": "A validated adolescent sleep questionnaire, plus a week of wrist actigraphy in a subsample.",
@@ -70,11 +79,14 @@
        "why": "One home-made yes/no item can't show it measures sleep problems. Fixable in part: use the cohort's fuller sleep measures, or validate the item in a subsample, and temper the claims."}}]},
    "analysis": {"submitted": "Logistic regression of sleep problems on hours of use, adjusted for confounders.",
     "facts": [
-     {"request": "confounding", "sound": "Adjusted for sleep, mood and family income at 13, chosen in advance from a causal diagram."},
      {"request": "sensitivity", "sound": "Results hold with use in hours per day and with cut-offs at 2, 3 and 4 hours.",
       "flaw": {"type": "p-hacking", "severity": "major",
        "text": "Use was split at 3 hours after trying cut-offs from 1 to 5; only the one with p < 0.05 is reported.",
-       "why": "Trying many cut-offs and reporting the one that works inflates false positives. Fixable: analyse hours as a continuous measure, or show every cut-off."}}]}
+       "why": "Trying many cut-offs and reporting the one that works inflates false positives. Fixable: analyse hours as a continuous measure, or show every cut-off."}},
+     {"request": "confounding", "sound": "Adjusted for sleep, mood and family income at 13, chosen in advance from a causal diagram.",
+      "flaw": {"type": "no-interval", "severity": "minor",
+       "text": "Adjusted for sleep, mood and income at 13, but only the adjusted odds ratio and a p-value are given.",
+       "why": "A p-value says nothing about how large or how precise the effect is, and without the unadjusted estimate readers can't see what adjustment changed. Minor: report both, with 95% confidence intervals."}}]}
   }},
 
  {"id": "S3", "title": "Sleeping pills and hip fracture", "field": "Pharmacoepidemiology", "design": "Case-control study", "guideline": "strobe",
@@ -98,7 +110,10 @@
       "flaw": {"type": "control-selection", "severity": "reject",
        "text": "Controls were volunteers recruited at senior fitness clubs.",
        "why": "Fitness-club members take fewer sleeping pills and fall less than the population the cases came from, so the comparison is biased from the start. New controls are needed."}},
-     {"request": "flow", "sound": "81% of cases and 76% of controls took part; reasons for refusal are reported."}]},
+     {"request": "flow", "sound": "81% of cases and 76% of controls took part; reasons for refusal are reported.",
+      "flaw": {"type": "incomplete-flow", "severity": "minor",
+       "text": "Participation given only overall ('about 80%'), not for cases and controls separately; no reasons for refusal.",
+       "why": "Bias arises if taking part depends on pill use differently in cases and controls; per-group rates and reasons are the first check. Minor: report them per group; here they are similar (81% and 76%)."}}]},
    "measurement": {"submitted": "Benzodiazepine use assessed in the same way for cases and controls.",
     "facts": [
      {"request": "instrument", "sound": "Use taken from pharmacy dispensing records for cases and controls alike.",
@@ -112,7 +127,10 @@
       "flaw": {"type": "confounding", "severity": "major",
        "text": "Adjusted for age and sex only. Dementia and frailty, which lead to both pills and falls, are ignored.",
        "why": "Frail people get more sleeping pills and fall more, so part of the 'drug effect' may be frailty. Fixable if the data hold these factors: adjust for them and show both estimates."}},
-     {"request": "sensitivity", "sound": "Results similar when restricted to new users and to fractures from simple falls."}]}
+     {"request": "sensitivity", "sound": "Results similar when restricted to new users and to fractures from simple falls.",
+      "flaw": {"type": "unshown-check", "severity": "minor",
+       "text": "'Sensitivity analyses confirmed the results', the paper says, without saying which analyses or showing them.",
+       "why": "Readers can't tell what was checked, or how closely it agreed. Minor: describe each sensitivity analysis and show its results, for example in a supplement."}}]}
   }},
 
  {"id": "S4", "title": "Burnout in the doctorate", "field": "Higher education", "design": "Cross-sectional survey", "guideline": "strobe",
@@ -126,7 +144,10 @@
        "why": "A one-off survey can't show which came first, burnout or poor supervision. Minor: rewrite the conclusion as an association."}}]},
    "method": {"submitted": "Online survey of PhD students at four universities in spring 2025.",
     "facts": [
-     {"request": "timeline", "sound": "Survey open for three weeks in March 2025, away from the main submission deadlines."}]},
+     {"request": "timeline", "sound": "Survey open for three weeks in March 2025, away from the main submission deadlines.",
+      "flaw": {"type": "missing-detail", "severity": "minor",
+       "text": "Dates given only as 'spring 2025'; when the survey opened and closed, and what fell in that window, isn't said.",
+       "why": "Answers can shift with the academic calendar (exams, teaching, funding rounds), so readers need the exact window. Minor: give the opening and closing dates and what fell within them."}}]},
    "sample": {"submitted": "1,260 PhD students completed the survey.",
     "facts": [
      {"request": "recruitment", "sound": "All 2,100 enrolled PhD students were invited by email, with two reminders.",
@@ -146,7 +167,10 @@
       "flaw": {"type": "missing-data", "severity": "major",
        "text": "The 22% who skipped any item were dropped; skipping was commonest among those reporting long hours.",
        "why": "If the students under most pressure skipped items, dropping them biases the prevalence. Fixable: multiple imputation, and compare completers with non-completers."}},
-     {"request": "sensitivity", "sound": "Estimates weighted by faculty and sex give the same prevalence within 2 points."}]}
+     {"request": "sensitivity", "sound": "Estimates weighted by faculty and sex give the same prevalence within 2 points.",
+      "flaw": {"type": "unshown-check", "severity": "minor",
+       "text": "Weighting by faculty and sex 'made no difference', the paper says, but the weighted estimates are not shown.",
+       "why": "Readers can't see how big the difference was. Minor: show the weighted prevalence beside the unweighted one."}}]}
   }},
 
  {"id": "S5", "title": "Moral distress in intensive care", "field": "Nursing", "design": "Interview study", "guideline": "coreq",
@@ -163,18 +187,24 @@
        "why": "Nurses are unlikely to speak freely to the person who appraises them, so the data themselves are compromised. New interviews are needed."}}]},
    "sample": {"submitted": "Fourteen nurses, chosen for a range of experience and shift patterns.",
     "facts": [
-     {"request": "recruitment", "sound": "Purposive sampling by years of experience and shift pattern; 3 of 17 nurses approached declined."},
      {"request": "saturation", "sound": "Interviews continued until three in a row added no new codes; the paper shows how this was judged.",
       "flaw": {"type": "early-saturation", "severity": "major",
        "text": "Data collection stopped at 14 because the project ended. Saturation is claimed but not shown.",
-       "why": "Saturation means new data stop adding insight, not that time ran out. Fixable: show how completeness was judged, or add interviews."}}]},
+       "why": "Saturation means new data stop adding insight, not that time ran out. Fixable: show how completeness was judged, or add interviews."}},
+     {"request": "recruitment", "sound": "Purposive sampling by years of experience and shift pattern; 3 of 17 nurses approached declined.",
+      "flaw": {"type": "missing-detail", "severity": "minor",
+       "text": "Purposive sampling is named, but not how the nurses were approached, or by whom.",
+       "why": "Readers can't judge whether the nurses felt free to say no. Minor: say who invited the nurses, and how."}}]},
    "measurement": {"submitted": "Interviews audio-recorded, transcribed in full and coded.",
     "facts": [
      {"request": "coding", "sound": "Two researchers coded independently and met to settle differences; the coding tree is in a supplement.",
       "flaw": {"type": "single-coder", "severity": "major",
        "text": "One researcher coded every transcript. There is no coding tree and no second reader.",
        "why": "With one coder and no audit trail, readers can't judge how the codes came from the data. Fixable: a second coder, the coding tree and an audit trail."}},
-     {"request": "instrument", "sound": "The interview guide was piloted with two nurses and is given in full."}]},
+     {"request": "instrument", "sound": "The interview guide was piloted with two nurses and is given in full.",
+      "flaw": {"type": "missing-detail", "severity": "minor",
+       "text": "The guide's topics are listed, but its questions and prompts aren't given, and piloting isn't mentioned.",
+       "why": "Readers can't see what the nurses were asked or how the questions framed their answers. Minor: give the guide in full and say whether it was piloted."}}]},
    "analysis": {"submitted": "Reflexive thematic analysis produced four themes.",
     "facts": [
      {"request": "themes", "sound": "Themes were built from codes across interviews and checked against the full data set.",
@@ -192,7 +222,10 @@
       "flaw": {"type": "switched-registration", "severity": "major",
        "text": "Registered for patients of all ages. The paper reports children only and never mentions the adults.",
        "why": "Leaving out a registered group can hide results that didn't suit. Fixable: report the whole registered population, or explain why not."}},
-     {"request": "hypothesis", "sound": "Prespecified target: a sensitivity of at least 90%."}]},
+     {"request": "hypothesis", "sound": "Prespecified target: a sensitivity of at least 90%.",
+      "flaw": {"type": "no-target", "severity": "minor",
+       "text": "The aim is 'to assess accuracy'; no minimum acceptable sensitivity was set in advance.",
+       "why": "Without a target, whether 97% is good enough is judged after the fact, but the estimate and its interval still stand. Minor: state that no target was set, and judge the lower confidence limit against what clinicians need."}}]},
    "method": {"submitted": "Every child had a scan; the diagnosis was confirmed with a reference standard.",
     "facts": [
      {"request": "reference-standard", "sound": "Histology if operated on; otherwise a phone follow-up at 14 days. The same rule for every child.",
@@ -205,7 +238,10 @@
       "flaw": {"type": "spectrum-bias", "severity": "reject",
        "text": "Children with surgically confirmed appendicitis, compared with healthy children from a school check-up.",
        "why": "Comparing clear cases with healthy children leaves out the hard, look-alike cases, so accuracy is inflated. A new, clinically realistic sample is needed."}},
-     {"request": "flow", "sound": "Flow diagram: 412 eligible, 398 scanned, 6 without a reference standard, each explained."}]},
+     {"request": "flow", "sound": "Flow diagram: 412 eligible, 398 scanned, 6 without a reference standard, each explained.",
+      "flaw": {"type": "incomplete-flow", "severity": "minor",
+       "text": "No flow diagram: 398 children were scanned, but not how many were eligible, or why some lack a reference standard.",
+       "why": "Readers can't tell who was never scanned or never verified, or whether they differ. Minor: add a STARD flow diagram with the reason for each child lost."}}]},
    "measurement": {"submitted": "Each scan read as positive or negative for appendicitis.",
     "facts": [
      {"request": "blinding", "sound": "Readers knew only the child's age and symptoms, not the lab results or the final diagnosis.",
@@ -243,7 +279,10 @@
       "flaw": {"type": "publication-bias", "severity": "major",
        "text": "Only trials published in journals were eligible; register results and theses were excluded.",
        "why": "Unpublished trials more often find no effect, so leaving them out inflates the pooled effect. Fixable: widen eligibility and look for them."}},
-     {"request": "flow", "sound": "PRISMA flow diagram: 1,204 records, 61 full texts, 23 included; every exclusion has a reason."}]},
+     {"request": "flow", "sound": "PRISMA flow diagram: 1,204 records, 61 full texts, 23 included; every exclusion has a reason.",
+      "flaw": {"type": "incomplete-flow", "severity": "minor",
+       "text": "Only the 23 included trials are listed: no flow diagram, no count of records screened, no reasons for exclusion.",
+       "why": "Readers can't check the selection or spot trials wrongly left out. Minor: add a PRISMA flow diagram with a reason for each full text excluded."}}]},
    "measurement": {"submitted": "Results and study quality extracted by two reviewers.",
     "facts": [
      {"request": "risk-of-bias", "sound": "Two reviewers applied RoB 2 to each trial independently; judgements shown domain by domain.",
@@ -256,7 +295,10 @@
       "flaw": {"type": "unexplored-heterogeneity", "severity": "major",
        "text": "I² = 89%, yet one pooled effect is presented as the answer, and the differences are not explored.",
        "why": "When trials disagree this much, one average may describe none of them. Fixable: explore the causes (subgroups, meta-regression) and temper the summary."}},
-     {"request": "reporting-bias", "sound": "Funnel plot and Egger's test across the 23 trials show no clear asymmetry."}]}
+     {"request": "reporting-bias", "sound": "Funnel plot and Egger's test across the 23 trials show no clear asymmetry.",
+      "flaw": {"type": "overclaiming", "severity": "minor",
+       "text": "Funnel plot and Egger's test show no clear asymmetry, so the review concludes there is 'no publication bias'.",
+       "why": "These tests can miss bias, and a symmetrical funnel can't prove that no studies are missing. Minor: reword as 'no clear evidence of small-study effects'."}}]}
   }},
 
  {"id": "S8", "title": "A drug for stroke mice", "field": "Preclinical neuroscience", "design": "Animal experiment", "guideline": "arrive",
@@ -275,14 +317,20 @@
       "flaw": {"type": "predictable-allocation", "severity": "reject",
        "text": "The first mice taken out of each cage got NR-4; the rest got vehicle.",
        "why": "The mice caught first can differ (calmer, slower, smaller), so the groups may differ before treatment. The experiment has to be repeated with random allocation."}},
-     {"request": "intervention", "sound": "Dose, route, timing, vehicle and anaesthesia described; the vehicle looked identical."}]},
+     {"request": "intervention", "sound": "Dose, route, timing, vehicle and anaesthesia described; the vehicle looked identical.",
+      "flaw": {"type": "undescribed-intervention", "severity": "minor",
+       "text": "Dose and timing are given; the route, the vehicle and the anaesthesia are not described.",
+       "why": "Readers can't check that both groups were handled alike, and nobody can repeat the experiment exactly. Minor: report route, vehicle and anaesthesia, as ARRIVE item 9 asks."}}]},
    "sample": {"submitted": "Twelve mice per group, as planned.",
     "facts": [
-     {"request": "sample-size", "sound": "Power calculation from pilot data: 12 per group to detect a 30% reduction."},
      {"request": "flow", "sound": "All 24 mice analysed; no deaths and no exclusions.",
       "flaw": {"type": "unreported-exclusions", "severity": "major",
        "text": "Five NR-4 mice died or were excluded; they were replaced and are not mentioned.",
-       "why": "Replacing animals that died hides harm and can leave only the mice that responded. Fixable: report every animal and analyse with the losses included."}}]},
+       "why": "Replacing animals that died hides harm and can leave only the mice that responded. Fixable: report every animal and analyse with the losses included."}},
+     {"request": "sample-size", "sound": "Power calculation from pilot data: 12 per group to detect a 30% reduction.",
+      "flaw": {"type": "sample-size-unexplained", "severity": "minor",
+       "text": "Twelve per group, 'as is usual in the field'; no sample size calculation is reported.",
+       "why": "Small studies that reach significance tend to overstate the effect, and readers can't tell what this one was designed to detect. Minor: say how 12 was chosen, and give the 40% with its 95% confidence interval."}}]},
    "measurement": {"submitted": "Infarct volume measured on stained brain slices at 72 hours.",
     "facts": [
      {"request": "blinding", "sound": "Slices were coded; the person measuring them did not know the groups.",

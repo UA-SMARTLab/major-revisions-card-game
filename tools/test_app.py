@@ -25,7 +25,11 @@ const out = [], ok = (name, pass, detail = "") => out.push([name, !!pass, String
 try {
   // 1. Determinism: the same number deals the same manuscript.
   const a = deal(42, false), b = deal(42, false);
-  ok("same seed, same deal", a.st.id === b.st.id && a.flawed.join() === b.flawed.join() && a.hand.join() === b.hand.join(), a.st.id + " " + a.flawed);
+  ok("same seed, same deal", a.st.id === b.st.id && a.flawed.join() === b.flawed.join() && a.hand.join() === b.hand.join() && JSON.stringify(a.planted) === JSON.stringify(b.planted), a.st.id + " " + a.flawed);
+  const key = d => JSON.stringify([d.st.id, d.flawed, d.planted, d.hand]);
+  let drift = [];
+  for (let s = 1; s <= 600; s++) for (const ex of [false, true]) if (key(deal(s, ex)) !== key(deal(s, ex))) drift.push(s + (ex ? "x" : ""));
+  ok("600 seeds each deal the same manuscript twice, flawed card variants included", !drift.length, drift.slice(0, 5).join());
   ok("seed and expert flag both matter", JSON.stringify(deal(42, true).hand) !== JSON.stringify(a.hand) || deal(42, true).st.id !== a.st.id || deal(43, false).hand.join() !== a.hand.join());
   // 2. Every deal is well formed.
   let bad = [], sound = 0, studiesSeen = new Set();
@@ -36,6 +40,8 @@ try {
     if (ex && d.flawed.length > 2) bad.push(`#${s}x: ${d.flawed.length} flaws`);
     if (ex && !d.flawed.length) sound++;
     if (d.flawed.some(sid => !d.st.slots[sid].facts.some(f => f.flaw))) bad.push(`#${s}: flaw on a card without a flawed variant`);
+    if (Object.keys(d.planted).sort().join() !== d.flawed.slice().sort().join()) bad.push(`#${s}: planted variants don't match the flawed cards`);
+    if (d.flawed.some(sid => !(d.planted[sid] >= 0 && d.planted[sid] < variantsOf(d.st, sid).length))) bad.push(`#${s}: variant out of range`);
     if (new Set(d.hand).size !== d.hand.length) bad.push(`#${s}: duplicate request in hand`);
     if (!own.every(r => d.hand.includes(r))) bad.push(`#${s}: hand misses one of the study's requests`);
     if (d.hand.length !== own.length + meta.app.hand_decoys) bad.push(`#${s}: hand has ${d.hand.length} cards`);
@@ -50,6 +56,31 @@ try {
   ok("verdict: S1 sample (hand-picked) is minor", v(["sample"]) === "minor", v(["sample"]));
   ok("verdict: minor + major gives major", v(["sample", "question"]) === "major", v(["sample", "question"]));
   ok("verdict: nothing planted gives accept", v([]) === "accept", v([]));
+  // Slots with two flawed cards: the dealt variant sets the verdict. Hand-checked against data/studies.json S1:
+  // method F is predictable allocation (reject), method F2 an undescribed intervention (minor); sample F is
+  // hand-picked participants (minor), sample F2 an unreported flow (minor).
+  const vp = (flawed, planted) => rightVerdict({ st: s1, flawed, planted });
+  ok("verdict: S1 method F (predictable allocation) is reject", vp(["method"], { method: 0 }) === "reject", vp(["method"], { method: 0 }));
+  ok("verdict: S1 method F2 (intervention not described) is minor", vp(["method"], { method: 1 }) === "minor", vp(["method"], { method: 1 }));
+  ok("verdict: only minor flaws planted (S1 method F2 + sample F2) gives minor revisions", vp(["method", "sample"], { method: 1, sample: 1 }) === "minor", vp(["method", "sample"], { method: 1, sample: 1 }));
+  ok("verdict: S1 method F2 + question (major) gives major", vp(["method", "question"], { method: 1, question: 0 }) === "major");
+  // Every flawed card of every two-flaw slot gets dealt.
+  const seen = new Set(), want = new Set();
+  for (const st of studies) for (const sid of SLOTS) variantsOf(st, sid).forEach((f, k) => want.add(`${st.id}/${sid}/${k}`));
+  let minorDeals = 0;
+  for (let s = 1; s <= 4000; s++) { const d = deal(s, false); for (const sid of d.flawed) seen.add(`${d.st.id}/${sid}/${d.planted[sid]}`); minorDeals += rightVerdict(d) === "minor"; }
+  const unseen = [...want].filter(x => !seen.has(x));
+  ok("4000 deals reach every flawed card, F2 included", !unseen.length && [...seen].some(x => x.endsWith("/1")), unseen.join());
+  // Expected share by definition: enumerate the dealing rule (study uniform; 1 or 2 flawed slots, each half the time;
+  // slots uniform; flawed card uniform per slot) and add up the deals whose worst flaw is minor. 15.4% with today's data.
+  let exact = 0;
+  for (const st of studies) {
+    const vs = flawable(st).map(sid => variantsOf(st, sid).map(f => f.flaw.severity));
+    const allMinor = v => v.filter(s => s === "minor").length / v.length;
+    const pairs = vs.flatMap((a, i) => vs.slice(i + 1).map(b => [a, b]));
+    exact += (0.5 * vs.reduce((n, v) => n + allMinor(v), 0) / vs.length + 0.5 * pairs.reduce((n, [a, b]) => n + allMinor(a) * allMinor(b), 0) / pairs.length) / studies.length;
+  }
+  ok("minor revisions is right as often as the dealing rule predicts (within 2 points)", Math.abs(minorDeals / 4000 - exact) < 0.02 && exact > 0.12, `${minorDeals} of 4000 dealt; expected ${(100 * exact).toFixed(1)}%`);
   // 4. Scoring (by definition, meta.scoring): +3 per flaw found, -1 per sound card marked, +2 right verdict,
   //    +1 per unused request only when the report is fully right.
   const sc = (flawed, marks, verdict, left) => scoreOf({ st: s1, flawed, marks: new Set(marks), verdict, left });
@@ -76,6 +107,21 @@ try {
   ok("perfect report scores flaws + verdict", g.score.perfect && g.score.total === g.flawed.length * 3 + 2, JSON.stringify(g.score));
   ok("result shows full cards with badges", document.querySelectorAll("#ms .badge").length === 5 && document.querySelectorAll("#ms .tcg-m .ok-tag, #ms .tcg-m .bad-tag").length === 5);
   ok("result names the guideline item that catches each flaw", document.querySelectorAll("#desk .flawbox").length === g.flawed.length && /item/.test(document.querySelector("#desk .flawbox .meta").textContent));
+  // An F2 card: the result shows the dealt flawed card and explains its own flaw, not the slot's first one.
+  let f2 = 1; while (!Object.values(deal(f2, false).planted).includes(1)) f2++;
+  newGame(f2, false);
+  const sid2 = game.flawed.find(sid => game.planted[sid] === 1), fact2 = variantsOf(game.st, sid2)[1];
+  game.hand.filter(r => r === fact2.request).forEach(ask);
+  ok("F2: asking its request reveals the second flawed answer", game.log.some(l => l.text === esc(fact2.flaw.text)), `#${f2} ${sid2}`);
+  startReport(); game.flawed.forEach(sid => game.marks.add(sid)); finish(rightVerdict(game));
+  const shown = document.querySelector(`#ms .slot[data-slot="${sid2}"] .tcg`);
+  ok("F2: the result shows card F2 with its flawed answer", /-F2$/.test(shown.querySelector(".ft span").textContent) && shown.querySelector(".ans.bad .ans-t").textContent === fact2.flaw.text, shown.querySelector(".ft span").textContent);
+  const box = [...document.querySelectorAll("#desk .flawbox")].find(b => b.querySelector("h4").textContent.startsWith(SLOT[sid2].name));
+  ok("F2: the result explains the F2 flaw, its verdict and request", box && box.textContent.includes(fact2.flaw.why) && box.textContent.includes(F[fact2.flaw.type].name) && box.textContent.includes(R[fact2.request].name), `#${f2} ${sid2}`);
+  // A manuscript whose planted flaws are all minor: Minor revisions is the right verdict, and giving it scores.
+  let mn = 1; while (rightVerdict(deal(mn, false)) !== "minor") mn++;
+  newGame(mn, false); startReport(); game.flawed.forEach(sid => game.marks.add(sid)); finish("minor");
+  ok("all-minor manuscript: Minor revisions is right and scores", game.flawed.every(sid => plantedFact(game, sid).flaw.severity === "minor") && game.score.verdictOk && game.score.perfect, `#${mn}`);
   // A decoy request is answered "not applicable" and still costs a round.
   newGame(7, false);
   const decoy = game.hand.find(r => !factOf(game.st, r));
@@ -115,6 +161,10 @@ const pre = document.createElement("pre"); pre.id = "probe"; pre.textContent = J
 
 ERRORS = "<script>window.__errors = []; addEventListener('error', e => window.__errors.push(e.message));</script>"
 
+# The result of the first manuscript that plants an F2 card and whose right verdict is Minor revisions, answered right.
+MINOR_F2 = ('show("play"); let s = 1; for (;; s++) { const d = deal(s, false); if (Object.values(d.planted).includes(1) && rightVerdict(d) === "minor") break; }'
+            ' newGame(s, false); game.hand.slice(0, 5).forEach(ask); startReport(); game.flawed.forEach(x => game.marks.add(x)); finish("minor"); scrollTo(0, 0)')
+
 # Screenshot set-ups: (name, width, height, theme, script run after the app starts)
 SHOTS = [
     ("home", 1280, 1500, "light", 'show("home")'),
@@ -127,6 +177,10 @@ SHOTS = [
     ("phone-play-dark", 390, 2600, "dark", 'show("play"); newGame(7, false); game.hand.slice(0, 2).forEach(ask); scrollTo(0, 0)'),
     ("phone-home", 390, 2200, "light", 'show("home")'),
     ("phone-result-dark", 390, 2600, "dark", 'show("play"); newGame(7, false); game.hand.slice(0, 5).forEach(ask); startReport(); game.marks.add(game.flawed[0]); finish("reject"); scrollTo(0, 0)'),
+    ("minor-f2", 1280, 1900, "light", MINOR_F2),
+    ("minor-f2-dark", 1280, 1900, "dark", MINOR_F2),
+    ("phone-minor-f2", 390, 2600, "light", MINOR_F2),
+    ("phone-minor-f2-dark", 390, 2600, "dark", MINOR_F2),
     ("decks", 1280, 1400, "light", 'show("decks"); deck = "requests"; renderDecks()'),
     ("phone-decks-dark", 390, 1600, "dark", 'show("decks"); deck = "manuscripts"; renderDecks()'),
 ]
