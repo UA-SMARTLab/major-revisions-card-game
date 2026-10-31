@@ -284,6 +284,7 @@ def card_back():
             '<g transform="rotate(-10 60 64)"><circle cx="60" cy="64" r="40" fill="none" stroke="#FDBA74" stroke-width="3"/>'
             '<circle cx="60" cy="64" r="34" fill="none" stroke="#FDBA74" stroke-width="1.2"/>'
             '<text x="60" y="78" font-size="38" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800">MR</text></g>'
-            '<text x="60" y="122" font-size="13.5" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" letter-spacing=".5">MAJOR REVISIONS</text>'
+            # textLength keeps the two-word title inside the frame whatever the font's real width.
+            '<text x="60" y="122" font-size="12.5" fill="#FFF7ED" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" textLength="108" lengthAdjust="spacingAndGlyphs">MAJOR REVISIONS</text>'
             '<text x="60" y="137" font-size="6.6" fill="#FDBA74" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="700" letter-spacing="1.2">' + L("card.back_kit") + '</text></svg>')
     return f'<div class="tcg back" style="--c:{BACK_COLOR}"><div class="bk">{logo}</div></div>'

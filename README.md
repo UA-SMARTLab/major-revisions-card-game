@@ -1,7 +1,7 @@
 # Major Revisions
 
 A deduction card game for scientists: **find the flaw hidden in the manuscript before your review rounds run out.**
-The second game of the **SMART-Lab Science Game Kit** (after [Methodical](https://github.com/UA-SMARTLab/methodical-card-game)), card games that
+The second game of the **[SMART-Lab Science Game Kit](https://ua-smartlab.github.io/science-game-kit/)** (after [Methodical](https://github.com/UA-SMARTLab/methodical-card-game)), card games that
 help researchers refresh their research-methods knowledge.
 
 A fictional study is dealt as five face-down cards: Question, Method, Sample, Measurement, Analysis. One or two carry
@@ -26,7 +26,8 @@ Every study is fictional and says so; every flaw type, reference and checklist i
 
 ## Start here
 
-- **Play in the browser:** double-click `play-windows.bat` (Windows), `play-mac.command` (Mac) or `play-ubuntu.sh`
+- **Play online:** **[ua-smartlab.github.io/major-revisions-card-game/app](https://ua-smartlab.github.io/major-revisions-card-game/app/)**. Nothing to install.
+- **Play offline:** double-click `play-windows.bat` (Windows), `play-mac.command` (Mac) or `play-ubuntu.sh`
   (Ubuntu), or open [`app/index.html`](app/index.html). No installation and no server; it works offline once the
   fonts are cached.
 - **Print a prototype:** open [`print/cards.html`](print/cards.html) in Chrome and print at 100% on A4 with background

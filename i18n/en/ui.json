@@ -2,6 +2,7 @@
  "ui": {
   "_comment": "English source. Keys never change; translate the values. {name} placeholders are filled in by the app; keep them. Keys ending in _html may contain simple HTML tags such as <em>.",
   "brand.tagline": "A deduction card game for scientists. Find the flaw hidden in the manuscript before your review rounds run out.",
+  "kit.link": "← SMART-Lab Science Game Kit",
   "lang.label": "Language",
   "footer": "Major Revisions v{version}, a SMART-Lab Science Game Kit game. Every study is fictional; every flaw, reference and guideline item is real.",
   "stats.score": "Points",
