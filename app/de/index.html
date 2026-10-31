@@ -585,9 +585,36 @@ function newGame(seed, expert) {
   try { history.replaceState(history.state, "", "#m=" + seed + (expert ? "x" : "")); } catch (e) {}
   $("f-expert").checked = expert;
   $("b-new").classList.remove("primary", "nudge");
-  renderPlay();
+  renderPlay(); saveRound();
 }
 function dealFresh() { newGame(1 + Math.floor(Math.random() * 99999), $("f-expert").checked); }
+
+// The round in progress is kept in this browser, so leaving the game (the phone's back button, a reload, a closed tab)
+// does not lose it. A deal is fixed by its number, so the requests sent, the cards marked and the verdict are enough to
+// bring the whole round back, on the page the player was on. A finished round comes back without being scored again.
+const ROUND = KEY + "-round";
+function saveRound() {
+  if (!game) return;
+  const g = game, r = { seed: g.seed, expert: g.expert, asked: g.asked, phase: g.phase, marks: [...g.marks], verdict: g.verdict, view: current };
+  try { localStorage.setItem(ROUND, JSON.stringify(r)); } catch (e) {}
+}
+function restoreRound() {
+  let r = null;
+  try { r = JSON.parse(localStorage.getItem(ROUND)); } catch (e) {}
+  if (!r || !(r.seed > 0) || !Array.isArray(r.asked) || !Array.isArray(r.marks)) return null;
+  newGame(r.seed, !!r.expert);
+  const g = game;
+  for (const rid of r.asked) if (g.left && g.hand.includes(rid) && !g.asked.includes(rid)) { g.asked.push(rid); g.left -= 1; g.log.push(logEntry(g, rid)); }
+  if (!g.left) g.log.push({ head: "", text: tr("play.out"), na: true });
+  g.log.forEach(l => l.fresh = false);
+  if (r.phase === "report" || r.phase === "done") { g.phase = "report"; r.marks.filter(sid => SLOTS.includes(sid)).forEach(sid => g.marks.add(sid)); }
+  if (r.phase === "done" && meta.verdicts.some(v => v.id === r.verdict)) {
+    g.verdict = r.verdict; g.phase = "done"; g.score = scoreOf(g);
+    $("b-new").classList.add("primary", "nudge");
+  }
+  renderDesk(); renderManuscript(); renderLower(); saveRound();
+  return r.view || "home";
+}
 
 function renderPlay() {
   const g = game;
@@ -638,7 +665,7 @@ function renderManuscript() {
   $("ms").querySelectorAll(".cardbtn").forEach(b => {
     const sid = b.dataset.slot;
     b.onclick = () => {
-      if (game.phase === "report") { game.marks.has(sid) ? game.marks.delete(sid) : game.marks.add(sid); renderManuscript(); renderLower(); $("ms").querySelector(`.cardbtn[data-slot="${sid}"]`).focus(); }
+      if (game.phase === "report") { game.marks.has(sid) ? game.marks.delete(sid) : game.marks.add(sid); renderManuscript(); renderLower(); saveRound(); $("ms").querySelector(`.cardbtn[data-slot="${sid}"]`).focus(); }
       else openViewer(b);
     };
     magnify(b, 1.9, () => openViewer(b));
@@ -679,28 +706,32 @@ function renderLower() {
       b.onclick = pick; magnify(b, 2.2, pick);
     });
     $("b-back").disabled = !g.left;
-    $("b-back").onclick = () => { g.phase = "ask"; renderDesk(); renderManuscript(); renderLower(); };
+    $("b-back").onclick = () => { g.phase = "ask"; renderDesk(); renderManuscript(); renderLower(); saveRound(); };
     return;
   }
   L.innerHTML = "";
 }
 
+function logEntry(g, rid) {
+  const hit = factOf(g.st, rid);
+  return hit ? { head: tr("play.log_answer", { request: esc(R[rid].name), slot: esc(SLOT[hit.sid].name) }), text: esc(answerText(g, hit.sid, hit.f)), fresh: true }
+    : { head: esc(R[rid].name), text: tr("play.na"), na: true, fresh: true };
+}
 function ask(rid) {
   const g = game;
   if (g.phase !== "ask" || !g.left || g.asked.includes(rid)) return;
   g.asked.push(rid); g.left -= 1;
   const hit = factOf(g.st, rid);
-  g.log.push(hit ? { head: tr("play.log_answer", { request: esc(R[rid].name), slot: esc(SLOT[hit.sid].name) }), text: esc(answerText(g, hit.sid, hit.f)), fresh: true }
-    : { head: esc(R[rid].name), text: tr("play.na"), na: true, fresh: true });
+  g.log.push(logEntry(g, rid));
   if (!g.left) g.log.push({ head: "", text: tr("play.out"), na: true });
-  renderDesk(); renderManuscript(); renderLower();
+  renderDesk(); renderManuscript(); renderLower(); saveRound();
   const target = hit ? $("ms").querySelector(`.slot[data-slot="${hit.sid}"]`) : $("desk");
   target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
 }
 
 function startReport() {
   game.phase = "report";
-  renderDesk(); renderManuscript(); renderLower();
+  renderDesk(); renderManuscript(); renderLower(); saveRound();
   $("ms-wrap").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
 }
 
@@ -722,7 +753,7 @@ function finish(vid) {
   stats.streak = s.perfect ? stats.streak + 1 : 0;
   save(); renderStats();
   $("b-new").classList.add("primary", "nudge");
-  renderDesk(); renderManuscript(); renderLower();
+  renderDesk(); renderManuscript(); renderLower(); saveRound();
   $("desk").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
   if (s.perfect) setTimeout(() => confetti($("desk").querySelector(".result-head")), reduceMotion ? 0 : 250);
 }
@@ -898,11 +929,13 @@ function show(view, fromHistory) {
   for (const v of ["home", "play", "decks"]) { $("view-" + v).hidden = v !== view; $("tab-" + v).setAttribute("aria-selected", v === view); }
   if (view === "decks") renderDecks();
   if (view === "play" && !game) dealFresh();
+  saveRound();
 }
 addEventListener("popstate", e => {
   const open = document.querySelector(".viewer:not(.out)");
   if (open) return open.dismiss();
-  const view = e.state?.view || "home";
+  if (!e.state) return;  // a link to #... on the page, not one of the game's own steps
+  const view = e.state.view || "home";
   if (view !== current) show(view, true);
 });
 document.querySelectorAll("nav button").forEach(b => b.onclick = () => show(b.dataset.view));
@@ -945,8 +978,13 @@ new MutationObserver(ms => { for (const m of ms) for (const n of m.addedNodes) i
   .observe(document.body, { childList: true, subtree: true });
 renderStats(); renderFan(); countUp(); renderQuick();
 // A shared link (#m=1234, or #m=1234x for expert mode) opens that manuscript straight away.
+// The round in progress comes back first, unless the link names another manuscript.
 const m = /^#m=(\d+)(x?)$/.exec(location.hash);
-if (m) { show("play"); newGame(+m[1], !!m[2]); } else show("home");
+let saved = null;
+try { saved = JSON.parse(localStorage.getItem(ROUND)); } catch (e) {}
+const resumeView = (!m || (saved && saved.seed === +m[1] && !!saved.expert === !!m[2])) ? restoreRound() : null;
+if (resumeView) show(resumeView);
+else if (m) { show("play"); newGame(+m[1], !!m[2]); } else show("home");
 </script>
 
 </body></html>

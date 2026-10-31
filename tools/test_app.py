@@ -187,10 +187,25 @@ try {
   const wasOpen = !!document.querySelector(".viewer:not(.out)");
   ok("back closes the full-screen card and stays on the page", wasOpen && (await goBack()) && !document.querySelector(".viewer:not(.out)") && !$("view-play").hidden);
   ok("back from Play returns to Home, not out of the game", (await goBack()) && !$("view-home").hidden && $("view-play").hidden);
+  // A link to #... on the page (the manuscript's own number) is not a step of the game: it must not jump to Home.
+  show("play"); history.replaceState(history.state, "", "#elsewhere");
+  document.querySelector("#seed a").click(); await sleep(150);
+  ok("following the manuscript's number link keeps the game on Play", !$("view-play").hidden && $("view-home").hidden);
   show("play"); await sleep(50);
   document.querySelector("#ms .lens").click(); await sleep(50);
   document.querySelector(".viewer").click(); await sleep(250);
   ok("closing a card by tapping leaves no extra back step", !history.state?.viewer && !$("view-play").hidden, JSON.stringify(history.state));
+  // A round in progress survives leaving the game: what was saved brings back the same manuscript, requests, answers,
+  // marks and verdict, and a finished round is not scored twice.
+  const sameRound = (a, b) => JSON.stringify([a.seed, a.expert, a.asked, a.left, a.phase, [...a.marks].sort(), a.verdict, a.log.map(l => l.text)])
+    === JSON.stringify([b.seed, b.expert, b.asked, b.left, b.phase, [...b.marks].sort(), b.verdict, b.log.map(l => l.text)]);
+  show("play"); newGame(11, false); game.hand.slice(0, 3).forEach(ask);
+  let before = game; game = null;
+  ok("leaving mid-round: the requests and answers come back", typeof restoreRound === "function" && restoreRound() === "play" && sameRound(game, before));
+  startReport(); game.marks.add(game.flawed[0]); saveRound(); before = game; game = null;
+  ok("leaving while reporting: the marked cards come back", restoreRound() === "play" && sameRound(game, before) && game.phase === "report");
+  finish(rightVerdict(game)); const scored = stats.score; before = game; game = null;
+  ok("leaving after the verdict: the result comes back, scored once", restoreRound() === "play" && sameRound(game, before) && stats.score === scored && !!document.querySelector("#desk .result-head"));
   // 6. Browse: every deck renders its cards.
   show("decks");
   for (const k of ["studies", "requests", "verdicts", "manuscripts"]) { deck = k; renderDecks(); ok(`decks: ${k} render`, document.querySelectorAll("#cards .tcg").length === DECK_ITEMS[k].length, document.querySelectorAll("#cards .tcg").length); }
