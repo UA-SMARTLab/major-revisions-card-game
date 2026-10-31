@@ -62,7 +62,7 @@
   "play.hand": "Your requests",
   "play.hand_hint": "Tap a request to read it, then send it. The authors must answer truthfully, on the card it is about.",
   "play.sent": "Sent",
-  "play.report":"✍️ Write your report",
+  "play.report": "✍️ Write your report",
   "play.report_now": "✍️ Write your report now",
   "play.log_empty": "No requests yet. Read the claim and the five cards, then ask about the part you trust least.",
   "play.log_answer": "{request} → {slot} card",
@@ -177,6 +177,31 @@
   "print.item": "item {n}"
  },
  "art": {
-  "_comment": "Labels drawn inside card pictures. Translate the values; keep them short."
+  "_comment": "Labels drawn inside card pictures. Translate the values; keep them short.",
+  "AB": "AB",
+  "ACCEPT": "ACCEPT",
+  "AS RANDOMISED": "AS RANDOMISED",
+  "BIAS PER STUDY": "BIAS PER STUDY",
+  "CUT-OFF": "CUT-OFF",
+  "DATE": "DATE",
+  "DO THIS": "DO THIS",
+  "EVERY SOURCE": "EVERY SOURCE",
+  "EXPOSURE": "EXPOSURE",
+  "H₁ BEFORE DATA": "H₁ BEFORE DATA",
+  "MAJOR": "MAJOR",
+  "MINOR": "MINOR",
+  "NEW CODES": "NEW CODES",
+  "OR THAT": "OR THAT",
+  "OUTCOME": "OUTCOME",
+  "PLAN": "PLAN",
+  "REJECT": "REJECT",
+  "SEALED SEQUENCE": "SEALED SEQUENCE",
+  "THE TRUTH TEST": "THE TRUTH TEST",
+  "VALID?": "VALID?",
+  "WHO ASKED?": "WHO ASKED?",
+  "WHO GOT IN?": "WHO GOT IN?",
+  "WHO IS MISSING?": "WHO IS MISSING?",
+  "WHO KNEW?": "WHO KNEW?",
+  "Zz": "Zz"
  }
 }

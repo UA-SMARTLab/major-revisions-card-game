@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 # Runs inside the app page after it has started. Each check pushes [name, passed, detail].
 TESTS = r"""
+(async () => {
 const out = [], ok = (name, pass, detail = "") => out.push([name, !!pass, String(detail)]);
 try {
   // 1. Determinism: the same number deals the same manuscript.
@@ -80,6 +81,27 @@ try {
   const decoy = game.hand.find(r => !factOf(game.st, r));
   ask(decoy);
   ok("decoy request: not applicable, round spent", game.left === 4 && game.log[0].na, decoy);
+  // The interface path: tapping a request opens the viewer; only the green button sends it, and not in the first moment.
+  newGame(8, false);
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  document.querySelector("#hand .cardbtn").click();
+  ok("tapping a request opens the full-screen viewer", !!document.querySelector(".viewer.choosing .v-pick"));
+  document.querySelector(".v-pick").click();
+  ok("an instant press on the green button is ignored", game.asked.length === 0);
+  await sleep(400);
+  document.querySelector(".viewer.choosing .v-nav[data-step='1']").click();
+  await sleep(400);
+  document.querySelector(".v-pick").click();
+  await sleep(300);
+  ok("the green button sends the request shown", game.asked.length === 1 && game.asked[0] === game.hand[1], game.asked.join());
+  ok("the viewer closes after sending", !document.querySelector(".viewer:not(.out)"));
+  document.querySelector("#b-report").click();
+  document.querySelector("#verdicts .cardbtn").click();
+  await sleep(400);
+  ok("verdict viewer offers 'Give this verdict'", /verdict/i.test(document.querySelector(".v-pick").textContent));
+  dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+  await sleep(300);
+  ok("Escape closes the viewer without a verdict", !document.querySelector(".viewer:not(.out)") && game.phase === "report");
   // 6. Browse: every deck renders its cards.
   show("decks");
   for (const k of ["studies", "requests", "verdicts", "manuscripts"]) { deck = k; renderDecks(); ok(`decks: ${k} render`, document.querySelectorAll("#cards .tcg").length === DECK_ITEMS[k].length, document.querySelectorAll("#cards .tcg").length); }
@@ -88,6 +110,7 @@ try {
 } catch (err) { ok("no exception", false, err.stack); }
 ok("no page errors", !window.__errors.length, window.__errors.join(" | "));
 const pre = document.createElement("pre"); pre.id = "probe"; pre.textContent = JSON.stringify(out); document.body.appendChild(pre);
+})();
 """
 
 ERRORS = "<script>window.__errors = []; addEventListener('error', e => window.__errors.push(e.message));</script>"
