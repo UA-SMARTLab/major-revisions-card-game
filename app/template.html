@@ -1,0 +1,802 @@
+<title>Major Revisions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@500&family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans+Condensed:ital,wght@0,400;0,600;1,400&display=swap" media="print" onload="this.media='all'">
+<!--__EXTRA_FONTS__-->
+<style>
+/* Layout: an editor's desk. The study and the reviewer's log sit on top, the five manuscript cards below them,
+   then the hand of request cards. The page frame, viewer and card behaviour follow Methodical (SMART-Lab Science Game Kit). */
+:root {
+  --bg: #F3F1EE; --grid: rgba(154, 52, 18, .06); --surface: #FFFFFF; --ink: #1C1917; --muted: #5F5852;
+  --line: #DDD6CF; --accent: #9A3412; --accent-ink: #FFFFFF;
+  --good: #15803D; --good-bg: #DCFCE7; --trap: #B42318; --trap-bg: #FDE7E4; --silver-bg: #ECEAE7; --gold-bg: #FEF3C7; --gold: #8A5A00;
+  --shadow: 0 1px 2px rgba(28,25,23,.08), 0 8px 24px rgba(28,25,23,.08);
+  --f-display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15110E; --grid: rgba(253, 186, 116, .05); --surface: #201A16; --ink: #EDE7E1; --muted: #ABA198;
+  --line: #3A312A; --accent: #FDBA74; --accent-ink: #1C1917;
+  --good: #57D987; --good-bg: #173A24; --trap: #FF8A7A; --trap-bg: #3D1C19; --silver-bg: #2C2520; --gold-bg: #3A3016; --gold: #E8BC4A;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3); color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #15110E; --grid: rgba(253, 186, 116, .05); --surface: #201A16; --ink: #EDE7E1; --muted: #ABA198;
+  --line: #3A312A; --accent: #FDBA74; --accent-ink: #1C1917;
+  --good: #57D987; --good-bg: #173A24; --trap: #FF8A7A; --trap-bg: #3D1C19; --silver-bg: #2C2520; --gold-bg: #3A3016; --gold: #E8BC4A;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3); color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background-color: var(--bg); color: var(--ink); font: 15px/1.5 var(--f-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 24px 24px; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 20px 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; }
+a { color: var(--accent); }
+.label { font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+/* header */
+header { position: relative; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.brand h1 a { color: inherit; text-decoration: none; }
+.brand h1 { font-size: clamp(32px, 6vw, 52px); font-weight: 800; letter-spacing: -.02em; line-height: .95; }
+.brand p { margin: 6px 0 0; color: var(--muted); max-width: 56ch; }
+.stats { display: flex; flex-wrap: wrap; gap: 20px; font-variant-numeric: tabular-nums; }
+.stat b { display: block; font-family: var(--f-display); font-size: 26px; line-height: 1; }
+nav { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 20px; overflow-x: auto; }
+nav button { background: none; border: 0; padding: 10px 14px; border-bottom: 3px solid transparent; color: var(--muted); font-weight: 600; white-space: nowrap; }
+nav button[aria-selected="true"] { color: var(--ink); border-color: var(--accent); }
+.lang-pick { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); }
+.lang-pick select { background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; font: inherit; }
+.brand + .lang-pick { position: absolute; top: 4px; inset-inline-end: 0; }
+
+select, .btn { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; font: inherit; font-size: 14px; color: var(--ink); min-height: 36px; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn.nudge { animation: nudge 1.8s ease-in-out infinite; }
+@keyframes nudge { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); } 50% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--accent) 0%, transparent); transform: scale(1.04); } }
+.toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); min-height: 36px; }
+.toggle input { width: 18px; height: 18px; accent-color: var(--accent); }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; min-width: 0; }
+.panel h3 { font-size: 22px; margin-bottom: 6px; }
+.panel p { margin: 0 0 10px; max-width: 72ch; }
+.steps { margin: 8px 0 0; padding-inline-start: 20px; color: var(--muted); }
+.steps li { margin-bottom: 4px; }
+.row-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; align-items: center; }
+footer { margin-top: 40px; color: var(--muted); font-size: 13px; }
+.sec-h { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin: 26px 0 6px; }
+.sec-h h2 { font-size: 22px; }
+.hint { margin: 0 0 10px; color: var(--muted); font-size: 14px; }
+
+/*__CARD_CSS__*/
+
+/* play: the bench */
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin-bottom: 14px; }
+.seed { font: 500 13px var(--f-mono); color: var(--muted); }
+.seed a { color: inherit; }
+.bench { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 22px; align-items: start; }
+@media (max-width: 720px) { .bench { grid-template-columns: minmax(0, 1fr); justify-items: center; } .bench > .panel { width: 100%; } }
+.studywrap { --card-u: 4.4px; position: relative; }
+.claim { font: 600 18px/1.35 var(--f-display); margin: 4px 0 8px; }
+.left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 8px 0 12px; }
+.pips { display: inline-flex; gap: 6px; }
+.pips i { width: 16px; height: 16px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--surface), 0 0 0 3px var(--accent); transition: transform .3s, background .3s; }
+.pips i.off { background: transparent; transform: scale(.8); }
+.log { font-size: 14px; border-top: 1px dashed var(--line); padding-top: 10px; display: flex; flex-direction: column; gap: 8px; max-height: 300px; overflow: auto; }
+.log p { margin: 0; }
+.log .q { display: block; font: 600 12px var(--f-mono); letter-spacing: .04em; color: var(--muted); text-transform: uppercase; }
+.log .na { color: var(--muted); font-style: italic; }
+.log .fresh { animation: logIn .5s cubic-bezier(.2,.8,.2,1); }
+@keyframes logIn { from { opacity: 0; transform: translateY(-6px); background: var(--gold-bg); } }
+
+/* the five manuscript cards and the request hand: as many across as fit, cards scale with the space */
+.ms { container-type: inline-size; }
+.ms-cards { --card-u: max(3.2px, min(4.6px, calc((100cqw - 56px) / 315))); display: grid; grid-template-columns: repeat(5, max-content); gap: 14px; justify-content: center; padding-top: 12px; }
+@container (max-width: 1000px) { .ms-cards { --card-u: max(3.2px, min(4.6px, calc((100cqw - 28px) / 189))); grid-template-columns: repeat(3, max-content); } }
+@container (max-width: 560px) { .ms-cards { --card-u: min(4.4px, calc((100cqw - 14px) / 126)); grid-template-columns: repeat(2, max-content); } }
+.hand { --card-u: 2.9px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; padding-top: 12px; }
+@media (max-width: 520px) { .hand { --card-u: 2.45px; gap: 10px; } }
+.slot { position: relative; }
+.cardbtn { display: block; background: none; border: 0; padding: 0; border-radius: calc(var(--card-u) * 3.2); transition: transform .18s, box-shadow .18s, opacity .3s, filter .3s; text-align: start; }
+.cardbtn:not(:disabled):hover { transform: translateY(-5px); }
+.cardbtn:disabled { cursor: default; }
+.hand .sent .cardbtn { opacity: .38; filter: saturate(.3); }
+.slot .badge { position: absolute; z-index: 4; left: 50%; top: -12px; transform: translateX(-50%); white-space: nowrap; padding: 3px 10px; border-radius: 99px;
+  font: 800 12.5px/1.2 var(--f-display); color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,.3); animation: badgeIn .4s .1s cubic-bezier(.2,.9,.3,1.4) both; pointer-events: none; }
+.b-sent { background: #57534E; } .b-found { background: #15803D; } .b-missed { background: #B42318; } .b-false { background: #B45309; } .b-sound { background: #475569; } .b-flag { background: #B42318; }
+@keyframes badgeIn { from { opacity: 0; transform: translateX(-50%) translateY(8px) scale(.6); } }
+.marking .cardbtn { outline: 2px dashed color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 3px; }
+.cardbtn[aria-pressed="true"] { outline: 4px solid #B42318 !important; outline-offset: 3px; transform: translateY(-6px) rotate(-1deg); }
+.ms .tcg .ans.open { animation: reveal .9s ease; }
+@keyframes reveal { 0% { background: #fde68a; box-shadow: 0 0 0 calc(var(--u) * 1.5) #fde68a; } }
+.res-found .cardbtn { box-shadow: 0 0 0 4px #16A34A, 0 0 22px 4px rgba(22,163,74,.45); }
+.res-missed .cardbtn { box-shadow: 0 0 0 4px #DC2626; }
+.res-false .cardbtn { box-shadow: 0 0 0 4px #D97706; }
+.res-sound .cardbtn { opacity: .75; }
+.lens { display: none; position: absolute; z-index: 5; top: -9px; inset-inline-start: -9px; width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--accent);
+  background: var(--surface); font-size: 16px; line-height: 1; padding: 0; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+@media (hover: none) { .lens { display: grid; place-items: center; } }
+.verdicts { --card-u: 2.9px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; padding-top: 8px; }
+
+/* hover magnifier and full-screen viewer (as in Methodical) */
+.zoomable { transition: transform .18s cubic-bezier(.2,.8,.2,1), box-shadow .18s; transform-origin: var(--ox, center) var(--oy, center); }
+.zoomable.zoom { transform: scale(var(--z, 1.6)) !important; z-index: 30; position: relative; box-shadow: 0 24px 60px rgba(0,0,0,.55); animation: none !important; }
+.viewer { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; align-content: center; gap: 14px; padding: 16px;
+  background: rgba(12, 9, 7, .8); backdrop-filter: blur(3px); animation: vIn .2s ease both; cursor: zoom-out; }
+.viewer-card { --card-u: min(calc((100vw - 32px) / 63), calc((100vh - 90px) / 88), 6.4px); animation: vCard .28s cubic-bezier(.2,.9,.3,1.2) both; }
+.viewer-card .tcg { box-shadow: 0 24px 60px rgba(0,0,0,.6); }
+.viewer-hint { color: #E7E0D9; font: 600 13px var(--f-mono); letter-spacing: .06em; }
+.viewer.out { animation: vOut .18s ease both; }
+.viewer.choosing { cursor: default; touch-action: pinch-zoom; gap: 12px; padding-top: 68px; }
+.viewer.choosing .viewer-card { --card-u: min(calc((100vw - 32px) / 63), calc((100vh - 180px) / 88), 6.4px); }
+@supports (height: 100dvh) { .viewer.choosing .viewer-card { --card-u: min(calc((100vw - 32px) / 63), calc((100dvh - 180px) / 88), 6.4px); } }
+@media (orientation: landscape) and (max-height: 520px) {
+  .viewer.choosing { padding-top: 16px; grid-template-columns: auto auto; justify-content: center; column-gap: 24px; }
+  .viewer.choosing .viewer-card { grid-row: span 2; --card-u: min(calc((100vh - 32px) / 88), 6.4px); }
+  @supports (height: 100dvh) { .viewer.choosing .viewer-card { --card-u: min(calc((100dvh - 32px) / 88), 6.4px); } }
+  .viewer.choosing .v-dots { align-self: end; } .viewer.choosing .v-bar { align-self: start; }
+}
+.v-dots { display: flex; gap: 7px; flex-wrap: wrap; justify-content: center; max-width: 90vw; } .v-dots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(231,224,217,.35); }
+.v-dots i.on { background: #FAFAF9; }
+.v-bar { display: flex; align-items: center; gap: 10px; }
+.v-nav, .v-close { width: 48px; height: 48px; border-radius: 50%; border: 0; background: rgba(250,250,249,.14); color: #FAFAF9; font: 600 20px/1 var(--f-display);
+  padding: 0; display: grid; place-items: center; flex: none; }
+.v-nav:hover, .v-close:hover { background: rgba(250,250,249,.26); }
+.v-close { position: fixed; top: 12px; right: 12px; }
+[dir="rtl"] .v-close { right: auto; left: 12px; } [dir="rtl"] .v-nav { transform: scaleX(-1); }
+.v-pick { min-height: 52px; padding: 0 26px; border: 0; border-radius: 99px; background: #15803D; color: #fff; font: 800 18px var(--f-display);
+  box-shadow: 0 0 0 3px rgba(34,197,94,.35), 0 10px 26px rgba(0,0,0,.4); transition: transform .15s, background .15s; }
+.v-pick:hover { background: #166534; transform: translateY(-2px); }
+.v-pick:active { transform: scale(.97); }
+.v-pick:focus-visible, .v-nav:focus-visible, .v-close:focus-visible { outline: 3px solid #FAFAF9; outline-offset: 3px; }
+@keyframes vIn { from { opacity: 0; } } @keyframes vOut { to { opacity: 0; } }
+@keyframes vCard { from { transform: scale(.6) translateY(30px); opacity: 0; } }
+
+/* "?" link to a card's key reference */
+.qref { position: absolute; z-index: 3; top: -9px; inset-inline-end: -9px; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--surface); color: var(--accent); border: 2px solid var(--accent); font: 800 15px/1 var(--f-display); text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+.qref:hover, .qref:focus-visible { background: var(--accent); color: var(--accent-ink); }
+
+/* result */
+.result-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; border-radius: 12px; margin: 4px 0 14px;
+  animation: headIn .45s cubic-bezier(.2,.8,.2,1) both; }
+.result-head .big { font: 800 clamp(20px, 3vw, 28px)/1.1 var(--f-display); }
+.result-head .pts { font: 800 30px/1 var(--f-display); white-space: nowrap; }
+.r-good { background: var(--good-bg); color: var(--good); } .r-mid { background: var(--gold-bg); color: var(--gold); } .r-bad { background: var(--trap-bg); color: var(--trap); }
+@keyframes headIn { from { opacity: 0; transform: translateY(-10px) scale(.96); } }
+.vline { display: flex; flex-wrap: wrap; gap: 6px 18px; font-weight: 600; margin-bottom: 6px; }
+.vline .ok { color: var(--good); } .vline .no { color: var(--trap); }
+.flawbox { border-inline-start: 4px solid var(--trap); padding: 2px 0 2px 12px; margin: 12px 0; }
+.flawbox h4 { margin: 0 0 4px; font: 700 16px var(--f-display); }
+.flawbox p { margin: 0 0 6px; font-size: 14.5px; }
+.flawbox .meta { font-size: 13.5px; color: var(--muted); }
+.score { display: grid; grid-template-columns: max-content max-content; gap: 2px 14px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.confetti { position: fixed; z-index: 40; width: 8px; height: 12px; pointer-events: none; border-radius: 2px; }
+
+/* decks */
+.deck-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.deck-tabs button { background: var(--surface); border: 1px solid var(--line); border-radius: 99px; padding: 5px 12px; font-size: 14px; min-height: 32px; }
+.deck-tabs button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+#deck-search { width: min(100%, 320px); }
+.cards { --card-u: 3.9px; display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(var(--card-u) * 63), 1fr)); gap: 18px 14px; margin-top: 14px; justify-items: center; }
+@media (max-width: 400px) { .cards { --card-u: 4.3px; } }
+.cards figure { margin: 0; display: flex; flex-direction: column; gap: 6px; align-items: center; }
+.cards details { width: calc(var(--card-u) * 63); font-size: 13px; color: var(--muted); }
+.cards details p { margin: 4px 0 0; }
+
+/* deck pop-up */
+.tip { position: fixed; z-index: 50; width: min(320px, calc(100vw - 24px)); display: grid; grid-template-columns: 54px 1fr; gap: 12px; align-items: center;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-top: 4px solid var(--c); border-radius: 12px; padding: 12px 14px;
+  box-shadow: 0 14px 34px rgba(0,0,0,.28); pointer-events: none; animation: tipIn .22s cubic-bezier(.2,.8,.2,1) both; }
+.tip b { font-family: var(--f-display); font-size: 15px; }
+.tip p { margin: 3px 0 0; font-size: 13.5px; line-height: 1.4; color: var(--muted); }
+@keyframes tipIn { from { opacity: 0; transform: translateY(6px) scale(.92); } }
+.tip-fan { position: relative; width: 54px; height: 56px; }
+.tip-fan i { position: absolute; left: 13px; top: 4px; width: 30px; height: 44px; border-radius: 5px; background: var(--c); box-shadow: 0 0 0 2px var(--surface), 0 3px 8px rgba(0,0,0,.3);
+  display: grid; place-items: center; font-style: normal; font-size: 17px; }
+.tip-fan i:nth-child(1) { transform: rotate(-18deg) translateX(-9px); opacity: .55; }
+.tip-fan i:nth-child(2) { opacity: .8; }
+.tip-fan i:nth-child(3) { transform: rotate(16deg) translateX(9px); background: color-mix(in srgb, var(--c) 70%, #fff); }
+.count { cursor: help; border-radius: 8px; padding: 2px 4px; margin: -2px -4px; }
+.count:hover, .count:focus-visible { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+
+/* home */
+.hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 24px; align-items: center; min-height: 430px; margin-bottom: 26px; }
+@media (max-width: 860px) { .hero { grid-template-columns: minmax(0, 1fr); min-height: 0; } }
+.hero-title { font-size: clamp(34px, 5.4vw, 60px); font-weight: 800; letter-spacing: -.03em; line-height: 1; margin: 8px 0 14px; }
+.hero-title em { font-style: normal; color: var(--accent); text-decoration: underline wavy color-mix(in srgb, #DC2626 70%, transparent); text-decoration-thickness: 3px; text-underline-offset: 6px; }
+.hero-text p { color: var(--muted); font-size: 17px; max-width: 46ch; margin: 0 0 20px; }
+.btn.big { padding: 12px 20px; font-size: 16px; font-weight: 700; border-radius: 12px; }
+.counts { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 26px; }
+.counts div b { display: block; font: 800 30px/1 var(--f-display); font-variant-numeric: tabular-nums; }
+.hero-fan { --card-u: 3.3px; position: relative; height: 400px; }
+@media (max-width: 860px) { .hero-fan { --card-u: 2.5px; height: 300px; } }
+.hero-fan .fc { position: absolute; left: 50%; top: 50%; }
+.hero-fan .fc > .bob { animation: bob 4.5s ease-in-out infinite; animation-delay: var(--d); }
+.hero-fan .fc .tcg { box-shadow: 0 18px 40px rgba(0,0,0,.35); }
+@keyframes bob { 50% { translate: 0 -12px; } }
+.home-h { font-size: 24px; margin: 8px 0 12px; }
+.modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 30px; }
+.mode { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+.mode::before { content: ""; position: absolute; inset: 0 0 auto; height: 5px; background: var(--c); }
+.mode-ic { font-size: 30px; } .mode h3 { font-size: 21px; } .mode p { margin: 0; color: var(--muted); font-size: 14.5px; flex: 1; }
+.quick { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 22px; align-items: start; --card-u: 3.6px; }
+@media (max-width: 700px) { .quick { grid-template-columns: minmax(0, 1fr); justify-items: center; --card-u: 4px; } }
+.quote { border-inline-start: 4px solid var(--accent); padding: 4px 12px; margin: 8px 0 12px; font-size: 16px; font-style: italic; background: var(--bg); border-radius: 0 8px 8px 0; }
+.qbtns { display: flex; gap: 10px; flex-wrap: wrap; }
+.qbtns .btn { min-width: 110px; font-weight: 700; }
+@media (prefers-reduced-motion: reduce) {
+  *, .viewer, .viewer-card, .viewer.out, .slot .badge, .result-head, .hero-fan .fc > .bob, .btn.nudge, .log .fresh, .ms .tcg .ans.open { animation: none !important; }
+  .cardbtn, .zoomable { transition: none; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1><a href="#" id="go-home" title="{{nav.home}}">Major Revisions</a></h1>
+      <p>{{brand.tagline}}</p>
+    </div>
+    <label class="lang-pick" id="lang-wrap" hidden><span aria-hidden="true">🌐</span><select id="lang-pick" aria-label="{{lang.label}}"></select></label>
+    <div class="stats" aria-live="polite">
+      <div class="stat"><b id="s-score">0</b><span class="label">{{stats.score}}</span></div>
+      <div class="stat"><b id="s-found">0</b><span class="label">{{stats.found}}</span></div>
+      <div class="stat"><b id="s-streak">0</b><span class="label">{{stats.streak}}</span></div>
+      <div class="stat"><b id="s-reviewed">0</b><span class="label">{{stats.reviewed}}</span></div>
+    </div>
+  </header>
+
+  <nav role="tablist">
+    <button role="tab" id="tab-home" aria-selected="true" data-view="home">{{nav.home}}</button>
+    <button role="tab" id="tab-play" aria-selected="false" data-view="play">{{nav.play}}</button>
+    <button role="tab" id="tab-decks" aria-selected="false" data-view="decks">{{nav.decks}}</button>
+  </nav>
+
+  <section id="view-home">
+    <div class="hero">
+      <div class="hero-text">
+        <span class="label">{{home.kicker}}</span>
+        <h2 class="hero-title">{{home.title_html}}</h2>
+        <p>{{home.lede}}</p>
+        <button class="btn primary big" data-go="play">{{home.play.go}}</button>
+        <div class="counts" id="home-counts"></div>
+      </div>
+      <div class="hero-fan" id="hero-fan" aria-hidden="true"></div>
+    </div>
+    <h2 class="home-h">{{home.choose}}</h2>
+    <div class="modes">
+      <div class="mode" style="--c:#C2410C">
+        <div class="mode-ic" aria-hidden="true">🔎</div><h3>{{home.play.title}}</h3>
+        <p>{{home.play.text}}</p>
+        <div><button class="btn" data-go="play">{{home.play.go}}</button></div>
+      </div>
+      <div class="mode" style="--c:#0F766E">
+        <div class="mode-ic" aria-hidden="true">🃏</div><h3>{{nav.decks}}</h3>
+        <p>{{home.decks.text}}</p>
+        <div><button class="btn" data-go="decks">{{home.decks.go}}</button></div>
+      </div>
+    </div>
+    <h2 class="home-h">{{home.quick}}</h2>
+    <div class="quick" id="quick"></div>
+  </section>
+
+  <section id="view-play" hidden>
+    <div class="toolbar">
+      <button class="btn" id="b-new">{{play.new}}</button>
+      <label class="toggle"><input type="checkbox" id="f-expert"> {{play.expert}}</label>
+      <span class="seed" id="seed" title="{{play.seed_title}}"></span>
+    </div>
+    <div class="bench">
+      <div class="studywrap" id="study-slot"></div>
+      <div class="panel" id="desk"></div>
+    </div>
+    <div class="ms" id="ms-wrap">
+      <div class="sec-h"><h2>{{play.manuscript}}</h2></div>
+      <p class="hint" id="ms-hint"></p>
+      <div class="ms-cards" id="ms"></div>
+    </div>
+    <div id="lower"></div>
+  </section>
+
+  <section id="view-decks" hidden>
+    <div class="deck-tabs" id="deck-tabs"></div>
+    <input class="btn" id="deck-search" type="search" placeholder="{{decks.search}}" aria-label="{{decks.search}}">
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <footer id="footer"></footer>
+</div>
+
+<script>
+const DATA = /*__DATA__*/null;
+// Interface strings for this page's language (i18n/<code>/ui.json, with English filling any gaps) and the language list.
+const UI = /*__UI__*/{};
+const LANG = /*__LANG__*/{};
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const fmt = (s, vars) => s.replace(/\{(\w+)\}/g, (m, k) => k in vars ? vars[k] : m);
+// tr: for HTML (the string is escaped; vars are inserted as given, so escape them first). trt: for plain text.
+const tr = (key, vars = {}) => fmt(esc(UI[key] ?? key), vars);
+const trt = (key, vars = {}) => fmt(UI[key] ?? key, vars);
+document.documentElement.lang = LANG.code || "en";
+document.documentElement.dir = LANG.dir || "ltr";
+const { meta, studies, requests, flaws, guidelines } = DATA;
+const C = DATA.cards;
+const R = Object.fromEntries(requests.map(x => [x.id, x]));
+const F = Object.fromEntries(flaws.map(x => [x.id, x]));
+const G = Object.fromEntries(guidelines.map(x => [x.id, x]));
+const ST = Object.fromEntries(studies.map(x => [x.id, x]));
+const SLOT = Object.fromEntries(meta.slots.map(x => [x.id, x]));
+const VERDICT = Object.fromEntries(meta.verdicts.map(x => [x.id, x]));
+const SLOTS = meta.slots.map(s => s.id);
+const SEV = ["minor", "major", "reject"];
+const SC = meta.scoring;
+const $ = id => document.getElementById(id);
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const flawable = st => SLOTS.filter(sid => st.slots[sid].facts.some(f => f.flaw));
+const factOf = (st, rid) => { for (const sid of SLOTS) for (const f of st.slots[sid].facts) if (f.request === rid) return { sid, f }; return null; };
+
+// ---------- deterministic dealing: the same manuscript number always deals the same manuscript
+function mulberry32(a) { return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function shuffleWith(rnd, a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const shuffle = a => shuffleWith(Math.random, a);
+function deal(seed, expert) {
+  const rnd = mulberry32(seed * 2 + (expert ? 1 : 0));
+  const st = studies[Math.floor(rnd() * studies.length)];
+  // One or two flawed cards; in expert mode a fifth of manuscripts are sound.
+  const k = expert && rnd() < .2 ? 0 : rnd() < .5 ? 1 : 2;
+  const flawed = shuffleWith(rnd, flawable(st)).slice(0, k);
+  const own = SLOTS.flatMap(sid => st.slots[sid].facts.map(f => f.request));
+  const decoys = shuffleWith(rnd, requests.map(r => r.id).filter(id => !own.includes(id))).slice(0, meta.app.hand_decoys);
+  return { seed, expert, st, flawed, hand: shuffleWith(rnd, own.concat(decoys)) };
+}
+// The verdict an editor should give: that of the worst planted flaw, or accept when nothing was planted.
+function rightVerdict(g) {
+  let worst = -1;
+  for (const sid of g.flawed) for (const f of g.st.slots[sid].facts) if (f.flaw) worst = Math.max(worst, SEV.indexOf(f.flaw.severity));
+  return worst < 0 ? "accept" : SEV[worst];
+}
+const answerText = (g, sid, f) => g.flawed.includes(sid) && f.flaw ? f.flaw.text : f.sound;
+
+// ---------- per-viewer stats (a convenience only)
+const KEY = "major-revisions-v1";
+let stats = { score: 0, found: 0, streak: 0, reviewed: 0 };
+try { const raw = localStorage.getItem(KEY); if (raw) stats = Object.assign(stats, JSON.parse(raw)); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(stats)); } catch (e) {} };
+function renderStats() { for (const k of ["score", "found", "streak", "reviewed"]) $("s-" + k).textContent = stats[k]; }
+
+// ---------- hover magnifier and full-screen viewer (from Methodical)
+let zoomed = null, zoomTimer = 0;
+function unzoom() { clearTimeout(zoomTimer); if (zoomed) { zoomed.classList.remove("zoom"); zoomed = null; } }
+function magnify(el, max = 1.9, open = () => openViewer(el)) {
+  if (!el) return;
+  let hold = 0, held = false;
+  el.addEventListener("pointerdown", e => { if (e.pointerType === "mouse") return; held = false; hold = setTimeout(() => { held = true; open(); }, 450); });
+  for (const ev of ["pointerup", "pointercancel", "pointermove"]) el.addEventListener(ev, e => { if (ev !== "pointermove" || Math.abs(e.movementX) + Math.abs(e.movementY) > 6) clearTimeout(hold); });
+  el.addEventListener("click", e => { if (held) { e.preventDefault(); e.stopImmediatePropagation(); held = false; } }, true);
+  el.addEventListener("contextmenu", e => { if (held) e.preventDefault(); });
+  if (reduceMotion || !matchMedia("(hover: hover)").matches) return;
+  el.classList.add("zoomable");
+  el.addEventListener("pointerenter", e => {
+    if (e.pointerType !== "mouse") return;
+    clearTimeout(zoomTimer);
+    zoomTimer = setTimeout(() => {
+      if (zoomed && zoomed !== el) zoomed.classList.remove("zoom");
+      const r = el.getBoundingClientRect();
+      el.style.setProperty("--z", Math.max(1.1, Math.min(max, 400 / r.width, (innerHeight - 40) / r.height)));
+      el.style.setProperty("--ox", r.left + r.width / 2 < innerWidth / 3 ? "left" : r.left + r.width / 2 > innerWidth * 2 / 3 ? "right" : "center");
+      el.style.setProperty("--oy", r.top < innerHeight * .25 ? "top" : r.bottom > innerHeight * .75 ? "bottom" : "center");
+      el.classList.add("zoom"); zoomed = el;
+    }, 220);
+  });
+  el.addEventListener("pointerleave", () => { clearTimeout(zoomTimer); if (zoomed === el) unzoom(); });
+}
+// Full-screen viewer. With `choose` ({ids, at, render, label, onPick}) it shows the choices one at a time:
+// arrows, swipes or the arrow keys move between them, and only the green button makes one your choice.
+function openViewer(el, choose) {
+  unzoom();
+  const v = document.createElement("div");
+  v.className = "viewer" + (choose ? " choosing" : ""); v.setAttribute("role", "dialog"); v.setAttribute("aria-modal", "true");
+  v.setAttribute("aria-label", trt("viewer.aria"));
+  const back = document.activeElement, rtl = document.documentElement.dir === "rtl";
+  const close = () => { v.classList.add("out"); setTimeout(() => v.remove(), reduceMotion ? 0 : 180); removeEventListener("keydown", key); };
+  const key = e => {
+    if (e.key === "Escape") { close(); back?.focus?.(); }
+    else if (choose && (e.key === "ArrowLeft" || e.key === "ArrowRight")) step((e.key === "ArrowRight") !== rtl ? 1 : -1);
+  };
+  addEventListener("keydown", key);
+  if (!choose) {
+    const card = (el.matches(".tcg") ? el : el.querySelector(".tcg")).outerHTML;
+    v.innerHTML = `<div class="viewer-card">${card}</div><span class="viewer-hint">${tr("viewer.hint")}</span>`;
+    v.onclick = () => { close(); back?.focus?.(); };
+    document.body.appendChild(v);
+    return;
+  }
+  const n = choose.ids.length;
+  let at = choose.at, shownAt = 0;
+  const arrowSvg = d => `<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="${d}" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  v.innerHTML = `<button class="v-close" type="button" aria-label="${tr("viewer.close")}">✕</button>
+    <div class="viewer-card" aria-live="polite"></div>
+    <div class="v-dots" aria-hidden="true">${"<i></i>".repeat(n)}</div>
+    <div class="v-bar"><button class="v-nav" type="button" data-step="-1" aria-label="${tr("viewer.prev")}">${arrowSvg("M15 5l-7 7 7 7")}</button>
+      <button class="v-pick" type="button">✓ ${esc(choose.label)}</button>
+      <button class="v-nav" type="button" data-step="1" aria-label="${tr("viewer.next")}">${arrowSvg("M9 5l7 7-7 7")}</button></div>`;
+  const slot = v.querySelector(".viewer-card");
+  function show(dir) {
+    slot.innerHTML = choose.render(choose.ids[at]);
+    v.querySelectorAll(".v-dots i").forEach((d, i) => d.classList.toggle("on", i === at));
+    shownAt = performance.now();
+    if (dir && !reduceMotion) slot.animate([{ transform: `translateX(${(rtl ? -dir : dir) * 48}px)`, opacity: 0 }, { transform: "none", opacity: 1 }], { duration: 220, easing: "cubic-bezier(.2,.8,.2,1)" });
+  }
+  function step(d) { at = (at + d + n) % n; show(d); }
+  let sx = null, sy = 0, swiped = false;
+  v.addEventListener("pointerdown", e => { sx = e.clientX; sy = e.clientY; swiped = false; });
+  v.addEventListener("pointerup", e => {
+    if (sx === null) return;
+    const dx = e.clientX - sx, dy = e.clientY - sy; sx = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > 1.5 * Math.abs(dy)) { swiped = true; step((dx < 0) !== rtl ? 1 : -1); }
+  });
+  v.onclick = e => {
+    if (swiped) { swiped = false; return; }
+    const b = e.target.closest("button");
+    if (b?.dataset.step) step(+b.dataset.step);
+    else if (b?.classList.contains("v-pick")) {
+      // Ignore a press that lands within a moment of the card appearing (a double tap, or a held Enter key).
+      if (performance.now() - shownAt < 350) return;
+      close(); choose.onPick(choose.ids[at]);
+    }
+    else if (b || e.target === v) { close(); back?.focus?.(); }
+  };
+  show(0);
+  document.body.appendChild(v);
+  v.querySelector(".v-pick").focus({ preventScroll: true });
+}
+const lens = () => `<button class="lens" type="button" aria-label="${tr("lens.aria")}">🔍</button>`;
+const qref = (ref, name) => `<a class="qref" href="${esc(ref.url)}" target="_blank" rel="noopener" title="${tr("ref.title", { cite: esc(ref.cite) })}" aria-label="${tr("ref.aria", { name: esc(name) })}">?</a>`;
+const refLine = ref => `<a href="${esc(ref.url)}" target="_blank" rel="noopener">${esc(ref.cite)}</a>`;
+function bindLens(root) { root.querySelectorAll(".lens").forEach(b => b.onclick = e => { e.stopPropagation(); openViewer(b.closest(".slot, figure")); }); }
+
+// ---------- the review
+let game = null;
+function newGame(seed, expert) {
+  const g = deal(seed, expert);
+  game = { ...g, asked: [], left: meta.app.requests, phase: "ask", marks: new Set(), verdict: null, log: [] };
+  try { history.replaceState(null, "", "#m=" + seed + (expert ? "x" : "")); } catch (e) {}
+  $("f-expert").checked = expert;
+  $("b-new").classList.remove("primary", "nudge");
+  renderPlay();
+}
+function dealFresh() { newGame(1 + Math.floor(Math.random() * 99999), $("f-expert").checked); }
+
+function renderPlay() {
+  const g = game;
+  $("seed").innerHTML = `<a href="#m=${g.seed}${g.expert ? "x" : ""}">${tr("play.seed", { seed: g.seed })}</a>`;
+  $("study-slot").innerHTML = `<div class="slot">${C.studies[g.st.id]}${lens()}${qref(G[g.st.guideline].ref, G[g.st.guideline].name)}</div>`;
+  magnify($("study-slot").querySelector(".tcg"), 1.6);
+  bindLens($("study-slot"));
+  $("ms-hint").textContent = trt(g.expert ? "play.manuscript_hint_expert" : "play.manuscript_hint");
+  renderDesk(); renderManuscript(); renderLower();
+}
+
+function renderDesk() {
+  const g = game, gl = G[g.st.guideline];
+  if (g.phase === "done") return renderResult();
+  const pips = Array.from({ length: meta.app.requests }, (_, i) => `<i class="${i < g.left ? "" : "off"}"></i>`).join("");
+  const log = g.log.length ? g.log.slice().reverse().map((l, i) => `<p class="${i === 0 && l.fresh ? "fresh" : ""}"><span class="q">${l.head}</span><span class="${l.na ? "na" : ""}">${l.text}</span></p>`).join("")
+    : `<p class="na">${tr("play.log_empty")}</p>`;
+  g.log.forEach(l => l.fresh = false);
+  $("desk").innerHTML = `<span class="label">${tr("play.claim")}</span>
+    <p class="claim">“${esc(g.st.claim)}”</p>
+    <p style="color:var(--muted);font-size:14px">${esc(g.st.design)} · ${tr("play.reported_with", { guideline: `<a href="${esc(gl.checklist)}" target="_blank" rel="noopener">${esc(gl.name)}</a>` })}</p>
+    <div class="left"><span class="label">${tr("play.requests_left")}</span><span class="pips" aria-label="${g.left}">${pips}</span><b>${g.left}</b></div>
+    <div class="log" aria-live="polite">${log}</div>
+    <div class="row-actions">${g.phase === "ask" ? `<button class="btn${g.left ? "" : " primary nudge"}" id="b-report">${tr(g.left ? "play.report" : "play.report_now")}</button>` : ""}</div>`;
+  const b = $("b-report"); if (b) b.onclick = startReport;
+}
+
+function renderManuscript() {
+  const g = game, done = g.phase === "done";
+  $("ms").classList.toggle("marking", g.phase === "report");
+  $("ms").innerHTML = SLOTS.map(sid => {
+    let card = C.masked[g.st.id][sid], badge = "", cls = "";
+    if (done) {
+      const bad = g.flawed.includes(sid), marked = g.marks.has(sid);
+      card = C.full[g.st.id][sid][bad ? "flawed" : "sound"];
+      const k = bad ? (marked ? "found" : "missed") : (marked ? "false" : "sound");
+      cls = "res-" + k; badge = `<span class="badge b-${k}">${tr("result.badge_" + k)}</span>`;
+    } else if (g.marks.has(sid)) badge = `<span class="badge b-flag">${tr("report.flag")}</span>`;
+    return `<div class="slot ${cls}" data-slot="${sid}"><button class="cardbtn" type="button" data-slot="${sid}" ${g.phase === "report" ? `aria-pressed="${g.marks.has(sid)}"` : ""} aria-label="${esc(SLOT[sid].name)}">${card}</button>${badge}${lens()}</div>`;
+  }).join("");
+  if (!done) for (const rid of g.asked) {
+    const hit = factOf(g.st, rid);
+    if (!hit) continue;
+    const el = $("ms").querySelector(`.slot[data-slot="${hit.sid}"] .ans[data-req="${rid}"]`);
+    el.querySelector(".ans-t").textContent = answerText(g, hit.sid, hit.f);
+    el.classList.add("open");
+  }
+  $("ms").querySelectorAll(".cardbtn").forEach(b => {
+    const sid = b.dataset.slot;
+    b.onclick = () => {
+      if (game.phase === "report") { game.marks.has(sid) ? game.marks.delete(sid) : game.marks.add(sid); renderManuscript(); renderLower(); $("ms").querySelector(`.cardbtn[data-slot="${sid}"]`).focus(); }
+      else openViewer(b);
+    };
+    magnify(b, 1.9, () => openViewer(b));
+  });
+  bindLens($("ms"));
+  fitCards($("ms"));
+}
+
+function renderLower() {
+  const g = game, L = $("lower");
+  if (g.phase === "ask") {
+    L.innerHTML = `<div class="sec-h"><h2>${tr("play.hand")}</h2><span class="label">${tr("play.requests_left")}: ${g.left}</span></div>
+      <p class="hint">${tr("play.hand_hint")}</p>
+      <div class="hand" id="hand">${g.hand.map(rid => {
+        const sent = g.asked.includes(rid);
+        return `<div class="slot${sent ? " sent" : ""}"><button class="cardbtn" type="button" data-req="${rid}" ${sent || !g.left ? "disabled" : ""} aria-label="${esc(R[rid].name)}">${C.requests[rid]}</button>${sent ? `<span class="badge b-sent">✓ ${tr("play.sent")}</span>` : ""}</div>`;
+      }).join("")}</div>
+      <div class="panel" style="margin-top:22px"><h3>${tr("play.steps_title")}</h3><ol class="steps">
+        <li><b>${tr("play.step1_b")}</b> ${tr("play.step1")}</li><li><b>${tr("play.step2_b")}</b> ${tr("play.step2")}</li><li><b>${tr("play.step3_b")}</b> ${tr("play.step3")}</li></ol>
+        <p class="label" style="margin-top:12px">${tr("play.scoring", { found: SC.flaw_found, wrong: SC.wrong_card, verdict: SC.verdict, unused: SC.unused_request })}</p></div>`;
+    const open = g.hand.filter(rid => !g.asked.includes(rid));
+    L.querySelectorAll("#hand .cardbtn").forEach(b => {
+      if (b.disabled) return;
+      const pick = () => openViewer(b, { ids: open, at: open.indexOf(b.dataset.req), render: id => C.requests[id], label: trt("viewer.send"), onPick: ask });
+      b.onclick = pick; magnify(b, 2.2, pick);
+    });
+    return;
+  }
+  if (g.phase === "report") {
+    L.innerHTML = `<div class="panel" style="margin-top:22px"><h3>${tr("report.title")}</h3>
+      <p>${tr("report.mark")} <b>${tr("report.marked", { n: g.marks.size })}</b></p>
+      <p>${tr("report.verdict")} <span style="color:var(--muted)">${tr("report.verdict_hint")}</span></p>
+      <div class="verdicts" id="verdicts">${meta.verdicts.map(v => `<div class="slot"><button class="cardbtn" type="button" data-v="${v.id}" aria-label="${esc(v.name)}">${C.verdicts[v.id]}</button></div>`).join("")}</div>
+      <div class="row-actions"><button class="btn" id="b-back">${tr("report.cancel")}</button></div></div>`;
+    const ids = meta.verdicts.map(v => v.id);
+    L.querySelectorAll("#verdicts .cardbtn").forEach(b => {
+      const pick = () => openViewer(b, { ids, at: ids.indexOf(b.dataset.v), render: id => C.verdicts[id], label: trt("viewer.give"), onPick: finish });
+      b.onclick = pick; magnify(b, 2.2, pick);
+    });
+    $("b-back").disabled = !g.left;
+    $("b-back").onclick = () => { g.phase = "ask"; renderDesk(); renderManuscript(); renderLower(); };
+    return;
+  }
+  L.innerHTML = "";
+}
+
+function ask(rid) {
+  const g = game;
+  if (g.phase !== "ask" || !g.left || g.asked.includes(rid)) return;
+  g.asked.push(rid); g.left -= 1;
+  const hit = factOf(g.st, rid);
+  g.log.push(hit ? { head: tr("play.log_answer", { request: esc(R[rid].name), slot: esc(SLOT[hit.sid].name) }), text: esc(answerText(g, hit.sid, hit.f)), fresh: true }
+    : { head: esc(R[rid].name), text: tr("play.na"), na: true, fresh: true });
+  if (!g.left) g.log.push({ head: "", text: tr("play.out"), na: true });
+  renderDesk(); renderManuscript(); renderLower();
+  const target = hit ? $("ms").querySelector(`.slot[data-slot="${hit.sid}"]`) : $("desk");
+  target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+}
+
+function startReport() {
+  game.phase = "report";
+  renderDesk(); renderManuscript(); renderLower();
+  $("ms-wrap").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+}
+
+function scoreOf(g) {
+  const found = g.flawed.filter(s => g.marks.has(s)).length;
+  const wrong = [...g.marks].filter(s => !g.flawed.includes(s)).length;
+  const verdictOk = g.verdict === rightVerdict(g);
+  const perfect = found === g.flawed.length && !wrong && verdictOk;
+  const unused = perfect ? g.left : 0;
+  const total = found * SC.flaw_found + wrong * SC.wrong_card + (verdictOk ? SC.verdict : 0) + unused * SC.unused_request;
+  return { found, wrong, verdictOk, perfect, unused, total, missed: g.flawed.length - found };
+}
+
+function finish(vid) {
+  const g = game;
+  g.verdict = vid; g.phase = "done";
+  const s = g.score = scoreOf(g);
+  stats.score += s.total; stats.found += s.found; stats.reviewed += 1;
+  stats.streak = s.perfect ? stats.streak + 1 : 0;
+  save(); renderStats();
+  $("b-new").classList.add("primary", "nudge");
+  renderDesk(); renderManuscript(); renderLower();
+  $("desk").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  if (s.perfect) setTimeout(() => confetti($("desk").querySelector(".result-head")), reduceMotion ? 0 : 250);
+}
+
+function renderResult() {
+  const g = game, s = g.score, gl = G[g.st.guideline], right = rightVerdict(g);
+  const tone = s.perfect ? "good" : s.found ? "mid" : !g.flawed.length && s.verdictOk ? "good" : "bad";
+  const head = !g.flawed.length ? (s.verdictOk && !s.wrong ? "result.clean_right" : "result.partial")
+    : s.perfect ? "result.perfect" : s.found === g.flawed.length ? "result.caught" : s.found ? "result.partial" : "result.survived";
+  let html = `<div class="result-head r-${tone}"><span class="big">${tr(head)}</span><span class="pts">${s.total > 0 ? "+" : ""}${s.total}</span></div>
+    <div class="vline"><span class="${s.verdictOk ? "ok" : "no"}">${s.verdictOk ? "✓" : "✗"} ${tr("result.your_verdict", { verdict: esc(VERDICT[g.verdict].name) })}</span>
+      ${s.verdictOk ? "" : `<span>${tr("result.right_verdict", { verdict: esc(VERDICT[right].name) })}</span>`}</div>
+    <p style="color:var(--muted);font-size:13.5px">${tr("result.verdict_rule")}</p>
+    <h3 style="font-size:18px;margin-top:10px">${tr("result.flaws_title")}</h3>`;
+  if (!g.flawed.length) html += `<p>${tr("result.none_planted")}</p>`;
+  for (const sid of g.flawed) {
+    const f = g.st.slots[sid].facts.find(x => x.flaw), fl = f.flaw, r = R[f.request];
+    html += `<div class="flawbox"><h4>${esc(SLOT[sid].name)}: ${esc(F[fl.type].name)} · ${esc(VERDICT[fl.severity].name)}</h4>
+      <p>${esc(fl.why)}</p>
+      <p class="meta">${tr("result.caught_by", { request: `<b>${esc(r.name)}</b>`, guideline: `<a href="${esc(gl.checklist)}" target="_blank" rel="noopener">${esc(gl.name)}</a>`, item: esc(r.items[g.st.guideline]) })}
+        ${g.asked.includes(f.request) ? tr("result.you_asked") : tr("result.you_didnt")}</p>
+      <p class="meta">📄 ${tr("result.reference")} ${refLine(F[fl.type].ref)}</p></div>`;
+  }
+  html += `<span class="label" style="display:block;margin-top:10px">${tr("result.breakdown")}</span><div class="score">
+    <span>${tr("result.b_found", { n: s.found, pts: SC.flaw_found })}</span><b>${s.found * SC.flaw_found}</b>
+    <span>${tr("result.b_wrong", { n: s.wrong, pts: SC.wrong_card })}</span><b>${s.wrong * SC.wrong_card}</b>
+    <span>${tr("result.b_verdict", { pts: "+" + SC.verdict })}</span><b>${s.verdictOk ? SC.verdict : 0}</b>
+    <span>${tr("result.b_unused", { n: s.unused, pts: SC.unused_request })}</span><b>${s.unused * SC.unused_request}</b></div>
+    ${s.missed ? `<p style="margin-top:10px;color:var(--muted);font-size:14px">${tr("result.author", { n: s.missed * SC.author_per_flaw })}</p>` : ""}
+    <div class="row-actions"><button class="btn primary" id="b-next">${tr("result.next")}</button></div>`;
+  $("desk").innerHTML = html;
+  $("b-next").onclick = () => { dealFresh(); scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" }); };
+}
+
+function confetti(fromEl) {
+  if (reduceMotion || !fromEl) return;
+  const r = fromEl.getBoundingClientRect(), colors = ["#FCD34D", "#86EFAC", "#7DD3FC", "#FB7185", "#FDBA74"];
+  for (let i = 0; i < 28; i++) {
+    const c = document.createElement("i");
+    c.className = "confetti"; c.style.background = colors[i % colors.length];
+    c.style.left = r.left + r.width / 2 + "px"; c.style.top = r.top + r.height / 2 + "px";
+    document.body.appendChild(c);
+    const a = Math.random() * Math.PI * 2, d = 80 + Math.random() * 140;
+    c.animate([{ transform: "translate(0,0) rotate(0)", opacity: 1 }, { transform: `translate(${Math.cos(a) * d}px, ${Math.sin(a) * d + 120}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }],
+      { duration: 1100 + Math.random() * 500, easing: "cubic-bezier(.2,.7,.4,1)" }).onfinish = () => c.remove();
+  }
+}
+
+// ---------- decks browser
+let deck = "studies";
+const DECKS = { studies: trt("deck.studies"), requests: trt("deck.requests"), verdicts: trt("deck.verdicts"), manuscripts: trt("deck.manuscripts") };
+const MANUSCRIPTS = studies.flatMap(st => SLOTS.flatMap(sid => [{ st, sid, bad: false }].concat(st.slots[sid].facts.some(f => f.flaw) ? [{ st, sid, bad: true }] : [])));
+const DECK_ITEMS = { studies, requests, verdicts: meta.verdicts, manuscripts: MANUSCRIPTS };
+const itemsLine = r => Object.entries(r.items).map(([gid, n]) => `<a href="${esc(G[gid].checklist)}" target="_blank" rel="noopener">${esc(G[gid].name)}</a> ${esc(n)}`).join(" · ");
+function cardHTML(kind, x) {
+  if (kind === "studies") return `<figure><div class="slot">${C.studies[x.id]}${qref(G[x.guideline].ref, G[x.guideline].name)}</div><details><summary>${tr("decks.more")}</summary><p>${tr("decks.guideline")} ${refLine(G[x.guideline].ref)}</p></details></figure>`;
+  if (kind === "requests") return `<figure>${C.requests[x.id]}<details><summary>${tr("decks.more")}</summary><p>${tr("decks.items")} ${itemsLine(x)}</p></details></figure>`;
+  if (kind === "verdicts") return `<figure>${C.verdicts[x.id]}</figure>`;
+  const card = C.full[x.st.id][x.sid][x.bad ? "flawed" : "sound"];
+  if (!x.bad) return `<figure>${card}</figure>`;
+  const fl = x.st.slots[x.sid].facts.find(f => f.flaw).flaw;
+  return `<figure><div class="slot">${card}${qref(F[fl.type].ref, F[fl.type].name)}</div><details><summary>${tr("decks.why")}</summary><p>${esc(fl.why)}</p><p>📄 ${refLine(F[fl.type].ref)}</p></details></figure>`;
+}
+const searchText = (kind, x) => kind === "manuscripts" ? JSON.stringify([x.st.title, x.st.slots[x.sid]]) : JSON.stringify(x);
+function renderDecks() {
+  hideTip(true);
+  $("deck-tabs").innerHTML = Object.entries(DECKS).map(([k, v]) => `<button data-deck="${k}" data-tip="${k}" aria-pressed="${deck === k}">${esc(v)} · ${DECK_ITEMS[k].length}</button>`).join("");
+  bindTips($("deck-tabs"));
+  $("deck-tabs").querySelectorAll("button").forEach(b => b.onclick = () => { deck = b.dataset.deck; renderDecks(); });
+  const term = $("deck-search").value.trim().toLowerCase();
+  const items = DECK_ITEMS[deck].filter(x => !term || searchText(deck, x).toLowerCase().includes(term));
+  $("cards").innerHTML = items.map(x => cardHTML(deck, x)).join("") || `<p>${tr("decks.nomatch", { term: esc(term) })}</p>`;
+}
+
+// ---------- deck explanations: a small pop-up on hover, focus or tap
+const DECK_INFO = {
+  studies: { color: "#7C2D12", icon: "📄" }, requests: { color: "#0F766E", icon: "💬" }, verdicts: { color: "#C2410C", icon: "⚖️" },
+  manuscripts: { color: "#57534E", icon: "🂠" }, flaws: { color: "#B42318", icon: "⚠️" }, combos: { color: "#4338CA", icon: "🎲" } };
+let tipEl = null, tipFor = null;
+function showTip(anchor) {
+  const k = anchor.dataset.tip, info = DECK_INFO[k];
+  if (!info || tipFor === anchor) return;
+  hideTip(true);
+  tipFor = anchor;
+  tipEl = document.createElement("div");
+  tipEl.className = "tip"; tipEl.setAttribute("role", "tooltip"); tipEl.id = "deck-tip";
+  tipEl.style.setProperty("--c", info.color);
+  tipEl.innerHTML = `<div class="tip-fan" aria-hidden="true"><i></i><i></i><i>${info.icon}</i></div><div><b>${esc(anchor.dataset.title || DECKS[k] || "")}</b><p>${tr("tip." + k)}</p></div>`;
+  document.body.appendChild(tipEl);
+  anchor.setAttribute("aria-describedby", "deck-tip");
+  const a = anchor.getBoundingClientRect(), t = tipEl.getBoundingClientRect();
+  const left = Math.max(12, Math.min(innerWidth - t.width - 12, a.left + a.width / 2 - t.width / 2));
+  const below = a.bottom + t.height + 14 < innerHeight;
+  tipEl.style.left = left + "px";
+  tipEl.style.top = (below ? a.bottom + 10 : a.top - t.height - 10) + "px";
+}
+function hideTip() { if (!tipEl) return; tipFor?.removeAttribute("aria-describedby"); tipEl.remove(); tipEl = null; tipFor = null; }
+function bindTips(root) {
+  root.querySelectorAll("[data-tip]").forEach(el => {
+    el.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") showTip(el); });
+    el.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") hideTip(); });
+    el.addEventListener("focus", () => showTip(el));
+    el.addEventListener("blur", () => hideTip());
+  });
+}
+addEventListener("scroll", () => hideTip(), { passive: true });
+addEventListener("keydown", e => { if (e.key === "Escape") hideTip(); });
+document.addEventListener("pointerdown", e => {
+  const t = e.target.closest("[data-tip]");
+  if (t && e.pointerType !== "mouse") { if (tipFor === t) hideTip(); else showTip(t); }
+  else if (!t) hideTip();
+});
+
+// ---------- home
+const FAN_POOL = [...requests.map(r => C.requests[r.id]), ...meta.verdicts.map(v => C.verdicts[v.id]), ...studies.map(s => C.studies[s.id])];
+function renderFan() {
+  const pick = shuffle(FAN_POOL).slice(0, 5), n = pick.length;
+  $("hero-fan").innerHTML = pick.map((card, k) => {
+    const sp = (k - (n - 1) / 2) / ((n - 1) / 2);
+    return `<div class="fc" style="transform: translate(calc(-50% + ${sp * 34}%), calc(-50% + ${Math.abs(sp) * 7}%)) rotate(${sp * 16}deg); z-index:${k}"><div class="bob" style="--d:${-k * .7}s">${card}</div></div>`;
+  }).join("");
+  if (!reduceMotion) [...$("hero-fan").querySelectorAll(".bob")].forEach((el, k) => el.animate([{ transform: "translateY(160px) rotate(-25deg) scale(.6)", opacity: 0 }, { transform: "none", opacity: 1 }],
+    { duration: 750, delay: k * 120, easing: "cubic-bezier(.2,.8,.2,1)", fill: "backwards" }));
+}
+function countUp() {
+  const combos = studies.reduce((n, st) => { const k = flawable(st).length; return n + k + k * (k - 1) / 2; }, 0);
+  const items = [["studies", studies.length, trt("count.studies")], ["requests", requests.length, trt("count.requests")], ["flaws", flaws.length, trt("count.flaws")], ["combos", combos, trt("count.manuscripts")]];
+  $("home-counts").innerHTML = items.map(([k, , name]) => `<div class="count" data-tip="${k}" data-title="${esc(name)}" tabindex="0"><b>0</b><span class="label">${esc(name)}</span></div>`).join("");
+  bindTips($("home-counts"));
+  const bs = $("home-counts").querySelectorAll("b"), t0 = performance.now(), dur = reduceMotion ? 1 : 1200;
+  const step = t => { const f = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - f, 3); bs.forEach((b, i) => b.textContent = Math.round(items[i][1] * e)); if (f < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+  setTimeout(() => bs.forEach((b, i) => b.textContent = items[i][1]), dur + 100);
+}
+// Quick question: one real answer from one study, sound or flawed; is it a problem?
+const ANSWERS = studies.flatMap(st => SLOTS.flatMap(sid => st.slots[sid].facts.flatMap(f => [{ st, sid, f, bad: false }].concat(f.flaw ? [{ st, sid, f, bad: true }, { st, sid, f, bad: true }] : []))));
+function renderQuick() {
+  const a = ANSWERS[Math.floor(Math.random() * ANSWERS.length)], r = R[a.f.request];
+  $("quick").innerHTML = `<div>${C.requests[r.id]}</div>
+    <div class="panel"><span class="label">${tr("quick.kicker")}</span><h3>${tr("quick.title")}</h3>
+      <p style="color:var(--muted)">${esc(a.st.title)} · ${esc(a.st.design)}. ${tr("quick.asked", { request: `<b>${esc(r.name)}</b>` })}</p>
+      <span class="label">${tr("quick.answer")}</span><p class="quote">${esc(a.bad ? a.f.flaw.text : a.f.sound)}</p>
+      <div class="qbtns"><button class="btn" data-a="0">✓ ${tr("quick.sound")}</button><button class="btn" data-a="1">⚠ ${tr("quick.flawed")}</button></div>
+      <div id="quick-verdict" aria-live="polite"></div></div>`;
+  $("quick").querySelectorAll("[data-a]").forEach(b => b.onclick = () => {
+    const right = (b.dataset.a === "1") === a.bad;
+    $("quick").querySelectorAll("[data-a]").forEach(x => x.disabled = true);
+    $("quick-verdict").innerHTML = `<p style="margin-top:12px"><b>${tr(right ? "quick.right" : "quick.wrong")}</b> ${a.bad ? tr("quick.was_flawed", { flaw: `<b>${esc(F[a.f.flaw.type].name)}</b>`}) + " " + esc(a.f.flaw.why) : tr("quick.was_sound")}</p>
+      <div class="row-actions"><button class="btn primary" id="quick-next">${tr("quick.another")}</button></div>`;
+    $("quick-next").onclick = renderQuick;
+    if (right) confetti(b);
+  });
+}
+
+// ---------- wiring
+function show(view) {
+  document.querySelector("header .stats").hidden = view !== "play";
+  document.querySelector(".brand p").hidden = view === "home";
+  document.querySelector("nav").hidden = view === "home";
+  if (view === "home" && $("view-home").hidden) { renderFan(); countUp(); }
+  for (const v of ["home", "play", "decks"]) { $("view-" + v).hidden = v !== view; $("tab-" + v).setAttribute("aria-selected", v === view); }
+  if (view === "decks") renderDecks();
+  if (view === "play" && !game) dealFresh();
+}
+document.querySelectorAll("nav button").forEach(b => b.onclick = () => show(b.dataset.view));
+document.querySelectorAll("[data-go]").forEach(b => b.onclick = () => show(b.dataset.go));
+$("go-home").onclick = e => { e.preventDefault(); show("home"); };
+$("b-new").onclick = dealFresh;
+$("f-expert").onchange = dealFresh;
+$("deck-search").oninput = renderDecks;
+$("footer").textContent = trt("footer", { version: meta.version });
+if ((LANG.langs || []).length > 1) {
+  $("lang-pick").innerHTML = LANG.langs.map(l => `<option value="${esc(l.href)}"${l.current ? " selected" : ""} lang="${l.code}">${esc(l.name)}</option>`).join("");
+  $("lang-pick").onchange = e => { location.href = e.target.value; };
+  $("lang-wrap").hidden = false;
+}
+/*__FIT__*/
+// The same card can be on the page twice (the hero fan, the desk, the viewer). Its pictures' gradients are found by id,
+// and an id inside a hidden copy draws nothing, so every newly drawn card gets ids of its own.
+let uid = 0;
+function uniqueIds(root) {
+  root.querySelectorAll(".tcg svg defs").forEach(defs => {
+    const svg = defs.closest("svg"), n = ++uid;
+    defs.querySelectorAll("[id]").forEach(el => {
+      const old = el.id; el.id = old + "_" + n;
+      svg.querySelectorAll(`[fill="url(#${old})"]`).forEach(x => x.setAttribute("fill", `url(#${old}_${n})`));
+    });
+  });
+}
+uniqueIds(document);
+new MutationObserver(ms => { for (const m of ms) for (const n of m.addedNodes) if (n.nodeType === 1 && (n.matches(".tcg") || n.querySelector(".tcg"))) { uniqueIds(n); fitCards(n); } })
+  .observe(document.body, { childList: true, subtree: true });
+renderStats(); renderFan(); countUp(); renderQuick();
+// A shared link (#m=1234, or #m=1234x for expert mode) opens that manuscript straight away.
+const m = /^#m=(\d+)(x?)$/.exec(location.hash);
+if (m) { show("play"); newGame(+m[1], !!m[2]); } else show("home");
+</script>

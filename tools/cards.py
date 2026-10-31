@@ -255,7 +255,7 @@ def verdict_card(cx, v, n):
   <div class="tb">
     <div class="ty">[ {L("card.verdict")} ]</div>
     <p class="fx">{e(v["short"])}</p>
-    <div class="row flow"><span class="k">{L("card.when")}</span> {e(v["when"])}</div>
+    <p class="ans"><span class="k">{L("card.when")}</span>{e(v["when"])}</p>
     <div class="ft"><span>MR-V{n}</span><span>{L("card.with_report")}</span></div>
   </div>
 </div>'''

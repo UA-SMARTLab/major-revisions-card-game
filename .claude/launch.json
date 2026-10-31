@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "major-revisions-app",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8793", "--bind", "127.0.0.1", "--directory", "app"],
+      "port": 8793,
+      "autoPort": false
+    }
+  ]
+}
