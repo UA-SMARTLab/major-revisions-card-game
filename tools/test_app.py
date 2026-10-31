@@ -174,6 +174,23 @@ try {
   document.documentElement.dir = "ltr"; UI["result.caught_by"] = enCaught;
   ok("right to left: an item range like 2–3 keeps its order", rangeOk, rnode ? `#${rg}: "${rnode.data}"` : "no range found");
   ok("right to left: negative scores keep their sign on the left", signed.length >= 2 && !flipped.length, flipped.map(e => `${e.className || e.id || e.tagName} "${e.textContent}"`).join("; ") || signed.length + " checked");
+  // The phone's back button stays in the game: it closes a full-screen card first, then returns to the previous page.
+  // Back is only pressed when the game has a step of its own to go back to; otherwise it would leave this test page.
+  const goBack = async () => {
+    if (!(history.state?.depth > 0)) return false;
+    const p = new Promise(r => addEventListener("popstate", () => setTimeout(r, 50), { once: true }));
+    history.back(); await Promise.race([p, sleep(800)]); return true;
+  };
+  show("home"); document.querySelector("[data-go='play'], #tab-play").click(); await sleep(50);
+  dealFresh(); await sleep(50);
+  document.querySelector("#ms .lens").click(); await sleep(50);
+  const wasOpen = !!document.querySelector(".viewer:not(.out)");
+  ok("back closes the full-screen card and stays on the page", wasOpen && (await goBack()) && !document.querySelector(".viewer:not(.out)") && !$("view-play").hidden);
+  ok("back from Play returns to Home, not out of the game", (await goBack()) && !$("view-home").hidden && $("view-play").hidden);
+  show("play"); await sleep(50);
+  document.querySelector("#ms .lens").click(); await sleep(50);
+  document.querySelector(".viewer").click(); await sleep(250);
+  ok("closing a card by tapping leaves no extra back step", !history.state?.viewer && !$("view-play").hidden, JSON.stringify(history.state));
   // 6. Browse: every deck renders its cards.
   show("decks");
   for (const k of ["studies", "requests", "verdicts", "manuscripts"]) { deck = k; renderDecks(); ok(`decks: ${k} render`, document.querySelectorAll("#cards .tcg").length === DECK_ITEMS[k].length, document.querySelectorAll("#cards .tcg").length); }

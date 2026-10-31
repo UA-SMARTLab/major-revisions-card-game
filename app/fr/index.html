@@ -512,12 +512,20 @@ function openViewer(el, choose) {
   v.className = "viewer" + (choose ? " choosing" : ""); v.setAttribute("role", "dialog"); v.setAttribute("aria-modal", "true");
   v.setAttribute("aria-label", trt("viewer.aria"));
   const back = document.activeElement, rtl = document.documentElement.dir === "rtl";
-  const close = () => { v.classList.add("out"); setTimeout(() => v.remove(), reduceMotion ? 0 : 180); removeEventListener("keydown", key); };
+  // The open card is a step in the browser's history, so the phone's back button closes it instead of leaving the game.
+  // Closing it any other way takes that step back off again.
+  const close = fromBack => {
+    if (v.classList.contains("out")) return;
+    v.classList.add("out"); setTimeout(() => v.remove(), reduceMotion ? 0 : 180); removeEventListener("keydown", key);
+    if (fromBack !== true && history.state?.viewer) history.back();
+  };
+  v.dismiss = () => { close(true); back?.focus?.(); };
   const key = e => {
     if (e.key === "Escape") { close(); back?.focus?.(); }
     else if (choose && (e.key === "ArrowLeft" || e.key === "ArrowRight")) step((e.key === "ArrowRight") !== rtl ? 1 : -1);
   };
   addEventListener("keydown", key);
+  try { history.pushState({ ...history.state, viewer: true, depth: (history.state?.depth || 0) + 1 }, ""); } catch (e) {}
   if (!choose) {
     const card = (el.matches(".tcg") ? el : el.querySelector(".tcg")).outerHTML;
     v.innerHTML = `<div class="viewer-card">${card}</div><span class="viewer-hint">${tr("viewer.hint")}</span>`;
@@ -574,7 +582,7 @@ let game = null;
 function newGame(seed, expert) {
   const g = deal(seed, expert);
   game = { ...g, asked: [], left: meta.app.requests, phase: "ask", marks: new Set(), verdict: null, log: [] };
-  try { history.replaceState(null, "", "#m=" + seed + (expert ? "x" : "")); } catch (e) {}
+  try { history.replaceState(history.state, "", "#m=" + seed + (expert ? "x" : "")); } catch (e) {}
   $("f-expert").checked = expert;
   $("b-new").classList.remove("primary", "nudge");
   renderPlay();
@@ -874,7 +882,15 @@ function renderQuick() {
 }
 
 // ---------- wiring
-function show(view) {
+// Each page change is a step in the browser's history, so the phone's back button returns to the previous page of the
+// game (and closes an open card first) instead of leaving it. Only Back from the first page leaves.
+let current = null;
+function show(view, fromHistory) {
+  try {
+    if (current === null) history.replaceState({ view, depth: 0 }, "");
+    else if (!fromHistory && view !== current) history.pushState({ view, depth: (history.state?.depth || 0) + 1 }, "");
+  } catch (e) {}
+  current = view;
   document.querySelector("header .stats").hidden = view !== "play";
   document.querySelector(".brand p").hidden = view === "home";
   document.querySelector("nav").hidden = view === "home";
@@ -883,6 +899,12 @@ function show(view) {
   if (view === "decks") renderDecks();
   if (view === "play" && !game) dealFresh();
 }
+addEventListener("popstate", e => {
+  const open = document.querySelector(".viewer:not(.out)");
+  if (open) return open.dismiss();
+  const view = e.state?.view || "home";
+  if (view !== current) show(view, true);
+});
 document.querySelectorAll("nav button").forEach(b => b.onclick = () => show(b.dataset.view));
 document.querySelectorAll("[data-go]").forEach(b => b.onclick = () => show(b.dataset.go));
 $("go-home").onclick = e => { e.preventDefault(); show("home"); };
