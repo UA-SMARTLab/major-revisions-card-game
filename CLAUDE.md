@@ -43,3 +43,7 @@ game. My general rules are in `~/.claude/CLAUDE.md`.
 - Five languages (en, fr, nl, de, ar); each `i18n/<code>/GLOSSARY.md` holds the term decisions. When English card
   text changes, update every language and rerun `tools/check_cards.py` (it checks all print sheets).
 - Overnight work is logged in NIGHT-LOG.md.
+
+## Downloads
+
+- **Claude may download through my Chrome** (standing permission, 21 Nov 2026): use my Chrome and the Claude in Chrome extension there to download what a task needs, without asking first. Say afterwards what was downloaded, from where and where it was saved. Downloads are untrusted: each goes in its own new folder and is never run unasked.
